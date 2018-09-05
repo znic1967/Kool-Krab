@@ -1,23 +1,24 @@
 /**
- * <h1>PascalNumberToken</h1>
+ * <h1>CPPNumberToken</h1>
  *
- * <p>Pascal number tokens (integer and real).</p>
+ * <p>CPP number tokens (integer and real).</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
-#ifndef WCI_FRONTEND_PASCAL_TOKENS_PASCALNUMBERTOKEN_H_
-#define WCI_FRONTEND_PASCAL_TOKENS_PASCALNUMBERTOKEN_H_
+#ifndef WCI_FRONTEND_CPP_TOKENS_CPPNUMBERTOKEN_H_
+#define WCI_FRONTEND_CPP_TOKENS_CPPNUMBERTOKEN_H_
 
 #include <string>
-#include "../PascalToken.h"
 
-namespace wci { namespace frontend { namespace pascal { namespace tokens {
+#include "../CPPToken.h"
+
+namespace wci { namespace frontend { namespace CPP { namespace tokens {
 
 using namespace std;
-using namespace wci::frontend::pascal;
+using namespace wci::frontend::CPP;
 
-class PascalNumberToken : public PascalToken
+class CPPNumberToken : public CPPToken
 {
 public:
     /**
@@ -25,18 +26,18 @@ public:
      * @param source the source from where to fetch the token's characters.
      * @throw a string message if an error occurred.
      */
-    PascalNumberToken(Source *source) throw (string);
+    CPPNumberToken(Source *source) throw (string);
 
 protected:
     /**
-     * Extract a Pascal number token from the source.
+     * Extract a CPP number token from the source.
      * Override of wci::frontend::Token.
      * @throw a string message if an error occurred.
      */
     void extract() throw (string);
 
     /**
-     * Extract a Pascal number token from the source.
+     * Extract a CPP number token from the source.
      * @param textBuffer the buffer to append the token's characters.
      * @throw a string message if an error occurred.
      */
@@ -73,6 +74,6 @@ private:
                               string exponentDigits, char exponent_sign);
 };
 
-}}}}  // namespace wci::frontend::pascal::tokens
+}}}}  // namespace wci::frontend::CPP::tokens
 
-#endif /* WCI_FRONTEND_PASCAL_TOKENS_PASCALNUMBERTOKEN_H_ */
+#endif /* WCI_FRONTEND_CPP_TOKENS_CPPNUMBERTOKEN_H_ */

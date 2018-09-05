@@ -1,24 +1,24 @@
 /**
- * <h1>PascalErrorHandler</h1>
+ * <h1>CPPErrorHandler</h1>
  *
- * <p>Error handler Pascal syntax errors.</p>
+ * <p>Error handler CPP syntax errors.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
-#ifndef WCI_FRONTEND_PASCAL_PASCALERRORHANDLER_H_
-#define WCI_FRONTEND_PASCAL_PASCALERRORHANDLER_H_
+#ifndef WCI_FRONTEND_CPP_CPPERRORHANDLER_H_
+#define WCI_FRONTEND_CPP_CPPERRORHANDLER_H_
 
 #include "../Token.h"
 #include "../Parser.h"
-#include "PascalError.h"
+#include "CPPError.h"
 
-namespace wci { namespace frontend { namespace pascal {
+namespace wci { namespace frontend { namespace CPP {
 
 using namespace std;
 using namespace wci::frontend;
 
-class PascalErrorHandler
+class CPPErrorHandler
 {
 public:
     /**
@@ -34,20 +34,20 @@ public:
      * @param parser the parser.
      * @return the flagger string.
      */
-    void flag(Token *token, PascalErrorCode error_code, Parser *parser);
+    void flag(Token *token, CPPErrorCode error_code, Parser *parser);
 
     /**
      * Abort the translation.
      * @param errorCode the error code.
      * @param parser the parser.
      */
-    void abort_translation(PascalErrorCode error_code, Parser *parser);
+    void abort_translation(CPPErrorCode error_code, Parser *parser);
 
 private:
     static int error_count;
     static const int MAX_ERRORS;
 };
 
-}}}  // namespace wci::frontend::pascal
+}}}  // namespace wci::frontend::CPP
 
-#endif /* WCI_FRONTEND_PASCAL_PASCALERRORHANDLER_H_ */
+#endif /* WCI_FRONTEND_CPP_CPPERRORHANDLER_H_ */

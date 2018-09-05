@@ -1,24 +1,25 @@
 /**
- * <h1>PascalErrorToken</h1>
+ * <h1>CPPErrorToken</h1>
  *
- * <p>Pascal error token.</p>
+ * <p>CPP error token.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
-#ifndef WCI_FRONTEND_PASCAL_TOKENS_PASCALERRORTOKEN_H_
-#define WCI_FRONTEND_PASCAL_TOKENS_PASCALERRORTOKEN_H_
+#ifndef WCI_FRONTEND_CPP_TOKENS_CPPERRORTOKEN_H_
+#define WCI_FRONTEND_CPP_TOKENS_CPPERRORTOKEN_H_
 
 #include <string>
-#include "../PascalError.h"
-#include "../PascalToken.h"
 
-namespace wci { namespace frontend { namespace pascal { namespace tokens {
+#include "../CPPError.h"
+#include "../CPPToken.h"
+
+namespace wci { namespace frontend { namespace CPP { namespace tokens {
 
 using namespace std;
-using namespace wci::frontend::pascal;
+using namespace wci::frontend::CPP;
 
-class PascalErrorToken : public PascalToken
+class CPPErrorToken : public CPPToken
 {
 public:
     /**
@@ -28,7 +29,7 @@ public:
      * @param tokenText the text of the erroneous token.
      * @throw a string message if an error occurred.
      */
-    PascalErrorToken(Source *source, PascalErrorCode error_code,
+    CPPErrorToken(Source *source, CPPErrorCode error_code,
                      string token_text)
         throw (string);
 
@@ -41,6 +42,6 @@ protected:
     void extract() throw (string);
 };
 
-}}}}  // namespace wci::frontend::pascal::tokens
+}}}}  // namespace wci::frontend::CPP::tokens
 
-#endif /* WCI_FRONTEND_PASCAL_TOKENS_PASCALERRORTOKEN_H_ */
+#endif /* WCI_FRONTEND_CPP_TOKENS_CPPERRORTOKEN_H_ */

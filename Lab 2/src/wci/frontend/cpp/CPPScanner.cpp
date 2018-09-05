@@ -1,33 +1,33 @@
 /**
- * <h1>PascalScanner</h1>
+ * <h1>CPPScanner</h1>
  *
- * <p>The Pascal scanner.</p>
+ * <p>The CPP scanner.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
 #include <iostream>
-#include "PascalScanner.h"
-#include "PascalToken.h"
-#include "PascalError.h"
+#include "CPPToken.h"
+#include "CPPError.h"
 #include "../Source.h"
-#include "tokens/PascalWordToken.h"
-#include "tokens/PascalNumberToken.h"
-#include "tokens/PascalStringToken.h"
-#include "tokens/PascalSpecialSymbolToken.h"
-#include "tokens/PascalErrorToken.h"
+#include "CPPScanner.h"
+#include "tokens/CPPWordToken.h"
+#include "tokens/CPPNumberToken.h"
+#include "tokens/CPPStringToken.h"
+#include "tokens/CPPSpecialSymbolToken.h"
+#include "tokens/CPPErrorToken.h"
 
-namespace wci { namespace frontend { namespace pascal {
+namespace wci { namespace frontend { namespace CPP {
 
 using namespace std;
 using namespace wci::frontend;
-using namespace wci::frontend::pascal::tokens;
+using namespace wci::frontend::CPP::tokens;
 
-PascalScanner::PascalScanner(Source *source) : Scanner(source)
+CPPScanner::CPPScanner(Source *source) : Scanner(source)
 {
 }
 
-Token *PascalScanner::extract_token() throw (string)
+Token *CPPScanner::extract_token() throw (string)
 {
     skip_white_space();
 
@@ -45,31 +45,31 @@ Token *PascalScanner::extract_token() throw (string)
     }
     else if (isalpha(current_ch))
     {
-        token = new PascalWordToken(source);
+        token = new CPPWordToken(source);
     }
     else if (isdigit(current_ch))
     {
-        token = new PascalNumberToken(source);
+        token = new CPPNumberToken(source);
     }
     else if (current_ch == '\'')
     {
-        token = new PascalStringToken(source);
+        token = new CPPStringToken(source);
     }
-    else if (PascalToken::SPECIAL_SYMBOLS.find(string_ch)
-                != PascalToken::SPECIAL_SYMBOLS.end())
+    else if (CPPToken::SPECIAL_SYMBOLS.find(string_ch)
+                != CPPToken::SPECIAL_SYMBOLS.end())
     {
-        token = new PascalSpecialSymbolToken(source);
+        token = new CPPSpecialSymbolToken(source);
     }
     else
     {
-        token = new PascalErrorToken(source, INVALID_CHARACTER, string_ch);
+        token = new CPPErrorToken(source, INVALID_CHARACTER, string_ch);
         next_char();  // consume character
     }
 
     return token;
 }
 
-void PascalScanner::skip_white_space() throw (string)
+void CPPScanner::skip_white_space() throw (string)
 {
     char current_ch = current_char();
 
@@ -96,4 +96,4 @@ void PascalScanner::skip_white_space() throw (string)
     }
 }
 
-}}} // namespace wci::frontend::pascal
+}}} // namespace wci::frontend::CPP

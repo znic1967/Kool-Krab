@@ -1,7 +1,7 @@
 /**
- * <h1>PascalNumberToken</h1>
+ * <h1>CPPNumberToken</h1>
  *
- * <p>Pascal number tokens (integer and real).</p>
+ * <p>CPP number tokens (integer and real).</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
@@ -9,28 +9,29 @@
 #include <string>
 #include <map>
 #include <math.h>
-#include "PascalNumberToken.h"
-#include "../PascalError.h"
+#include "CPPNumberToken.h"
 
-namespace wci { namespace frontend { namespace pascal { namespace tokens {
+#include "../CPPError.h"
+
+namespace wci { namespace frontend { namespace CPP { namespace tokens {
 
 using namespace std;
 using namespace wci::frontend;
-using namespace wci::frontend::pascal;
+using namespace wci::frontend::CPP;
 
-int PascalNumberToken::MAX_EXPONENT = 37;
+int CPPNumberToken::MAX_EXPONENT = 37;
 
-PascalNumberToken::PascalNumberToken(Source *source) throw (string)
-    : PascalToken(source)
+CPPNumberToken::CPPNumberToken(Source *source) throw (string)
+    : CPPToken(source)
 {
     extract();
 }
 
 /**
- * Extract a Pascal number token from the source.
+ * Extract a CPP number token from the source.
  * @throws Exception if an error occurred.
  */
-void PascalNumberToken::extract() throw (string)
+void CPPNumberToken::extract() throw (string)
 {
     string whole_digits = "";     // digits before the decimal point
     string fraction_digits = "";  // digits after the decimal point
@@ -126,7 +127,7 @@ void PascalNumberToken::extract() throw (string)
  * @return the string of digits.
  * @throws Exception if an error occurred.
  */
-string PascalNumberToken::unsigned_integer_digits() throw (string)
+string CPPNumberToken::unsigned_integer_digits() throw (string)
 {
     char current_ch = current_char();
 
@@ -156,7 +157,7 @@ string PascalNumberToken::unsigned_integer_digits() throw (string)
  * @param digits the string of digits.
  * @return the integer value.
  */
-int PascalNumberToken::compute_integer_value(string digits)
+int CPPNumberToken::compute_integer_value(string digits)
 {
     // Return 0 if no digits.
     if (digits == "") return 0;
@@ -193,7 +194,7 @@ int PascalNumberToken::compute_integer_value(string digits)
  * @param exponent_sign the exponent sign.
  * @return the float value.
  */
-float PascalNumberToken::compute_float_value(string whole_digits,
+float CPPNumberToken::compute_float_value(string whole_digits,
                                              string fraction_digits,
                                              string exponent_digits,
                                              char exponent_sign)
@@ -237,4 +238,4 @@ float PascalNumberToken::compute_float_value(string whole_digits,
     return float_value;
 }
 
-}}}}  // namespace wci::frontend::pascal::tokens
+}}}}  // namespace wci::frontend::CPP::tokens

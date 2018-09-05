@@ -1,28 +1,29 @@
 /**
- * <h1>PascalSpecialSymbolToken</h1>
+ * <h1>CPPSpecialSymbolToken</h1>
  *
- * <p> Pascal special symbol tokens.</p>
+ * <p> CPP special symbol tokens.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
 #include <string>
-#include "PascalSpecialSymbolToken.h"
-#include "../PascalError.h"
+#include "CPPSpecialSymbolToken.h"
 
-namespace wci { namespace frontend { namespace pascal { namespace tokens {
+#include "../CPPError.h"
+
+namespace wci { namespace frontend { namespace CPP { namespace tokens {
 
 using namespace std;
 using namespace wci::frontend;
-using namespace wci::frontend::pascal;
+using namespace wci::frontend::CPP;
 
-PascalSpecialSymbolToken::PascalSpecialSymbolToken(Source *source) throw (string)
-    : PascalToken(source)
+CPPSpecialSymbolToken::CPPSpecialSymbolToken(Source *source) throw (string)
+    : CPPToken(source)
 {
     extract();
 }
 
-void PascalSpecialSymbolToken::extract() throw (string)
+void CPPSpecialSymbolToken::extract() throw (string)
 {
     char current_ch = current_char();
     bool good_symbol = true;
@@ -112,8 +113,8 @@ void PascalSpecialSymbolToken::extract() throw (string)
 
     // Set the type if it wasn't an error.
     if (good_symbol) {
-        type = (TokenType) (PascalToken::SPECIAL_SYMBOLS[text]);
+        type = (TokenType) (CPPToken::SPECIAL_SYMBOLS[text]);
     }
 }
 
-}}}}  // namespace wci::frontend::pascal::tokens
+}}}}  // namespace wci::frontend::CPP::tokens

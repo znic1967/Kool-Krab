@@ -1,7 +1,7 @@
 /**
- * <h1>Pascal</h1>
+ * <h1>CPP</h1>
  *
- * <p>Compile or interpret a Pascal source program.</p>
+ * <p>Compile or interpret a CPP source program.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
@@ -26,14 +26,13 @@
 
 using namespace std;
 using namespace wci::frontend;
-using namespace wci::frontend::CPP;
 using namespace wci::intermediate;
 using namespace wci::backend;
 using namespace wci::message;
 
 const string FLAGS = "[-ix]";
 const string USAGE =
-    "Usage: Pascal execute|compile " + FLAGS + " <source file path>";
+    "Usage: CPP execute|compile " + FLAGS + " <source file path>";
 
 /**
  * The main method.
@@ -62,7 +61,7 @@ int main(int argc, char *args[])
         // Source path.
         if (i < argc) {
             string path = args[i];
-            Pascal(operation, path, flags);
+            cpp(operation, path, flags);
         }
         else {
             throw string("Missing source file.");
@@ -76,7 +75,7 @@ int main(int argc, char *args[])
     return 0;
 }
 
-Pascal::Pascal(string operation, string file_path, string flags)
+cpp::cpp(string operation, string file_path, string flags)
     throw (string)
 {
     ifstream input;
@@ -89,7 +88,7 @@ Pascal::Pascal(string operation, string file_path, string flags)
     source = new Source(input);
     source->add_message_listener(this);
 
-    parser = FrontendFactory::create_parser("Pascal", "top-down", source);
+    parser = FrontendFactory::create_parser("CPP", "top-down", source);
     parser->add_message_listener(this);
     parser->parse();
 
@@ -103,7 +102,7 @@ Pascal::Pascal(string operation, string file_path, string flags)
     backend->process(icode, symtab);
 }
 
-Pascal::~Pascal()
+cpp::~cpp()
 {
     if (parser  != nullptr) delete parser;
     if (source  != nullptr) delete source;
@@ -112,34 +111,34 @@ Pascal::~Pascal()
     if (backend != nullptr) delete backend;
 }
 
-const string Pascal::SOURCE_LINE_FORMAT = "%03d %s\n";
+const string cpp::SOURCE_LINE_FORMAT = "%03d %s\n";
 
-const string Pascal::PARSER_SUMMARY_FORMAT =
+const string cpp::PARSER_SUMMARY_FORMAT =
     string("\n%20d source lines.\n%20d syntax errors.\n") +
     string("%20.2f seconds total parsing time.\n");
 
-const string Pascal::INTERPRETER_SUMMARY_FORMAT =
+const string cpp::INTERPRETER_SUMMARY_FORMAT =
     string("\n%20d statements executed.\n") +
     string("%20d runtime errors.\n") +
     string("%20.2f seconds total execution time.\n");
 
-const string Pascal::COMPILER_SUMMARY_FORMAT =
+const string cpp::COMPILER_SUMMARY_FORMAT =
     string("\n%20d instructions generated.\n") +
     string("%20.2f seconds total code generation time.\n");
 
-const string Pascal::TOKEN_FORMAT =
+const string cpp::TOKEN_FORMAT =
     ">>> %-15s line=%03d, pos=%2d, text=\"%s\"\n";
 
-const string Pascal::VALUE_FORMAT =
+const string cpp::VALUE_FORMAT =
     ">>>                 value=%s\n";
 
-const int Pascal::PREFIX_WIDTH = 5;
+const int cpp::PREFIX_WIDTH = 5;
 
 /**
  * Listen for messages.
  * @param message the received message.
  */
-void Pascal::message_received(Message& message)
+void cpp::message_received(Message& message)
 {
     MessageType type = message.get_type();
 

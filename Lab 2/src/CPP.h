@@ -6,8 +6,8 @@
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
  */
-#ifndef PASCAL_H_
-#define PASCAL_H_
+#ifndef CPP_H_
+#define CPP_H_
 
 #include <iostream>
 #include <fstream>
@@ -70,4 +70,4 @@ private:
     static const int PREFIX_WIDTH;
 };
 
-#endif /* PASCAL_H_ */
+#endif /* CPP_H_ */

@@ -10,12 +10,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "Pascal.h"
+
+#include "CPP.h"
 #include "wci/frontend/Parser.h"
 #include "wci/frontend/Scanner.h"
 #include "wci/frontend/Source.h"
 #include "wci/frontend/FrontendFactory.h"
-#include "wci/frontend/pascal/PascalToken.h"
+#include "wci/frontend/cpp/CPPToken.h"
 #include "wci/intermediate/SymTab.h"
 #include "wci/intermediate/ICode.h"
 #include "wci/backend/Backend.h"
@@ -25,7 +26,7 @@
 
 using namespace std;
 using namespace wci::frontend;
-using namespace wci::frontend::pascal;
+using namespace wci::frontend::CPP;
 using namespace wci::intermediate;
 using namespace wci::backend;
 using namespace wci::message;

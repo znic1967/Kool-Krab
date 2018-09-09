@@ -26,10 +26,13 @@ using namespace wci::frontend;
 enum class CPPTokenType
 {
     // Reserved words.
-    AND, ARRAY, BEGIN, CASE, CONST, DIV, DO, DOWNTO, ELSE, END,
+    AND,  ARRAY, BEGIN, CASE, CONST, DIV, DO, DOWNTO, ELSE, END,
     FILE, FOR, FUNCTION, GOTO, IF, IN, LABEL, MOD, NIL, NOT,
     OF, OR, PACKED, PROCEDURE, PROGRAM, RECORD, REPEAT, SET,
     THEN, TO, TYPE, UNTIL, VAR, WHILE, WITH,
+
+	AUTO, DOUBLE, INTEGER, STRUCT, BREAK, LONG, SWITCH, ENUM, NAMESPACE, TEMPLATE, CHAR, EXTERM, OPERATOR, THIS, CLASS,
+	FLOAT, PACKAGE, THROW, PUBLIC, UNION, CONTINUE, RETURN, VOID, STATIC,
 
     // Special symbols.
     PLUS, MINUS, STAR, SLASH, COLON_EQUALS,
@@ -42,6 +45,39 @@ enum class CPPTokenType
     IDENTIFIER, INTEGER, REAL, STRING,
     ERROR, END_OF_FILE,
 };
+//C++ element editions for the class @LEO
+constexpr CPPTokenType PT_AUTO 		= CPPTokenType::AUTO;
+constexpr CPPTokenType PT_DOUBLE 	= CPPTokenType::DOUBLE;
+constexpr CPPTokenType PT_INTEGER 	= CPPTokenType::INTEGER;
+constexpr CPPTokenType PT_STRUCT 	= CPPTokenType::STRUCT;
+constexpr CPPTokenType PT_BREAK 	= CPPTokenType::BREAK;
+constexpr CPPTokenType PT_LONG	 		= CPPTokenType::LONG;
+constexpr CPPTokenType PT_SWITCH 			= CPPTokenType::SWITCH;
+constexpr CPPTokenType PT_ENUM 			= CPPTokenType::ENUM;
+constexpr CPPTokenType PT_NAMESPACE 			= CPPTokenType::NAMESPACE;
+constexpr CPPTokenType PT_TEMPLATE = CPPTokenType::TEMPLATE;
+constexpr CPPTokenType PT_CHAR = CPPTokenType::CHAR;
+constexpr CPPTokenType PT_EXTERM = CPPTokenType::EXTERM;
+constexpr CPPTokenType PT_OPERATOR = CPPTokenType::OPERATOR;
+constexpr CPPTokenType PT_THIS = CPPTokenType::THIS;
+constexpr CPPTokenType PT_CLASS = CPPTokenType::CLASS;
+constexpr CPPTokenType PT_FLOAT = CPPTokenType::FLOAT;
+constexpr CPPTokenType PT_PACKAGE = CPPTokenType::PACKAGE;
+constexpr CPPTokenType PT_THROW = CPPTokenType::THROW;
+constexpr CPPTokenType PT_PUBLIC = CPPTokenType::PUBLIC;
+constexpr CPPTokenType PT_UNION = CPPTokenType::UNION;
+constexpr CPPTokenType PT_CONTINUE = CPPTokenType::CONTINUE;
+constexpr CPPTokenType PT_RETURN = CPPTokenType::RETURN;
+constexpr CPPTokenType PT_VOID = CPPTokenType::VOID;
+constexpr CPPTokenType PT_STATIC = CPPTokenType::STATIC;
+
+
+
+
+
+
+
+
 
 constexpr CPPTokenType PT_AND = CPPTokenType::AND;
 constexpr CPPTokenType PT_ARRAY = CPPTokenType::ARRAY;

@@ -33,9 +33,11 @@ void CPPSpecialSymbolToken::extract() throw (string)
     switch (current_ch)
     {
         // Single-character special symbols.
-        case '+':  case '-':  case '*':  case '/':  case ',':
-        case ';':  case '\'': case '=':  case '(':  case ')':
-        case '[':  case ']':  case '{':  case '}':  case '^':
+        case '+':  case '-' : case '*':  case '/':  case',':
+        case ';':  case '\'': case '=':  case '(':  case')':
+        case '[':  case ']' : case '{':  case '}':  case'^':
+        case '~':  case'!'  : case' @':  case '%': 	case'':
+        case '& ': case'|'  : case' ?': case '"':
         {
             next_char();  // consume character
             break;
@@ -55,7 +57,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
             break;
         }
 
-        // < or <= or <>
+        // < or <= or <> or << or <<=
         case '<':
         {
             current_ch = next_char();  // consume '<';
@@ -118,3 +120,4 @@ void CPPSpecialSymbolToken::extract() throw (string)
 }
 
 }}}}  // namespace wci::frontend::CPP::tokens
+

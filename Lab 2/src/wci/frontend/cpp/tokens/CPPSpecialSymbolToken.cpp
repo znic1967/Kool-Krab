@@ -33,11 +33,11 @@ void CPPSpecialSymbolToken::extract() throw (string)
     switch (current_ch)
     {
         // Single-character special symbols.
-        case '+':  case '-' : case '*':  case '/':  case',':
-        case ';':  case '\'': case '=':  case '(':  case')':
-        case '[':  case ']' : case '{':  case '}':  case'^':
-        case '~':  case'!'  : case' @':  case '%': 	case'':
-        case '& ': case'|'  : case' ?': case '"':
+
+        case ';': case '\'': case '=':  case '(':  case')':
+        case '[': case ']' : case '{':  case '}':  case',':
+        case '~': case ' @':  case'':   case'|' : case' ?' :
+        case '"':
         {
             next_char();  // consume character
             break;
@@ -56,6 +56,58 @@ void CPPSpecialSymbolToken::extract() throw (string)
 
             break;
         }
+        // ^ or ^=
+        case '^':
+                {
+                    current_ch = next_char();  // consume '^';
+
+                    if (current_ch == '=')
+                    {
+                        text += current_ch;
+                        next_char();  // consume '='
+                    }
+
+                    break;
+                }
+
+        // ! or !=
+        case '!':
+        {
+        	current_ch = next_char();  // consume '!';
+
+        	if (current_ch == '=')
+        	{
+        		text += current_ch;
+        		next_char();  // consume '='
+        	}
+
+        	break;
+        }
+        // = or ==
+        case '=':
+                 {
+                	 current_ch = next_char();  // consume '^';
+
+                	 if (current_ch == '=')
+                	   {
+                		 text += current_ch;
+                		 next_char();  // consume '='
+                	   }
+                           break;
+                       }
+        // % or %=
+        case '%':
+        {
+              	  current_ch = next_char();  // consume '%';
+
+              	  if (current_ch == '=')
+              	  {
+              		  text += current_ch;
+              		  next_char();  // consume '='
+              	  }
+              	  break;
+        }
+
 
         // < or <= or <> or << or <<=
         case '<':
@@ -72,19 +124,37 @@ void CPPSpecialSymbolToken::extract() throw (string)
                 text += current_ch;
                 next_char();  // consume '>'
             }
-
+            else if (current_ch=='<'){ // for <<
+            	text+=current_ch;
+            	next_char();
+            	 current_ch = next_char();
+            	 if(current_ch=='='){  // for <<=
+            		 text+=current_ch;
+            		 next_char();
+            	 }
+            }
             break;
         }
 
-        // > or >=
+        // > or >= or >> or >>=
         case '>':
         {
             current_ch = next_char();  // consume '>';
 
-            if (current_ch == '=')
+            if (current_ch == '=')// >=
             {
                 text += current_ch;
                 next_char();  // consume '='
+            }
+            else if( current_ch=='>'){ // >>
+            	text+= current_ch;
+            	next_char();
+            	current_ch=next_char;
+
+            	if(current_ch=='='){ // >>=
+            		text+= current_ch;
+            		next_char();
+            	}
             }
 
             break;
@@ -103,6 +173,107 @@ void CPPSpecialSymbolToken::extract() throw (string)
 
             break;
         }
+
+        // + or ++ or +=
+        case '+':
+        {
+        	current_ch=next_char(); // consumes +
+
+        	if(current_ch=='+'){
+        		text+=current_ch;
+        		next_char(); // consumes '+'
+        	}
+        	else if(current_ch=='='){
+        		text+=current_ch;
+        		next_char(); // consumes =
+        	}
+
+        	break;
+        }
+        // - or -- or -=
+        case '-':
+                {
+                	current_ch=next_char(); // consumes -
+
+                	if(current_ch=='-'){
+                		text+=current_ch;
+                		next_char(); // consumes '-'
+                	}
+                	else if( current_ch=='='){
+                		text+=current_ch;
+                		next_char(); // consumes '='
+                	}
+
+                	break;
+                }
+
+        // * or *= or */
+        case '*':
+               {
+                   current_ch = next_char();  // consume '*';
+
+                   if (current_ch == '=')
+                   {
+                       text += current_ch;
+                       next_char();  // consume '*'
+                   }
+                   else if (current_ch=='/'){
+                	   text+=current_ch;
+                	   next_char(); // comsume '/'
+                   }
+
+                   break;
+               }
+        // / or // or /*
+        case '/':
+               {
+               	current_ch=next_char(); // consumes /
+
+               	if(current_ch=='/'){
+               		text+=current_ch;
+               		next_char(); // consumes '/'
+               	}
+               	else if(current_ch=='*'){
+               		text+=current_ch;
+               		next_char(); // consumes *
+               	}
+
+               	break;
+               }
+         // | or || or |=
+        case '*':
+             {
+                 current_ch = next_char();  // consume '|';
+                    if (current_ch == '|')
+                   {
+                      text += current_ch;
+                      next_char();  // consume '*'
+                          }
+                    else if (current_ch=='='){
+                    	text+=current_ch;
+                    	next_char(); // comsume '|'
+                          }
+
+                          break;
+                      }
+       // & or && or &=
+        case '&':
+                      {
+                          current_ch = next_char();  // consume '&';
+
+                          if (current_ch == '&')
+                          {
+                              text += current_ch;
+                              next_char();  // consume '&'
+                          }
+                          else if (current_ch=='='){
+                       	   text+=current_ch;
+                       	   next_char(); // consume '='
+                          }
+
+                          break;
+                      }
+
 
         default:
         {

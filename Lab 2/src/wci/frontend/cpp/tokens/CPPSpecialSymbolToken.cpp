@@ -36,8 +36,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
 
         case ';': case '\'': case '(':  case')':
         case '[': case ']' : case '{':  case '}':  case',':
-        case '~': case '@':  case'':   case'|' : case'?' :
-        case '"':
+        case '~': case '@' : case'?' :  case '"':
         {
             next_char();  // consume character
             break;

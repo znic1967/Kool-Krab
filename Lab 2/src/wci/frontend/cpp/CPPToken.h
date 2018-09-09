@@ -42,7 +42,7 @@ enum class CPPTokenType
     LEFT_BRACKET, RIGHT_BRACKET, LEFT_BRACE, RIGHT_BRACE,
     UP_ARROW, DOT_DOT,
 
-    IDENTIFIER, INTEGER, REAL, STRING,
+    IDENTIFIER,  REAL, STRING,
     ERROR, END_OF_FILE,
 };
 //C++ element editions for the class @LEO
@@ -146,7 +146,6 @@ constexpr CPPTokenType PT_UP_ARROW = CPPTokenType::UP_ARROW;
 constexpr CPPTokenType PT_DOT_DOT = CPPTokenType::DOT_DOT;
 
 constexpr CPPTokenType PT_IDENTIFIER = CPPTokenType::IDENTIFIER;
-constexpr CPPTokenType PT_INTEGER = CPPTokenType::INTEGER;
 constexpr CPPTokenType PT_REAL = CPPTokenType::REAL;
 constexpr CPPTokenType PT_STRING = CPPTokenType::STRING;
 constexpr CPPTokenType PT_ERROR = CPPTokenType::ERROR;

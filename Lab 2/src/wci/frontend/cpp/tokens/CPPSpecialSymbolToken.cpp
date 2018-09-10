@@ -34,7 +34,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
     {
         // Single-character special symbols.
 
-        case ';': case '\'': case '(':  case')':
+        case ';': case '\'': case '(':  case')': case ':':
         case '[': case ']' : case '{':  case '}':  case',':
         case '~': case '@' : case'?' :  case '"':
         {
@@ -42,19 +42,6 @@ void CPPSpecialSymbolToken::extract() throw (string)
             break;
         }
 
-        // : or :=
-        case ':':
-        {
-            current_ch = next_char();  // consume ':';
-
-            if (current_ch == '=')
-            {
-                text += current_ch;
-                next_char();  // consume '='
-            }
-
-            break;
-        }
         // ^ or ^=
         case '^':
                 {
@@ -85,7 +72,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
         // = or ==
         case '=':
                  {
-                	 current_ch = next_char();  // consume '^';
+                	 current_ch = next_char();  // consume '=';
 
                 	 if (current_ch == '=')
                 	   {
@@ -108,7 +95,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
         }
 
 
-        // < or <= or <> or << or <<=
+        // < or <= or << or <<=
         case '<':
         {
             current_ch = next_char();  // consume '<';
@@ -117,11 +104,6 @@ void CPPSpecialSymbolToken::extract() throw (string)
             {
                 text += current_ch;
                 next_char();  // consume '='
-            }
-            else if (current_ch == '>')
-            {
-                text += current_ch;
-                next_char();  // consume '>'
             }
             else if (current_ch=='<'){ // for <<
             	text+=current_ch;

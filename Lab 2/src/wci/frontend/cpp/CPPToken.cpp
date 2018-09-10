@@ -61,7 +61,7 @@ void CPPToken::initialize()
 		CPPTokenType::RETURN,
 		CPPTokenType::VOID,
 		CPPTokenType::STATIC,
-		//END CPP additions
+		//END CPP additions NOTE: NEED TO FIX THEM TO BE IN ORDER
 
 
 
@@ -87,8 +87,8 @@ void CPPToken::initialize()
 
         CPPTokenType::LABEL,
         CPPTokenType::MOD,
+		CPPTokenType::NOT,
         CPPTokenType::NIL,
-        CPPTokenType::NOT,
         CPPTokenType::OF,
         CPPTokenType::OR,
         CPPTokenType::PACKED,
@@ -118,11 +118,70 @@ void CPPToken::initialize()
         "~","!","@","%","^","&","*","-","+","=","|","/",":",";","?",
 		"<",">",".",",","\'","\"","++","--","<<",">>","<=",">=","+=",
 		"-=","*=","/=","==","|=","%=","&=","^=","!=","<<=",">>=",
-		"||","&&","//","/*","*/"
+		"||","&&","//","/*","*/","(",")","[", "]", "{", "}",
     };
 
     vector<CPPTokenType> ss_keys =
     {
+
+    	//@Leo
+    	CPPTokenType::TILDE,
+		CPPTokenType::EXCLA_POINT,
+		CPPTokenType::AT,
+		CPPTokenType::MOD,
+		CPPTokenType::CARET,
+		CPPTokenType::AMPERSAND,
+		CPPTokenType::STAR,
+		CPPTokenType::MINUS,
+		CPPTokenType::PLUS,
+		CPPTokenType::EQUALS,
+		CPPTokenType::OR,
+		CPPTokenType::FORWARDSLASH,
+		CPPTokenType::COLON,
+		CPPTokenType::SEMICOLON,
+		CPPTokenType::QUESTION_MARK,
+		CPPTokenType::LESS_THAN,
+		CPPTokenType::GREATER_THAN,
+		CPPTokenType::DOT,
+		CPPTokenType::COMMA,
+		CPPTokenType::BACKSLASH,
+		CPPTokenType::BACKSLASH_APOSTROPHE,
+		CPPTokenType::PLUSPLUS,
+		CPPTokenType::MINUSMINUS,
+		CPPTokenType::SHIFT_LEFT,
+		CPPTokenType::SHIFT_RIGHT,
+		CPPTokenType::LESS_EQ,
+		CPPTokenType::GREATER_EQ,
+		CPPTokenType::PLUS_EQ,
+		CPPTokenType::MINUS_EQ,
+		CPPTokenType::TIMES_EQ,
+		CPPTokenType::DIV_EQ,
+		CPPTokenType::EQ_EQ,
+		CPPTokenType::OR_EQ,
+		CPPTokenType::MOD_EQ,
+		CPPTokenType::AND_EQ,
+		CPPTokenType::CARAT_EQ,
+		CPPTokenType::NOT_EQ,
+		CPPTokenType::SHIFT_LEFT_EQ,
+		CPPTokenType::SHIFT_RIGHT_EQ,
+		CPPTokenType::OR_OR,
+		CPPTokenType::AND_AND,
+		CPPTokenType::SLASH_SLASH,
+		CPPTokenType::COMMENT_OPEN_AST,
+		CPPTokenType::COMMENT_CLOSED_AST,
+		CPPTokenType::LEFT_PAREN,
+		CPPTokenType::RIGHT_PAREN,
+		CPPTokenType::LEFT_BRACKET,
+		CPPTokenType::RIGHT_BRACKET,
+		CPPTokenType::LEFT_BRACE,
+		CPPTokenType::RIGHT_BRACE,
+		//ALL NECESSARY ASSIGNMENT SPECIAL SYMBOLS
+
+
+
+
+    		/*
+
         CPPTokenType::PLUS,
         CPPTokenType::MINUS,
         CPPTokenType::STAR,
@@ -147,7 +206,7 @@ void CPPToken::initialize()
         CPPTokenType::LEFT_BRACE,
         CPPTokenType::RIGHT_BRACE,
         CPPTokenType::UP_ARROW,
-        CPPTokenType::DOT_DOT
+        CPPTokenType::DOT_DOT */
     };
 
     for (int i = 0; i < ss_strings.size(); i++)
@@ -157,12 +216,13 @@ void CPPToken::initialize()
 
     vector<string> ss_names =
     {
-        "PLUS", "MINUS", "STAR", "SLASH", "COLON_EQUALS", "DOT", "COMMA",
-        "SEMICOLON", "COLON", "QUOTE", "EQUALS", "NOT_EQUALS",
+    		//@LEO finished adding all of the SS keys and names
+        "TILDE", "EXCLA_POINT", "AT", "MOD", "CARET", "AMPERSAND", "STAR", "MINUS", "PLUS", "EQUALS", "OR", "FORWARDSLASH",
+		 "COLON", "SEMICOLON", "QUESTION_MARK", "LESS_THAN", "GREATER_THAN", "DOT", "COMMA", "BACKSLASH", "BACKSLASH_APOSTROPHE", "PLUSPLUS", "MINUSMINUS",
+		 "SHIFT_LEFT", "SHIFT_RIGHT", "LESS_EQ", "GREATER_EQ", "PLUS_EQ", "MINUS_EQ", "TIMES_EQ",
+		 "DIV_EQ", "EQ_EQ", "OR_EQ", "MOD_EQ", "AND_EQ", "CARAT_EQ", "NOT_EQ", "SHIFT_LEFT_EQ", "SHIFT_RIGHT_EQ",
+		 "OR_OR","AND_AND","SLASH_SLASH","COMMENT_OPEN_AST","COMMENT_CLOSED_AST","LEFT_PAREN", "RIGHT_PAREN","LEFT_BRACKET","RIGHT_BRACKET","LEFT_BRACE","RIGHT_BRACE",
 
-        "LESS_THAN", "LESS_EQUALS", "GREATER_EQUALS", "GREATER_THAN",
-        "LEFT_PAREN", "RIGHT_PAREN", "LEFT_BRACKET", "RIGHT_BRACKET",
-        "LEFT_BRACE", "RIGHT_BRACE", "UP_ARROW", "DOT_DOT"
     };
 
     for (int i = 0; i < ss_names.size(); i++)

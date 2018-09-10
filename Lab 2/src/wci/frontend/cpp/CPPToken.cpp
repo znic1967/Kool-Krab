@@ -28,14 +28,45 @@ void CPPToken::initialize()
 
     vector<string> rw_strings =
     {
-        "auto","double","int","struct","break","else","long","switch",
-		"case","enum","namespace","template","char","exterm","operator",
-		"this","class","float","package","throw","const","for","public",
-		"union","continue","goto","return","void","do","if","static","while"
+        "auto","double","int","struct","break","else","long","switch", //ELSE INCKYDED
+		"case","enum","namespace","template","char","exterm","operator", //CASE INCLUDED
+		"this","class","float","package","throw","const","for","public", //Const, for included
+		"union","continue","goto","return","void","do","if","static","while" //goto, do, if, while, included
     };
 
     vector<CPPTokenType> rw_keys =
     {
+    	//@Leo CPP additions
+    	CPPTokenType::AUTO,
+		CPPTokenType:: DOUBLE,
+		CPPTokenType:: INTEGER,
+		CPPTokenType:: STRUCT,
+		CPPTokenType::BREAK,
+		CPPTokenType::LONG,
+		CPPTokenType::SWITCH,
+		CPPTokenType::ENUM,
+		CPPTokenType::NAMESPACE,
+		CPPTokenType::TEMPLATE,
+		CPPTokenType::CHAR,
+		CPPTokenType::EXTERM,
+		CPPTokenType::OPERATOR,
+		CPPTokenType::THIS,
+		CPPTokenType::CLASS,
+		CPPTokenType::FLOAT,
+		CPPTokenType::PACKAGE,
+		CPPTokenType::THROW,
+		CPPTokenType::PUBLIC,
+		CPPTokenType::UNION,
+		CPPTokenType::CONTINUE,
+		CPPTokenType::RETURN,
+		CPPTokenType::VOID,
+		CPPTokenType::STATIC,
+		//END CPP additions
+
+
+
+
+
         CPPTokenType::AND,
         CPPTokenType::ARRAY,
         CPPTokenType::BEGIN,

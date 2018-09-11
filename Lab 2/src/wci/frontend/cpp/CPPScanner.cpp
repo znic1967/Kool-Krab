@@ -97,4 +97,5 @@ void CPPScanner::skip_white_space() throw (string)
 	}
 }
 
+
 }}} // namespace wci::frontend::CPP

@@ -100,12 +100,13 @@ void CPPSpecialSymbolToken::extract() throw (string)
         // < or <= or << or <<=
         case '<':
         {
-            current_ch = next_char();  // consume '<';
+            //current_ch = next_char();  // consume '<';
 
             if (peek_char() == '=')
             {
+            	current_ch = next_char();
                 text += current_char();
-                next_char();  // consume '='
+                next_char();
             }
             if (current_ch=='<'){ // for <<
             	text+=current_ch;
@@ -116,6 +117,10 @@ void CPPSpecialSymbolToken::extract() throw (string)
             		 next_char();
             	 }
             }
+            else{
+            	next_char();
+            }
+
             break;
         }
 

@@ -26,7 +26,8 @@ CPPSpecialSymbolToken::CPPSpecialSymbolToken(Source *source) throw (string)
 void CPPSpecialSymbolToken::extract() throw (string)
 {
     char current_ch = current_char();
-    char peek_ch = peek_char();
+    char peek_ch;
+    //char peek_ch = peek_char();
     bool good_symbol = true;
 
     text = current_ch;
@@ -101,12 +102,12 @@ void CPPSpecialSymbolToken::extract() throw (string)
         {
             current_ch = next_char();  // consume '<';
 
-            if (current_ch == '=')
+            if (peek_char() == '=')
             {
-                text += current_ch;
+                text += current_char();
                 next_char();  // consume '='
             }
-            else if (current_ch=='<'){ // for <<
+            if (current_ch=='<'){ // for <<
             	text+=current_ch;
             	next_char();
             	 current_ch = next_char();
@@ -199,7 +200,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
                        text += current_ch;
                        next_char();  // consume '*'
                    }
-                   else if (current_ch=='/'){
+                   if (current_ch=='/'){
                 	   text+=current_ch;
                 	   next_char(); // comsume '/'
                    }
@@ -210,6 +211,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
         case '/':
                {
                	current_ch=next_char(); // consumes /
+               	//peek_ch=peek_char();
                	if(current_ch=='*'){
 					text+=current_ch;
 					next_char(); // consumes *

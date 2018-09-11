@@ -89,8 +89,10 @@ void CPPScanner::skip_white_space() throw (string)
 			do
 			{
 				current_ch = next_char(); //consume comment characters
-			} while ((current_ch != '*') && (peek_char() != '/'));
+			} while( !((current_ch== '*') && (next_char() == '/')));
+			current_ch=next_char(); //Consumes '/'
 		}
+		//Not a comment
 		else current_ch = next_char();
 	}
 }

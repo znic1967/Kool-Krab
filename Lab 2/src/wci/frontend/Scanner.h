@@ -54,6 +54,7 @@ public:
      * @throw a string message if an error occurred.
      */
     char next_char() throw (string);
+    char peek_char() throw (string);
 
 protected:
     Source *source;

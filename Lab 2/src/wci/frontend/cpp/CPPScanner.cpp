@@ -71,29 +71,25 @@ Token *CPPScanner::extract_token() throw (string)
 
 void CPPScanner::skip_white_space() throw (string)
 {
-    char current_ch = current_char();
+	char current_ch = current_char();
+	while(isspace(current_ch) || (current_ch =='/')){
 
-    while (isspace(current_ch) || (current_ch == '{')) {
+		//Single line comment
+		if ((current_ch == '/') && (peek_char() == '/')){
+			current_ch= next_char(); //Consumes '/'
+			do
+			{
+				current_ch = next_char(); //consume comment characters
+			} while (current_ch != Source::END_OF_LINE);
+		}
 
-        // Start of a comment?
-        if (current_ch == '{')
-        {
-            do
-            {
-                current_ch = next_char();  // consume comment characters
-            } while ((current_ch != '}') &&
-                     (current_ch != Source::END_OF_FILE));
-
-            // Found closing '}'?
-            if (current_ch == '}')
-            {
-                current_ch = next_char();  // consume the '}'
-            }
-        }
-
-        // Not a comment.
-        else current_ch = next_char();  // consume whitespace character
-    }
+		//Multiline comment
+		if ((current_ch == '/') && (peek_char() == '*')){
+			current_ch= next_char(); //Consumes '*'
+			do
+			{
+				current_ch = next_char(); //consume comment characters
+			} while ((current_ch != '*') && (peek_char() != '/'));
+		}
+	}
 }
-
-}}} // namespace wci::frontend::CPP

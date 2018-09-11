@@ -36,7 +36,7 @@ void CPPSpecialSymbolToken::extract() throw (string)
 
         case ';': case '\'': case '(':  case')': case ':':
         case '[': case ']' : case '{':  case '}':  case',':
-        case '~': case '@' : case'?' :  case '"':
+        case '~': case '@' : case'?' :  case '\"':
         {
             next_char();  // consume character
             break;
@@ -209,14 +209,13 @@ void CPPSpecialSymbolToken::extract() throw (string)
         case '/':
                {
                	current_ch=next_char(); // consumes /
-
+               	if(current_ch=='*'){
+					text+=current_ch;
+					next_char(); // consumes *
+               	}
                	if(current_ch=='/'){
                		text+=current_ch;
                		next_char(); // consumes '/'
-               	}
-               	else if(current_ch=='*'){
-               		text+=current_ch;
-               		next_char(); // consumes *
                	}
 
                	break;

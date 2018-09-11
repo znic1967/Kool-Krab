@@ -91,5 +91,8 @@ void CPPScanner::skip_white_space() throw (string)
 				current_ch = next_char(); //consume comment characters
 			} while ((current_ch != '*') && (peek_char() != '/'));
 		}
+		else current_ch = next_char();
 	}
 }
+
+}}} // namespace wci::frontend::CPP

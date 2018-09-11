@@ -26,6 +26,7 @@ CPPSpecialSymbolToken::CPPSpecialSymbolToken(Source *source) throw (string)
 void CPPSpecialSymbolToken::extract() throw (string)
 {
     char current_ch = current_char();
+    char peek_ch = peek_char();
     bool good_symbol = true;
 
     text = current_ch;

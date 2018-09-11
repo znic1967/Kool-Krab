@@ -27,7 +27,7 @@ enum class CPPTokenType
 {
     // Reserved words.
     AND,  ARRAY, BEGIN, CASE, CONST, DIV, DO, DOWNTO, ELSE, END,
-    FILE, FOR, FUNCTION, GOTO, IF, IN, LABEL, MOD, NIL, NOT,
+    FILE, FOR, FUNCTION, GOTO, IF, IN, LABEL, NIL, NOT,
     OF, OR, PACKED, PROCEDURE, PROGRAM, RECORD, REPEAT, SET,
     THEN, TO, TYPE, UNTIL, VAR, WHILE, WITH,
 
@@ -35,7 +35,7 @@ enum class CPPTokenType
 	FLOAT, PACKAGE, THROW, PUBLIC, UNION, CONTINUE, RETURN, VOID, STATIC,
 
     // Special symbols.
-	TILDE, EXCLA_POINT, AT, MOD, CARET, AMPERSAND, STAR, MINUS, PLUS, EQUALS, OR, FORWARDSLASH, COLON, SEMICOLON, QUESTION_MARK,
+	TILDE, EXCLA_POINT, AT, MOD, CARET, AMPERSAND, STAR, MINUS, PLUS, EQUALS, FORWARDSLASH, COLON, SEMICOLON, QUESTION_MARK,
 	LESS_THAN, GREATER_THAN, DOT, COMMA, BACKSLASH, BACKSLASH_APOSTROPHE, PLUSPLUS, MINUSMINUS, SHIFT_LEFT, SHIFT_RIGHT, LESS_EQ, GREATER_EQ,
 	PLUS_EQ, MINUS_EQ, TIMES_EQ, DIV_EQ, EQ_EQ, OR_EQ, MOD_EQ, AND_EQ, CARAT_EQ, NOT_EQ, SHIFT_LEFT_EQ, SHIFT_RIGHT_EQ, OR_OR, AND_AND, SLASH_SLASH, COMMENT_OPEN_AST,
 	COMMENT_CLOSED_AST, LEFT_PAREN, RIGHT_PAREN, LEFT_BRACKET, RIGHT_BRACKET, LEFT_BRACE, RIGHT_BRACE,
@@ -148,11 +148,9 @@ constexpr CPPTokenType PT_IF = CPPTokenType::IF;
 constexpr CPPTokenType PT_IN = CPPTokenType::IN;
 
 constexpr CPPTokenType PT_LABEL = CPPTokenType::LABEL;
-constexpr CPPTokenType PT_MOD = CPPTokenType::MOD;
 constexpr CPPTokenType PT_NIL = CPPTokenType::NIL;
 constexpr CPPTokenType PT_NOT = CPPTokenType::NOT;
 constexpr CPPTokenType PT_OF = CPPTokenType::OF;
-constexpr CPPTokenType PT_OR = CPPTokenType::OR;
 constexpr CPPTokenType PT_PACKED = CPPTokenType::PACKED;
 constexpr CPPTokenType PT_PROCEDURE = CPPTokenType::PROCEDURE;
 
@@ -168,32 +166,6 @@ constexpr CPPTokenType PT_UNTIL = CPPTokenType::UNTIL;
 constexpr CPPTokenType PT_VAR = CPPTokenType::VAR;
 constexpr CPPTokenType PT_WHILE = CPPTokenType::WHILE;
 constexpr CPPTokenType PT_WITH = CPPTokenType::WITH;
-
-constexpr CPPTokenType PT_PLUS = CPPTokenType::PLUS;
-constexpr CPPTokenType PT_MINUS = CPPTokenType::MINUS;
-constexpr CPPTokenType PT_STAR = CPPTokenType::STAR;
-//constexpr CPPTokenType PT_SLASH = CPPTokenType::SLASH;
-//constexpr CPPTokenType PT_COLON_EQUALS = CPPTokenType::COLON_EQUALS;
-constexpr CPPTokenType PT_DOT = CPPTokenType::DOT;
-constexpr CPPTokenType PT_COMMA = CPPTokenType::COMMA;
-constexpr CPPTokenType PT_SEMICOLON = CPPTokenType::SEMICOLON;
-constexpr CPPTokenType PT_COLON = CPPTokenType::COLON;
-//constexpr CPPTokenType PT_QUOTE = CPPTokenType::QUOTE;
-constexpr CPPTokenType PT_EQUALS = CPPTokenType::EQUALS;
-//constexpr CPPTokenType PT_NOT_EQUALS = CPPTokenType::NOT_EQUALS;
-
-constexpr CPPTokenType PT_LESS_THAN = CPPTokenType::LESS_THAN;
-//constexpr CPPTokenType PT_LESS_EQUALS = CPPTokenType::LESS_EQUALS;
-//constexpr CPPTokenType PT_GREATER_EQUALS = CPPTokenType::GREATER_EQUALS;
-constexpr CPPTokenType PT_GREATER_THAN = CPPTokenType::GREATER_THAN;
-constexpr CPPTokenType PT_LEFT_PAREN = CPPTokenType::LEFT_PAREN;
-constexpr CPPTokenType PT_RIGHT_PAREN = CPPTokenType::RIGHT_PAREN;
-constexpr CPPTokenType PT_LEFT_BRACKET = CPPTokenType::LEFT_BRACKET;
-constexpr CPPTokenType PT_RIGHT_BRACKET = CPPTokenType::RIGHT_BRACKET;
-constexpr CPPTokenType PT_LEFT_BRACE = CPPTokenType::LEFT_BRACE;
-constexpr CPPTokenType PT_RIGHT_BRACE = CPPTokenType::RIGHT_BRACE;
-//constexpr CPPTokenType PT_UP_ARROW = CPPTokenType::UP_ARROW;
-//constexpr CPPTokenType PT_DOT_DOT = CPPTokenType::DOT_DOT;
 
 constexpr CPPTokenType PT_IDENTIFIER = CPPTokenType::IDENTIFIER;
 constexpr CPPTokenType PT_REAL = CPPTokenType::REAL;

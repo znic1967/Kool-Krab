@@ -28,10 +28,10 @@ void CPPToken::initialize()
 
     vector<string> rw_strings =
     {
-        "AUTO","DOUBLE","INT","STRUCT","BREAK","ELSE","LONG","SWITCH", //ELSE INCKYDED
-		"CASE","ENUM","NAMESPACE","TEMPLATE","CHAR","EXTERM","OPERATOR", //CASE INCLUDED
-		"THIS","CLASS","FLOAT","PACKAGE","THROW","CONST","FOR","PUBLIC", //Const, for included
-		"UNION","CONTINUE","GOTO","RETURN","VOID","DO","IF","STATIC","WHILE" //goto, do, if, while, included
+        "auto","double","int","struct","break","else","long","switch", //ELSE INCKYDED
+		"case","enum","namespace","template","char","exterm","operator", //CASE INCLUDED
+		"this","class","float","package","throw","const","for","public", //Const, for included
+		"union","continue","goto","return","void","do","if","static","while" //goto, do, if, while, included
     };
 
     vector<CPPTokenType> rw_keys =

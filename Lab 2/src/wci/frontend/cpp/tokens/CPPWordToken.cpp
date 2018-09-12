@@ -41,13 +41,13 @@ void CPPWordToken::extract() throw (string)
     }
 
     // Is it a reserved word or an identifier?
-    string upper_case = to_upper(text);
-    if (CPPToken::RESERVED_WORDS.find(upper_case)
+    string rWord = text;
+    if (CPPToken::RESERVED_WORDS.find(rWord)
             != CPPToken::RESERVED_WORDS.end())
     {
         // Reserved word.
-        type = (TokenType) CPPToken::RESERVED_WORDS[upper_case];
-        value = upper_case;
+        type = (TokenType) CPPToken::RESERVED_WORDS[rWord];
+        value = rWord;
     }
     else
     {

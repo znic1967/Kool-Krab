@@ -14,6 +14,7 @@
 #include "tokens/CPPWordToken.h"
 #include "tokens/CPPNumberToken.h"
 #include "tokens/CPPStringToken.h"
+#include "tokens/CPPCharacterToken.h"
 #include "tokens/CPPSpecialSymbolToken.h"
 #include "tokens/CPPErrorToken.h"
 
@@ -51,10 +52,14 @@ Token *CPPScanner::extract_token() throw (string)
     {
         token = new CPPNumberToken(source);
     }
-    else if (current_ch == '\'')
+    else if (current_ch == '\"')
     {
         token = new CPPStringToken(source);
     }
+    else if (current_ch == '\'')
+	{
+		token = new CPPCharacterToken(source);
+	}
     else if (CPPToken::SPECIAL_SYMBOLS.find(string_ch)
                 != CPPToken::SPECIAL_SYMBOLS.end())
     {

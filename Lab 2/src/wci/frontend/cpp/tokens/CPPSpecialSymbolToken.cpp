@@ -106,45 +106,44 @@ void CPPSpecialSymbolToken::extract() throw (string)
             {
             	current_ch = next_char();
                 text += current_char();
-                next_char();
             }
-            if (current_ch=='<'){ // for <<
+            if (peek_char()=='<'){ // for <<
+            	current_ch=next_char();
             	text+=current_ch;
-            	next_char();
-            	 current_ch = next_char();
-            	 if(current_ch=='='){  // for <<=
+            	if(peek_char()=='='){  // for <<=
+            		 current_ch=next_char();
             		 text+=current_ch;
             		 next_char();
             	 }
             }
-            else{
-            	next_char();
+            else{ //Takes care of single <
+            	current_ch=next_char();
             }
-
             break;
         }
 
         // > or >= or >> or >>=
         case '>':
         {
-            current_ch = next_char();  // consume '>';
+            //current_ch = next_char();  // consume '<';
 
-            if (current_ch == '=')// >=
+            if (peek_char() == '=')
             {
-                text += current_ch;
-                next_char();  // consume '='
+            	current_ch = next_char();
+                text += current_char();
             }
-            else if( current_ch=='>'){ // >>
-            	text+= current_ch;
-            	next_char();
+            if (peek_char()=='>'){ // for >>
             	current_ch=next_char();
-
-            	if(current_ch=='='){ // >>=
-            		text+= current_ch;
-            		next_char();
-            	}
+            	text+=current_ch;
+            	if(peek_char()=='='){  // for >>=
+            		 current_ch=next_char();
+            		 text+=current_ch;
+            		 next_char();
+            	 }
             }
-
+            else{ //Takes care of single >
+            	current_ch=next_char();
+            }
             break;
         }
 

@@ -68,7 +68,6 @@ void CPPToken::initialize()
         CPPTokenType::DO,
         CPPTokenType::IF,
 		CPPTokenType::STATIC,
-		CPPTokenType::WHILE,
 		//END CPP additions NOTE: NEED TO FIX THEM TO BE IN ORDER
 
 

@@ -59,6 +59,12 @@ void CPPParserTD::parse() throw (string)
                 value_str = cast(value, string);
                 break;
             }
+            case PT_CHAR:
+			{
+				type_str = "CHARACTER";
+				value_str = cast(value, string);
+				break;
+			}
 
             case PT_IDENTIFIER:
             {

@@ -25,44 +25,36 @@ CPPCharacterToken::CPPCharacterToken(Source *source) throw (string)
 
 void CPPCharacterToken::extract() throw (string)
 {
-    string value_str = "";
-
+    string value_ch = "";
+    int count=0;
     char current_ch = next_char();  // consume initial quote
     text += "'";
 
-    // Get Character characters.
-    do
-    {
-        // Replace any whitespace character with a blank.
-        if (isspace(current_ch)) current_ch = ' ';
+    while ((current_ch != '\'') && (current_ch != Source::END_OF_FILE)){
+    	if (current_ch=='\\'){
+    		value_ch = current_ch;
+    		text+=current_ch;
+    		current_ch=next_char(); //Eat backslash
+    		if (peek_char()=='\''){
+    			value_ch = current_ch;
+    			text+=current_ch;
+    			current_ch=next_char();
+    		}
 
-        if ((current_ch != '\'') && (current_ch != EOF))
-        {
-            text += current_ch;
-            value_str  += current_ch;
-            current_ch = next_char();  // consume character
-        }
-
-        // Quote?  Each pair of adjacent quotes represents a single-quote.
-        if (current_ch == '\'')
-        {
-            while ((current_ch == '\'') && (peek_char() == '\''))
-            {
-                text += "''";
-                value_str  += current_ch;  // append single-quote
-                current_ch = next_char();  // consume pair of quotes
-                current_ch = next_char();
-            }
-        }
-    } while ((current_ch != '\'') && (current_ch != Source::END_OF_FILE));
-
-    if (current_ch == '\'')
-    {
-        next_char();  // consume final quote
-        text += '\'';
-        type = (TokenType) PT_CHAR;
-        value = value_str;
+    	}
+    	else{
+    		value_ch = current_ch;
+			text+=current_ch;
+			current_ch = next_char();
+    	}
     }
+	if (current_ch == '\'')
+	{
+		current_ch=next_char();  // consume final quote
+		text += '\'';
+		type = (TokenType) PT_CHAR;
+		value = value_ch;
+	}
     else
     {
         type = (TokenType) PT_ERROR;

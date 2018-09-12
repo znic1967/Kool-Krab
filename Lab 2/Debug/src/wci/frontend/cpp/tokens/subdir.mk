@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/wci/frontend/cpp/tokens/CPPCharacterToken.cpp \
 ../src/wci/frontend/cpp/tokens/CPPErrorToken.cpp \
 ../src/wci/frontend/cpp/tokens/CPPNumberToken.cpp \
 ../src/wci/frontend/cpp/tokens/CPPSpecialSymbolToken.cpp \
@@ -11,6 +12,7 @@ CPP_SRCS += \
 ../src/wci/frontend/cpp/tokens/CPPWordToken.cpp 
 
 OBJS += \
+./src/wci/frontend/cpp/tokens/CPPCharacterToken.o \
 ./src/wci/frontend/cpp/tokens/CPPErrorToken.o \
 ./src/wci/frontend/cpp/tokens/CPPNumberToken.o \
 ./src/wci/frontend/cpp/tokens/CPPSpecialSymbolToken.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./src/wci/frontend/cpp/tokens/CPPWordToken.o 
 
 CPP_DEPS += \
+./src/wci/frontend/cpp/tokens/CPPCharacterToken.d \
 ./src/wci/frontend/cpp/tokens/CPPErrorToken.d \
 ./src/wci/frontend/cpp/tokens/CPPNumberToken.d \
 ./src/wci/frontend/cpp/tokens/CPPSpecialSymbolToken.d \

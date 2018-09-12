@@ -351,6 +351,7 @@ src/wci/frontend/cpp/CPPScanner.o: ../src/wci/frontend/cpp/CPPScanner.cpp \
  ../src/wci/frontend/cpp/tokens/../CPPToken.h \
  ../src/wci/frontend/cpp/tokens/CPPNumberToken.h \
  ../src/wci/frontend/cpp/tokens/CPPStringToken.h \
+ ../src/wci/frontend/cpp/tokens/CPPCharacterToken.h \
  ../src/wci/frontend/cpp/tokens/CPPSpecialSymbolToken.h \
  ../src/wci/frontend/cpp/tokens/CPPErrorToken.h \
  ../src/wci/frontend/cpp/tokens/../CPPError.h
@@ -1064,6 +1065,8 @@ D:\Code\CMPE\ 152\ Source\ Files\boost_headers/boost/algorithm/string/detail/uti
 ../src/wci/frontend/cpp/tokens/CPPNumberToken.h:
 
 ../src/wci/frontend/cpp/tokens/CPPStringToken.h:
+
+../src/wci/frontend/cpp/tokens/CPPCharacterToken.h:
 
 ../src/wci/frontend/cpp/tokens/CPPSpecialSymbolToken.h:
 

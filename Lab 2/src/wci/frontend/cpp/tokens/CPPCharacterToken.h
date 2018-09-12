@@ -39,4 +39,4 @@ protected:
 
 }}}}  // namespace wci::frontend::CPP::tokens
 
-#endif /* WCI_FRONTEND_CPP_TOKENS_CPPCharacterTOKEN_H_ */
+#endif /* WCI_FRONTEND_CPP_TOKENS_CPPCHARACTERTOKEN_H_ */

@@ -25,6 +25,7 @@ SRCS =  Pascal.cpp \
         wci/frontend/pascal/tokens/PascalNumberToken.cpp \
         wci/frontend/pascal/tokens/PascalSpecialSymbolToken.cpp \
         wci/frontend/pascal/tokens/PascalStringToken.cpp \
+        wci/frontend/pascal/tokens/PascalCharacterToken.cpp \
         wci/frontend/pascal/tokens/PascalWordToken.cpp \
         wci/message/Message.cpp \
         wci/message/MessageHandler.cpp

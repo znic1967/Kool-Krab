@@ -118,7 +118,7 @@ void CPPToken::initialize()
         "~","!","@","%","^","&","*","-","+","=","|","/",":",";","?",
 		"<",">",".",",","\'","\"","++","--","<<",">>","<=",">=","+=",
 		"-=","*=","/=","==","|=","%=","&=","^=","!=","<<=",">>=",
-		"||","&&","//","/*","*/","(",")","[", "]", "{", "}",
+		"||","&&","//","/*","*/","(",")","[", "]", "{", "}", "\n", "\t",
     };
 
     vector<CPPTokenType> ss_keys =
@@ -175,6 +175,8 @@ void CPPToken::initialize()
 		CPPTokenType::RIGHT_BRACKET,
 		CPPTokenType::LEFT_BRACE,
 		CPPTokenType::RIGHT_BRACE,
+		CPPTokenType::NEW_LINE,
+		CPPTokenType::TAB_SPACE
 		//ALL NECESSARY ASSIGNMENT SPECIAL SYMBOLS
 
 
@@ -221,7 +223,8 @@ void CPPToken::initialize()
 		 "COLON", "SEMICOLON", "QUESTION_MARK", "LESS_THAN", "GREATER_THAN", "DOT", "COMMA", "BACKSLASH", "BACKSLASH_APOSTROPHE", "PLUSPLUS", "MINUSMINUS",
 		 "SHIFT_LEFT", "SHIFT_RIGHT", "LESS_EQ", "GREATER_EQ", "PLUS_EQ", "MINUS_EQ", "TIMES_EQ",
 		 "DIV_EQ", "EQ_EQ", "OR_EQ", "MOD_EQ", "AND_EQ", "CARAT_EQ", "NOT_EQ", "SHIFT_LEFT_EQ", "SHIFT_RIGHT_EQ",
-		 "OR_OR","AND_AND","SLASH_SLASH","COMMENT_OPEN_AST","COMMENT_CLOSED_AST","LEFT_PAREN", "RIGHT_PAREN","LEFT_BRACKET","RIGHT_BRACKET","LEFT_BRACE","RIGHT_BRACE",
+		 "OR_OR","AND_AND","SLASH_SLASH","COMMENT_OPEN_AST","COMMENT_CLOSED_AST","LEFT_PAREN", "RIGHT_PAREN","LEFT_BRACKET","RIGHT_BRACKET","LEFT_BRACE","RIGHT_BRACE", "NEW_LINE",
+		 "TAB_SPACE"
 
     };
 

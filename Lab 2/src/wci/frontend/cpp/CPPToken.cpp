@@ -28,10 +28,10 @@ void CPPToken::initialize()
 
     vector<string> rw_strings =
     {
-        "auto","double","int","struct","break","else","long","switch", //ELSE INCKYDED
-		"case","enum","namespace","template","char","exterm","operator", //CASE INCLUDED
-		"this","class","float","package","throw","const","for","public", //Const, for included
-		"union","continue","goto","return","void","do","if","static","while" //goto, do, if, while, included
+        "AUTO","DOUBLE","INT","STRUCT","BREAK","ELSE","LONG","SWITCH", //ELSE INCKYDED
+		"CASE","ENUM","NAMESPACE","TEMPLATE","CHAR","EXTERM","OPERATOR", //CASE INCLUDED
+		"THIS","CLASS","FLOAT","PACKAGE","THROW","CONST","FOR","PUBLIC", //Const, for included
+		"UNION","CONTINUE","GOTO","RETURN","VOID","DO","IF","STATIC","WHILE" //goto, do, if, while, included
     };
 
     vector<CPPTokenType> rw_keys =
@@ -42,8 +42,10 @@ void CPPToken::initialize()
 		CPPTokenType:: INTEGER,
 		CPPTokenType:: STRUCT,
 		CPPTokenType::BREAK,
+		CPPTokenType::ELSE,
 		CPPTokenType::LONG,
 		CPPTokenType::SWITCH,
+		CPPTokenType::CASE,
 		CPPTokenType::ENUM,
 		CPPTokenType::NAMESPACE,
 		CPPTokenType::TEMPLATE,
@@ -55,34 +57,37 @@ void CPPToken::initialize()
 		CPPTokenType::FLOAT,
 		CPPTokenType::PACKAGE,
 		CPPTokenType::THROW,
+		CPPTokenType::CONST,
+		CPPTokenType::FOR,
 		CPPTokenType::PUBLIC,
 		CPPTokenType::UNION,
 		CPPTokenType::CONTINUE,
+		CPPTokenType::GOTO,
 		CPPTokenType::RETURN,
 		CPPTokenType::VOID,
+        CPPTokenType::DO,
+        CPPTokenType::IF,
 		CPPTokenType::STATIC,
+		CPPTokenType::WHILE,
 		//END CPP additions NOTE: NEED TO FIX THEM TO BE IN ORDER
 
 
 
 
-
+/*
         CPPTokenType::AND,
         CPPTokenType::ARRAY,
         CPPTokenType::BEGIN,
-        CPPTokenType::CASE,
-        CPPTokenType::CONST,
+
+
         CPPTokenType::DIV,
-        CPPTokenType::DO,
         CPPTokenType::DOWNTO,
 
-        CPPTokenType::ELSE,
+
         CPPTokenType::END,
         CPPTokenType::FILE,
-        CPPTokenType::FOR,
         CPPTokenType::FUNCTION,
-        CPPTokenType::GOTO,
-        CPPTokenType::IF,
+
         CPPTokenType::IN,
 
         CPPTokenType::LABEL,
@@ -106,6 +111,7 @@ void CPPToken::initialize()
         CPPTokenType::VAR,
         CPPTokenType::WHILE,
         CPPTokenType::WITH
+        */
     };
 
     for (int i = 0; i < rw_strings.size(); i++)

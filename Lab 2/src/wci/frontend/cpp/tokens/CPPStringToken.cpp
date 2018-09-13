@@ -36,47 +36,36 @@ void CPPStringToken::extract() throw (string)
         // Replace any whitespace character with a blank.
         if (isspace(current_ch)) current_ch = ' ';
 
-        if (current_ch=='\\'){
-
-        	//current_ch=next_char();
-        	//cout<<"Here"<<endl;
+        while (current_ch=='\\'){
         	if (peek_char()=='\"'){ //Checks if valid escape char
-        		//cout<<"Here"<<endl;
+        		text += current_ch;
         		current_ch=next_char();
         		text += current_ch;
-        		value_str += '\"';
+        		value_str += "\"";
         		current_ch = next_char();
-        		//next_char();
         	}
-        	if (peek_char()=='\"'){ //Checks if valid escape char
-				//cout<<"Here"<<endl;
+        	if (peek_char()=='n'){ //Checks if valid escape char
+        		text+=current_ch;
 				current_ch=next_char();
 				text += current_ch;
-				value_str += '\n';
+				value_str += "\n";
 				current_ch = next_char();
-				//next_char();
+				cout<<"current: "<<current_ch<<endl;
 			}
         	if (peek_char()=='t'){ //Checks if valid escape char
-				//cout<<"Here"<<endl;
 				text+=current_ch;
 				current_ch=next_char();
 				text += current_ch;
 				value_str += "\t";
 				current_ch = next_char();
-				//next_char();
 			}
-        	else{
-        		value_str += current_ch;
-        		text+=current_ch;
-        		current_ch=next_char(); //Eat slash anyway if it isnt an escape char
-        	}
         }
-        else{
-            text += current_ch;
-            value_str  += current_ch;
-            current_ch = next_char();  // consume character
-        }
-
+        if ((current_ch != '\"') && (current_ch != EOF))
+		{
+			text += current_ch;
+			value_str  += current_ch;
+			current_ch = next_char();  // consume character
+		}
     } while ((current_ch != '\"') && (current_ch != Source::END_OF_FILE));
 
     if (current_ch == '\"')

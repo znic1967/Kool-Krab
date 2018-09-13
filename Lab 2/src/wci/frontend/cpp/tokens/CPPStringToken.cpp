@@ -39,13 +39,33 @@ void CPPStringToken::extract() throw (string)
         if (current_ch=='\\'){
         	value_str += current_ch;
         	text+=current_ch;
-        	current_ch=next_char();
-
-        	if (peek_char()==('n'||'t'||'\"'||'\\')){ //Checks if valid escape char
+        	//cout<<"Here"<<endl;
+        	if (peek_char()=='\"'){ //Checks if valid escape char
+        		//cout<<"Here"<<endl;
+        		current_ch=next_char();
         		text += current_ch;
-        		value_str += current_ch;
+        		value_str += '\"';
         		current_ch = next_char();
-        		next_char();
+        		//next_char();
+        	}
+        	if (peek_char()=='\"'){ //Checks if valid escape char
+				//cout<<"Here"<<endl;
+				current_ch=next_char();
+				text += current_ch;
+				value_str += '\n';
+				current_ch = next_char();
+				//next_char();
+			}
+        	if (peek_char()=='\t'){ //Checks if valid escape char
+				//cout<<"Here"<<endl;
+				current_ch=next_char();
+				text += current_ch;
+				value_str += "\t";
+				current_ch = next_char();
+				//next_char();
+			}
+        	else{
+        		current_ch=next_char();
         	}
         }
         else{

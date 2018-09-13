@@ -26,7 +26,7 @@ CPPCharacterToken::CPPCharacterToken(Source *source) throw (string)
 void CPPCharacterToken::extract() throw (string)
 {
     string value_ch = "";
-    int count=0;
+    int count=0; //Can be used later to check for strings enclosed in single quotes
     char current_ch = next_char();  // consume initial quote
     text += "'";
 

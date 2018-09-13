@@ -37,8 +37,8 @@ void CPPStringToken::extract() throw (string)
         if (isspace(current_ch)) current_ch = ' ';
 
         if (current_ch=='\\'){
-        	value_str += current_ch;
-        	text+=current_ch;
+
+        	//current_ch=next_char();
         	//cout<<"Here"<<endl;
         	if (peek_char()=='\"'){ //Checks if valid escape char
         		//cout<<"Here"<<endl;
@@ -56,8 +56,9 @@ void CPPStringToken::extract() throw (string)
 				current_ch = next_char();
 				//next_char();
 			}
-        	if (peek_char()=='\t'){ //Checks if valid escape char
+        	if (peek_char()=='t'){ //Checks if valid escape char
 				//cout<<"Here"<<endl;
+				text+=current_ch;
 				current_ch=next_char();
 				text += current_ch;
 				value_str += "\t";
@@ -65,7 +66,9 @@ void CPPStringToken::extract() throw (string)
 				//next_char();
 			}
         	else{
-        		current_ch=next_char();
+        		value_str += current_ch;
+        		text+=current_ch;
+        		current_ch=next_char(); //Eat slash anyway if it isnt an escape char
         	}
         }
         else{

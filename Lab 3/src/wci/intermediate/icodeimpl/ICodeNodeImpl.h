@@ -62,12 +62,9 @@ constexpr ICodeNodeTypeImpl NT_CALL = ICodeNodeTypeImpl::CALL;
 constexpr ICodeNodeTypeImpl NT_PARAMETERS = ICodeNodeTypeImpl::PARAMETERS;
 constexpr ICodeNodeTypeImpl NT_IF = ICodeNodeTypeImpl::IF;
 constexpr ICodeNodeTypeImpl NT_SELECT = ICodeNodeTypeImpl::SELECT;
-constexpr ICodeNodeTypeImpl NT_SELECT_BRANCH =
-                                        ICodeNodeTypeImpl::SELECT_BRANCH;
-constexpr ICodeNodeTypeImpl NT_SELECT_CONSTANTS =
-                                     ICodeNodeTypeImpl::SELECT_CONSTANTS;
+constexpr ICodeNodeTypeImpl NT_SELECT_BRANCH = ICodeNodeTypeImpl::SELECT_BRANCH;
+constexpr ICodeNodeTypeImpl NT_SELECT_CONSTANTS = ICodeNodeTypeImpl::SELECT_CONSTANTS;
 constexpr ICodeNodeTypeImpl NT_NO_OP = ICodeNodeTypeImpl::NO_OP;
-constexpr ICodeNodeTypeImpl NT_WHEN = ICodeNodeTypeImpl::WHEN;
 
 constexpr ICodeNodeTypeImpl NT_EQ = ICodeNodeTypeImpl::EQ;
 constexpr ICodeNodeTypeImpl NT_NE = ICodeNodeTypeImpl::NE;

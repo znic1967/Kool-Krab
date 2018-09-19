@@ -51,7 +51,7 @@ all: Lab\ 2.exe
 # Tool invocations
 Lab\ 2.exe: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
-	@echo 'Invoking: Cygwin C++ Linker'
+	@echo 'Invoking: MacOS X C++ Linker'
 	g++  -o "Lab 2.exe" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '

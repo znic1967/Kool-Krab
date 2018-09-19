@@ -30,6 +30,8 @@ enum class PascalTokenType
     FILE, FOR, FUNCTION, GOTO, IF, IN, LABEL, MOD, NIL, NOT,
     OF, OR, PACKED, PROCEDURE, PROGRAM, RECORD, REPEAT, SET,
     THEN, TO, TYPE, UNTIL, VAR, WHILE, WITH,
+	WHEN, OTHERWISE, ARROW_RIGHT,
+	//Leo Add^
 
     // Special symbols.
     PLUS, MINUS, STAR, SLASH, COLON_EQUALS,
@@ -42,6 +44,11 @@ enum class PascalTokenType
     IDENTIFIER, INTEGER, REAL, STRING,
     ERROR, END_OF_FILE,
 };
+
+constexpr PascalTokenType PT_WHEN = PascalTokenType::WHEN;
+constexpr PascalTokenType PT_OTHERWISE = PascalTokenType::OTHERWISE;
+constexpr PascalTokenType PT_ARROW_RIGHT = PascalTokenType::ARROW_RIGHT;
+
 
 constexpr PascalTokenType PT_AND = PascalTokenType::AND;
 constexpr PascalTokenType PT_ARRAY = PascalTokenType::ARRAY;

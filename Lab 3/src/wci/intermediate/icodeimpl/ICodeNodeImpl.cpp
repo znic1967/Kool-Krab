@@ -78,6 +78,8 @@ void ICodeNodeImpl::initialize()
 
         // WRITE parameter
         NT_WRITE_PARM,
+		NT_WHEN,
+		NT_OTHERWISE
     };
 
     vector<string> type_names =
@@ -105,6 +107,8 @@ void ICodeNodeImpl::initialize()
 
         // WRITE parameter
         "WRITE_PARM",
+
+		//WHEN parameter and OTHERWISE parameter
     };
 
     for (int i = 0; i < types.size(); i++)

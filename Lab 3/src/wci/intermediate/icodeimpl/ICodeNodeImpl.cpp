@@ -78,6 +78,8 @@ void ICodeNodeImpl::initialize()
 
         // WRITE parameter
         NT_WRITE_PARM,
+
+		//Added this commiting to check an error
 		NT_WHEN,
 		NT_OTHERWISE
     };

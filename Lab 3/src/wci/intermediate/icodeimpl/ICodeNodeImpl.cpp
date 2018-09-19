@@ -111,6 +111,7 @@ void ICodeNodeImpl::initialize()
         "WRITE_PARM",
 
 		//WHEN parameter and OTHERWISE parameter
+		"WHEN","OTHERWISE",
     };
 
     for (int i = 0; i < types.size(); i++)

@@ -56,42 +56,34 @@ WhenStatementParser::WhenStatementParser(PascalParserTD *parent)
 
 ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
 {
-    token = next_token(token);  // consume the WHILE
+	token = next_token(token);  // consume the WHEN
 
-    // Create LOOP, TEST, and NOT nodes.
-    ICodeNode *loop_node =
-            ICodeFactory::create_icode_node((ICodeNodeType) NT_LOOP);
-    ICodeNode *test_node =
-            ICodeFactory::create_icode_node((ICodeNodeType) NT_TEST);
-    ICodeNode *not_node =
-            ICodeFactory::create_icode_node((ICodeNodeType) NT_NOT);
+	    // Create an IF node.
+	    ICodeNode *when_node =
+	            ICodeFactory::create_icode_node((ICodeNodeType) NT_WHEN);
 
-    // The LOOP node adopts the TEST node as its first child.
-    // The TEST node adopts the NOT node as its only child.
-    loop_node->add_child(test_node);
-    test_node->add_child(not_node);
 
-    // Parse the expression.
-    // The NOT node adopts the expression subtree as its only child.
-    ExpressionParser expression_parser(this);
-    not_node->add_child(expression_parser.parse_statement(token));
+	    // Parse the expression.
+	    // The WHEN node adopts the expression subtree as its first child.
+	    ExpressionParser expression_parser(this);
+	    when_node->add_child(expression_parser.parse_statement(token));
 
-    // Synchronize at the DO.
-    token = synchronize(DO_SET);
-    if (token->get_type() == (TokenType) PT_DO)
-    {
-        token = next_token(token);  // consume the DO
-    }
-    else {
-        error_handler.flag(token, MISSING_DO, this);
-    }
+	    // The WHEN node adopts the statement subtree as its second child.
+	    StatementParser statement_parser(this);
+	    when_node->add_child(statement_parser.parse_statement(token));
+	    token = current_token();
 
-    // Parse the statement.
-    // The LOOP node adopts the statement subtree as its second child.
-    StatementParser statement_parser(this);
-    loop_node->add_child(statement_parser.parse_statement(token));
+	    // Look for an OTHERWISE
+	    if (token->get_type() == (TokenType) PT_OTHERWISE)
+	    {
+	        token = next_token(token);  // consume the OTHERWISE
 
-    return loop_node;
+	        // Parse the OTHERWISE statement.
+	        // The WHEN node adopts the statement subtree as its third child.
+	        when_node->add_child(statement_parser.parse_statement(token));
+	    }
+
+	    return when_node;
 }
 
 }}}}  // namespace wci::frontend::pascal::parsers

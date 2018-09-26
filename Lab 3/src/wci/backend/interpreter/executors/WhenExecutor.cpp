@@ -29,19 +29,38 @@ WhenExecutor::WhenExecutor(Executor *parent)
 
 Object WhenExecutor::execute(ICodeNode *node)
 {
-    // Get the IF node's children.
-    vector<ICodeNode *> children = node->get_children();
-    ICodeNode *expr_node = children[0];
-    ICodeNode *otherwise_stmt_node = children[1];
+	bool exit_loop = false;
+	vector<ICodeNode *> when_children = node->get_children();
+	ICodeNode *expr_node = nullptr;
 
-    ExpressionExecutor expression_executor(this);
-    StatementExecutor statement_executor(this);
+	ExpressionExecutor expression_executor(this);
+	StatementExecutor statement_executor(this);
 
-    expression_executor.execute(expr_node);
-    statement_executor.execute(otherwise_stmt_node);
+    while (!exit_loop)
+    {
+    	for (ICodeNode *child : when_children) {
+    		ICodeNodeTypeImpl child_type = (ICodeNodeTypeImpl) child->get_type();
 
-    ++execution_count;  // count the WHEN statement itself
-    return Object();    // empty
+			// Check statements
+			if (child_type == NT_EQ)
+			{
+				expr_node = child->get_children()[0];
+				Object data_value = expression_executor.execute(expr_node);
+				if (cast(data_value, bool)){
+					statement_executor.execute(child);
+					exit_loop = cast(data_value, bool);
+				}
+			}
+
+			// Otherwise node.
+			else
+			{
+				statement_executor.execute(child);
+			}
+			// Exit if the TEST expression value is true,
+			if (exit_loop) break;
+		}
+    }
 }
 
 }}}}  // namespace wci::backend::interpreter::executors

@@ -40,7 +40,6 @@ Object WhenExecutor::execute(ICodeNode *node)
     {
     	for (ICodeNode *child : when_children) {
     		ICodeNodeTypeImpl child_type = (ICodeNodeTypeImpl) child->get_type();
-
 			// Check statements
 			if (child_type == NT_EQ)
 			{

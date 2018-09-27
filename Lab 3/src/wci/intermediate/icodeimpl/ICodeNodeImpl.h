@@ -44,11 +44,11 @@ enum class ICodeNodeTypeImpl
     WRITE_PARM,
 
 	//WHEN AND OTHERWISE operator
-	WHEN, OTHERWISE,
+	WHEN, OTHERWISE, EXPRESSION
 };
 constexpr ICodeNodeTypeImpl NT_WHEN = ICodeNodeTypeImpl::WHEN;
 constexpr ICodeNodeTypeImpl NT_OTHERWISE = ICodeNodeTypeImpl::OTHERWISE;
-
+constexpr ICodeNodeTypeImpl NT_EXPRESSION = ICodeNodeTypeImpl::EXPRESSION;
 
 constexpr ICodeNodeTypeImpl NT_PROGRAM = ICodeNodeTypeImpl::PROGRAM;
 constexpr ICodeNodeTypeImpl NT_PROCEDURE = ICodeNodeTypeImpl::PROCEDURE;

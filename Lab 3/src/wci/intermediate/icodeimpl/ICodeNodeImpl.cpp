@@ -81,7 +81,8 @@ void ICodeNodeImpl::initialize()
 
 		//Added this commiting to check an error
 		NT_WHEN,
-		NT_OTHERWISE
+		NT_OTHERWISE,
+		NT_EXPRESSION
     };
 
     vector<string> type_names =
@@ -111,7 +112,7 @@ void ICodeNodeImpl::initialize()
         "WRITE_PARM",
 
 		//WHEN parameter and OTHERWISE parameter
-		"WHEN","OTHERWISE",
+		"WHEN","OTHERWISE","EXPRESSION"
     };
 
     for (int i = 0; i < types.size(); i++)

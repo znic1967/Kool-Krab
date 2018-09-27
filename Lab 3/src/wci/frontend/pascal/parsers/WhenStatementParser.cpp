@@ -66,7 +66,7 @@ ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
 
     // Create a SELECT node.
     ICodeNode *select_node =
-            ICodeFactory::create_icode_node((ICodeNodeType) NT_SELECT);
+            ICodeFactory::create_icode_node((ICodeNodeType) NT_WHEN);
 
     // Parse the CASE expression.
     // The SELECT node adopts the expression subtree as its first child.
@@ -136,6 +136,10 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
     ICodeNode *branch_node =
             ICodeFactory::create_icode_node(
                                        (ICodeNodeType) NT_SELECT_BRANCH);
+    ICodeNode *expression_node =
+               ICodeFactory::create_icode_node(
+                                       (ICodeNodeType) NT_EXPRESSION);
+    branch_node->add_child(expression_node);
     ExpressionParser expression_parser(this);
     if (token->get_type() == (TokenType) PT_OTHERWISE)
 	 {
@@ -143,7 +147,7 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
 	 }
 	 else
 	 {
-		 branch_node->add_child(expression_parser.parse_statement(token));
+		 expression_node->add_child(expression_parser.parse_statement(token));
 	   //error_handler.flag(token, MISSING_OTHERWISE, this);
 	 }
 

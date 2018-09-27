@@ -139,10 +139,14 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
     ICodeNode *expression_node =
                ICodeFactory::create_icode_node(
                                        (ICodeNodeType) NT_EXPRESSION);
+    ICodeNode *otherwise_node =
+                   ICodeFactory::create_icode_node(
+                                           (ICodeNodeType) NT_OTHERWISE);
     branch_node->add_child(expression_node);
     ExpressionParser expression_parser(this);
     if (token->get_type() == (TokenType) PT_OTHERWISE)
 	 {
+    	//branch_node->add_child(expression_node);
 	   token = next_token(token);  // consume OTHERWISE
 	 }
 	 else

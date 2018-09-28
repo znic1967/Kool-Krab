@@ -42,11 +42,10 @@ public:
 private:
     // Synchronization set for DO.
     static set<PascalTokenType> OTHERWISE_SET;
-    static set<PascalTokenType> DO_SET;
     static set<PascalTokenType> ARROW_RIGHT_SET;
 
     static bool INITIALIZED;
-
+    static bool OTHERWISE;
     /**
      * Initialize the synchronization set.
      */

@@ -27,30 +27,28 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::icodeimpl;
 
 bool WhenStatementParser::INITIALIZED = false;
+bool WhenStatementParser::OTHERWISE = false;
 
-set<PascalTokenType> WhenStatementParser::DO_SET;
 set<PascalTokenType> WhenStatementParser::OTHERWISE_SET;
 set<PascalTokenType> WhenStatementParser::ARROW_RIGHT_SET;
 void WhenStatementParser::initialize()
 {
     if (INITIALIZED) return;
 
-    DO_SET = StatementParser::STMT_START_SET;
-    DO_SET.insert(PascalTokenType::DO);
-
     OTHERWISE_SET = StatementParser::STMT_START_SET;
     OTHERWISE_SET.insert(PascalTokenType::OTHERWISE);
 
     ARROW_RIGHT_SET = StatementParser::STMT_START_SET;
     ARROW_RIGHT_SET.insert(PascalTokenType::ARROW_RIGHT);
-    set<PascalTokenType>::iterator it;
-    for (it  = StatementParser::STMT_FOLLOW_SET.begin();
-         it != StatementParser::STMT_FOLLOW_SET.end();
-         it++)
-    {
-        DO_SET.insert(*it);
-    }
 
+    set<PascalTokenType>::iterator it; //Inserts everything in follow set into arrow and otherwise
+        for (it  = StatementParser::STMT_FOLLOW_SET.begin();
+             it != StatementParser::STMT_FOLLOW_SET.end();
+             it++)
+        {
+            ARROW_RIGHT_SET.insert(*it);
+            OTHERWISE_SET.insert(*it);
+        }
     INITIALIZED = true;
 }
 
@@ -84,17 +82,6 @@ ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
            (token->get_type() != (TokenType) PT_END) /*&&
 		   (token->get_type() != (TokenType) PT_OTHERWISE)*/)
     {
-//		select_node->add_child(expression_parser.parse_statement(token));
-//
-//		token = synchronize(ARROW_RIGHT_SET);
-//		if (token->get_type() == (TokenType) PT_ARROW_RIGHT)
-//		{
-//			token = next_token(token);  // consume the RIGHT ARROW
-//		}
-//		else {
-//			error_handler.flag(token, MISSING_ARROW_RIGHT, this);
-//		}
-        // The SELECT node adopts the CASE branch subtree.
         select_node->add_child(parse_branch(token, constant_set));
 
         token = current_token();
@@ -106,18 +93,14 @@ ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
             token = next_token(token);  // consume the ;
         }
 
-        //Need to find a way to check for missing ;
-//        // If at the start of the next constant, then missing a semicolon.
-//        else if (CONSTANT_START_SET.find((PascalTokenType) token_type)
-//                      != CONSTANT_START_SET.end())
-//        {
-//            error_handler.flag(token, MISSING_SEMICOLON, this);
-//        }
-
     }
+
     // Look for the END token.
     if (token->get_type() == (TokenType) PT_END)
     {
+    	if (!OTHERWISE){
+    		error_handler.flag(token, MISSING_OTHERWISE, this);
+    	}
         token = next_token(token);  // consume END
     }
     else
@@ -130,6 +113,7 @@ ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
 
 ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_set) throw (string)
 {
+	bool otherwise = false;
     // Create an SELECT_BRANCH node and a SELECT_CONSTANTS node.
     // The SELECT_BRANCH node adopts the SELECT_CONSTANTS node as its
     // first child.
@@ -144,19 +128,25 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
                                            (ICodeNodeType) NT_OTHERWISE);
     branch_node->add_child(expression_node);
     ExpressionParser expression_parser(this);
-    if (token->get_type() == (TokenType) PT_OTHERWISE)
+
+
+	//token = synchronize(OTHERWISE_SET);
+	token = current_token();
+
+    if (token->get_type() == (TokenType) PT_OTHERWISE) //If otherwise set then no expression so goto statement
 	 {
     	//branch_node->add_child(expression_node);
 	   token = next_token(token);  // consume OTHERWISE
+	   OTHERWISE=true;
 	 }
 	 else
 	 {
+		 //If not otherwise node execute expression.
 		 expression_node->add_child(expression_parser.parse_statement(token));
-	   //error_handler.flag(token, MISSING_OTHERWISE, this);
 	 }
 
-
     // Look for the => token.
+    token = synchronize(ARROW_RIGHT_SET);
     token = current_token();
     if (token->get_type() == (TokenType) PT_ARROW_RIGHT)
     {
@@ -171,7 +161,6 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
     // the statement subtree as its second child.
     StatementParser statementParser(this);
     branch_node->add_child(statementParser.parse_statement(token));
-
     return branch_node;
 }
 }}}}  // namespace wci::frontend::pascal::parsers

@@ -16,6 +16,10 @@
 #include "../typeimpl/TypeSpecImpl.h"
 #include "../../Object.h"
 
+//Added
+#include "../SymTabEntry.h"
+#include "../SymTabFactory.h"
+
 namespace wci { namespace intermediate { namespace symtabimpl {
 
 using namespace std;
@@ -30,6 +34,8 @@ TypeSpec *Predefined::boolean_type;
 TypeSpec *Predefined::char_type;
 TypeSpec *Predefined::undefined_type;
 TypeSpec *Predefined::complex_type;
+TypeSpec *Predefined::re_type;
+TypeSpec *Predefined::im_type;
 
 // Predefined identifiers.
 SymTabEntry *Predefined::integer_id;
@@ -39,6 +45,8 @@ SymTabEntry *Predefined::char_id;
 SymTabEntry *Predefined::false_id;
 SymTabEntry *Predefined::true_id;
 SymTabEntry *Predefined::complex_id;
+SymTabEntry *Predefined::re_id;
+SymTabEntry *Predefined::im_id;
 
 void Predefined::initialize(SymTabStack *symtab_stack)
 {
@@ -66,12 +74,41 @@ void Predefined::initialize_types(SymTabStack *symtab_stack)
     real_id->set_definition((Definition) DF_TYPE);
     real_id->set_typespec(real_type);
 
-    // Type complex.
-    complex_id = symtab_stack->enter_local("complex");
-    complex_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
-    complex_type->set_identifier(complex_id);
-    complex_id->set_definition((Definition) DF_TYPE);
-    complex_id->set_typespec(complex_type);
+    // Undefined type.
+       undefined_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
+
+    //Type re and im
+    re_id = symtab_stack->enter_local("re");
+    re_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
+	re_type->set_identifier(re_id);
+	re_id->set_definition((Definition) DF_FIELD);
+	re_id->set_typespec(re_type);
+
+	im_id = symtab_stack->enter_local("im");
+	im_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
+	im_type->set_identifier(im_id);
+	im_id->set_definition((Definition) DF_FIELD);
+	im_id->set_typespec(im_type);
+	// Type complex.
+	complex_id = symtab_stack->enter_local("complex");
+	complex_type = TypeFactory::create_type((TypeForm) TF_RECORD);
+	complex_type->set_identifier(complex_id);
+	complex_id->set_definition((Definition) DF_TYPE);
+	complex_id->set_typespec(complex_type);
+
+    SymTab *csymtab = SymTabFactory::create_symtab(0);
+    complex_type->set_attribute((TypeKey) RECORD_SYMTAB, (csymtab));
+
+	//Complex field re and im added
+	SymTabEntry *im_id = csymtab->enter("im");
+	SymTabEntry *re_id = csymtab->enter("re");
+	im_id->set_typespec(real_type);
+	re_id->set_typespec(real_type);
+	im_id->set_definition((Definition) DF_FIELD);
+	re_id->set_definition((Definition) DF_FIELD);
+	//symtab_stack->pop();
+    //re and im id
+    //pop off symbol table
 
     // Type boolean.
     boolean_id = symtab_stack->enter_local("boolean");
@@ -87,8 +124,7 @@ void Predefined::initialize_types(SymTabStack *symtab_stack)
     char_id->set_definition((Definition) DF_TYPE);
     char_id->set_typespec(char_type);
 
-    // Undefined type.
-    undefined_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
+
 }
 
 void Predefined::initialize_constants(SymTabStack *symtab_stack)

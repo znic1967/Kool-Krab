@@ -41,12 +41,12 @@ Object WhenExecutor::execute(ICodeNode *node)
 	ExpressionExecutor expression_executor(this);
 	StatementExecutor statement_executor(this);
 
-	for (ICodeNode *child : when_children) {
+	for (ICodeNode *child : when_children) { //Parse each "select branch"
 		select_node=child;
 		expr_node=select_node->get_children()[0];
 		expr_children=expr_node->get_children();
 		statement_node=select_node->get_children()[1];
-		for (ICodeNode *child : expr_children) {
+		for (ICodeNode *child : expr_children) { //Parse every expression in node
 			Object data_value = expression_executor.execute(child);
 			if (cast(data_value, bool)){
 				exprs = true;
@@ -55,7 +55,7 @@ Object WhenExecutor::execute(ICodeNode *node)
 				exprs = false;
 			}
 		}
-		if (exprs){
+		if (exprs){ //If all expressions are true, execute corresponding statement.
 			 statement_executor.execute(statement_node);
 		}
 

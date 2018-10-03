@@ -40,10 +40,7 @@ public:
     ICodeNode *parse_branch(Token *token, set<int>& constant_set) throw (string);
 
 private:
-    // Synchronization set for DO.
-    static set<PascalTokenType> OTHERWISE_SET;
     static set<PascalTokenType> ARROW_RIGHT_SET;
-
     static bool INITIALIZED;
     static bool OTHERWISE;
     /**

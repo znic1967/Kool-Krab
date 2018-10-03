@@ -43,7 +43,7 @@ enum class ICodeNodeTypeImpl
     // WRITE parameter
     WRITE_PARM,
 
-	//WHEN AND OTHERWISE operator
+	//WHEN, OTHERWISE, and EXPRESSION operator
 	WHEN, OTHERWISE, EXPRESSION
 };
 constexpr ICodeNodeTypeImpl NT_WHEN = ICodeNodeTypeImpl::WHEN;

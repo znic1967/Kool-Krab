@@ -1,7 +1,7 @@
 /**
  * <h1>WhenStatementParser</h1>
  *
- * <p>Parse a Pascal WHILE statement.</p>
+ * <p>Parse a Pascal WHEN statement.</p>
  *
  * <p>Copyright (c) 2017 by Ronald Mak</p>
  * <p>For instructional purposes only.  No warranties.</p>
@@ -29,14 +29,11 @@ using namespace wci::intermediate::icodeimpl;
 bool WhenStatementParser::INITIALIZED = false;
 bool WhenStatementParser::OTHERWISE = false;
 
-set<PascalTokenType> WhenStatementParser::OTHERWISE_SET;
+
 set<PascalTokenType> WhenStatementParser::ARROW_RIGHT_SET;
 void WhenStatementParser::initialize()
 {
     if (INITIALIZED) return;
-
-    OTHERWISE_SET = StatementParser::STMT_START_SET;
-    OTHERWISE_SET.insert(PascalTokenType::OTHERWISE);
 
     ARROW_RIGHT_SET = StatementParser::STMT_START_SET;
     ARROW_RIGHT_SET.insert(PascalTokenType::ARROW_RIGHT);
@@ -47,7 +44,6 @@ void WhenStatementParser::initialize()
              it++)
         {
             ARROW_RIGHT_SET.insert(*it);
-            OTHERWISE_SET.insert(*it);
         }
     INITIALIZED = true;
 }
@@ -60,34 +56,22 @@ WhenStatementParser::WhenStatementParser(PascalParserTD *parent)
 
 ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
 {
-    token = next_token(token);  // consume the CASE
+    token = next_token(token);  // consume the WHEN
 
-    // Create a SELECT node.
+    // Create a WHEN node.
     ICodeNode *select_node =
             ICodeFactory::create_icode_node((ICodeNodeType) NT_WHEN);
-
-    // Parse the CASE expression.
-    // The SELECT node adopts the expression subtree as its first child.
-
-
-
-    // Set of CASE branch constants.
-    set<int> constant_set;
-
-    // Loop to parse each CASE branch until the END token
-    // or the end of the source file.
     ExpressionParser expression_parser(this);
 
-    while ((token != nullptr) &&
-           (token->get_type() != (TokenType) PT_END) /*&&
-		   (token->get_type() != (TokenType) PT_OTHERWISE)*/)
+    set<int> constant_set;
+    while ((token != nullptr) && (token->get_type() != (TokenType) PT_END))
     {
         select_node->add_child(parse_branch(token, constant_set));
 
         token = current_token();
         TokenType token_type = token->get_type();
 
-        // Look for the semicolon between CASE branches.
+        // Look for the semicolon between WHEN branches.
         if (token_type == (TokenType) PT_SEMICOLON)
         {
             token = next_token(token);  // consume the ;
@@ -113,10 +97,6 @@ ICodeNode *WhenStatementParser::parse_statement(Token *token) throw (string)
 
 ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_set) throw (string)
 {
-	bool otherwise = false;
-    // Create an SELECT_BRANCH node and a SELECT_CONSTANTS node.
-    // The SELECT_BRANCH node adopts the SELECT_CONSTANTS node as its
-    // first child.
     ICodeNode *branch_node =
             ICodeFactory::create_icode_node(
                                        (ICodeNodeType) NT_SELECT_BRANCH);
@@ -129,13 +109,10 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
     branch_node->add_child(expression_node);
     ExpressionParser expression_parser(this);
 
-
-	//token = synchronize(OTHERWISE_SET);
 	token = current_token();
-
-    if (token->get_type() == (TokenType) PT_OTHERWISE) //If otherwise set then no expression so goto statement
+    if (token->get_type() == (TokenType) PT_OTHERWISE)
+    //If otherwise set then no expression so goto statement
 	 {
-    	//branch_node->add_child(expression_node);
 	   token = next_token(token);  // consume OTHERWISE
 	   OTHERWISE=true;
 	 }
@@ -157,7 +134,7 @@ ICodeNode *WhenStatementParser::parse_branch(Token *token, set<int>& constant_se
         error_handler.flag(token, MISSING_ARROW_RIGHT, this);
     }
 
-    // Parse the CASE branch statement. The SELECT_BRANCH node adopts
+    // The SELECT_BRANCH node adopts
     // the statement subtree as its second child.
     StatementParser statementParser(this);
     branch_node->add_child(statementParser.parse_statement(token));

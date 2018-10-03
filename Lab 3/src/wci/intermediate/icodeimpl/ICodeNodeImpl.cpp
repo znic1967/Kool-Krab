@@ -111,7 +111,7 @@ void ICodeNodeImpl::initialize()
         // WRITE parameter
         "WRITE_PARM",
 
-		//WHEN parameter and OTHERWISE parameter
+		//WHEN, OTHERWISE, and EXPRESSION parameter
 		"WHEN","OTHERWISE","EXPRESSION"
     };
 

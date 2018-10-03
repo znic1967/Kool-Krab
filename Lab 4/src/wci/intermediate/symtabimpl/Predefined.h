@@ -28,7 +28,6 @@ public:
     static TypeSpec *boolean_type;
     static TypeSpec *char_type;
     static TypeSpec *undefined_type;
-
     static TypeSpec *complex_type;
 
     // Predefined identifiers.
@@ -38,7 +37,6 @@ public:
     static SymTabEntry *char_id;
     static SymTabEntry *false_id;
     static SymTabEntry *true_id;
-
     static SymTabEntry *complex_id;
 
     /**

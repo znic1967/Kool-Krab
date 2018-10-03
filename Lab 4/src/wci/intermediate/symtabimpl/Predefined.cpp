@@ -29,8 +29,6 @@ TypeSpec *Predefined::real_type;
 TypeSpec *Predefined::boolean_type;
 TypeSpec *Predefined::char_type;
 TypeSpec *Predefined::undefined_type;
-
-//Predefine Complex type
 TypeSpec *Predefined::complex_type;
 
 // Predefined identifiers.
@@ -40,10 +38,7 @@ SymTabEntry *Predefined::boolean_id;
 SymTabEntry *Predefined::char_id;
 SymTabEntry *Predefined::false_id;
 SymTabEntry *Predefined::true_id;
-
-//Predefine Complex
 SymTabEntry *Predefined::complex_id;
-
 
 void Predefined::initialize(SymTabStack *symtab_stack)
 {
@@ -64,20 +59,19 @@ void Predefined::initialize_types(SymTabStack *symtab_stack)
     integer_id->set_definition((Definition) DF_TYPE);
     integer_id->set_typespec(integer_type);
 
-    //Type Complex
-    complex_id = symtab_stack->enter_local("complex");
-    complex_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
-    complex_type->set_identifier(complex_id);
-    complex_id->set_definition((Definition) DF_TYPE);
-    complex_id->set_typespec(complex_type);
-
-
     // Type real.
     real_id = symtab_stack->enter_local("real");
     real_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
     real_type->set_identifier(real_id);
     real_id->set_definition((Definition) DF_TYPE);
     real_id->set_typespec(real_type);
+
+    // Type complex.
+    complex_id = symtab_stack->enter_local("complex");
+    complex_type = TypeFactory::create_type((TypeForm) TF_SCALAR);
+    complex_type->set_identifier(complex_id);
+    complex_id->set_definition((Definition) DF_TYPE);
+    complex_id->set_typespec(complex_type);
 
     // Type boolean.
     boolean_id = symtab_stack->enter_local("boolean");

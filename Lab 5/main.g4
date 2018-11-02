@@ -1,7 +1,7 @@
 grammar main;  // Kool Krab Grammar File
 
 program : header block '.' ;
-header  :  IDENTIFIER PROGRAM '('';' ;
+header  :  IDENTIFIER KRAB '('((variable IDENTIFIER) ','+)* ')'';' ;
 block   : declarations compound_stmt ;
 
 declarations : VAR decl_list ';' ;
@@ -24,7 +24,8 @@ stmt_list       : stmt ( ';' stmt )* ;
 assignment_stmt : variable ':=' expr ;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF expr THEN stmt ( ELSE stmt )? ;
-function		: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
+function_decl		: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
+function_call	: IDENTIFIER '('((variable IDENTIFIER) ','+)* ')'; 
 
 variable : IDENTIFIER ;
 
@@ -43,7 +44,7 @@ mul_div_op : MUL_OP | DIV_OP ;
 add_sub_op : ADD_OP | SUB_OP ;
 rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
-PROGRAM : 'Krab' ;
+KRAB 	: 'Krab' ;
 BEGIN   : 'BEGIN' ;
 END     : 'END' ;
 VAR     : 'VAR' ;

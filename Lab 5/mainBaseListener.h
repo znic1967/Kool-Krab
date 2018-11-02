@@ -25,27 +25,6 @@ public:
   virtual void enterBlock(mainParser::BlockContext * /*ctx*/) override { }
   virtual void exitBlock(mainParser::BlockContext * /*ctx*/) override { }
 
-  virtual void enterDeclarations(mainParser::DeclarationsContext * /*ctx*/) override { }
-  virtual void exitDeclarations(mainParser::DeclarationsContext * /*ctx*/) override { }
-
-  virtual void enterDecl_list(mainParser::Decl_listContext * /*ctx*/) override { }
-  virtual void exitDecl_list(mainParser::Decl_listContext * /*ctx*/) override { }
-
-  virtual void enterDecl(mainParser::DeclContext * /*ctx*/) override { }
-  virtual void exitDecl(mainParser::DeclContext * /*ctx*/) override { }
-
-  virtual void enterVar_list(mainParser::Var_listContext * /*ctx*/) override { }
-  virtual void exitVar_list(mainParser::Var_listContext * /*ctx*/) override { }
-
-  virtual void enterVar_id(mainParser::Var_idContext * /*ctx*/) override { }
-  virtual void exitVar_id(mainParser::Var_idContext * /*ctx*/) override { }
-
-  virtual void enterType_id(mainParser::Type_idContext * /*ctx*/) override { }
-  virtual void exitType_id(mainParser::Type_idContext * /*ctx*/) override { }
-
-  virtual void enterCompound_stmt(mainParser::Compound_stmtContext * /*ctx*/) override { }
-  virtual void exitCompound_stmt(mainParser::Compound_stmtContext * /*ctx*/) override { }
-
   virtual void enterStmt(mainParser::StmtContext * /*ctx*/) override { }
   virtual void exitStmt(mainParser::StmtContext * /*ctx*/) override { }
 
@@ -61,14 +40,23 @@ public:
   virtual void enterIf_stmt(mainParser::If_stmtContext * /*ctx*/) override { }
   virtual void exitIf_stmt(mainParser::If_stmtContext * /*ctx*/) override { }
 
-  virtual void enterFunction(mainParser::FunctionContext * /*ctx*/) override { }
-  virtual void exitFunction(mainParser::FunctionContext * /*ctx*/) override { }
+  virtual void enterDo_while(mainParser::Do_whileContext * /*ctx*/) override { }
+  virtual void exitDo_while(mainParser::Do_whileContext * /*ctx*/) override { }
+
+  virtual void enterFunction_decl(mainParser::Function_declContext * /*ctx*/) override { }
+  virtual void exitFunction_decl(mainParser::Function_declContext * /*ctx*/) override { }
+
+  virtual void enterFunction_call(mainParser::Function_callContext * /*ctx*/) override { }
+  virtual void exitFunction_call(mainParser::Function_callContext * /*ctx*/) override { }
 
   virtual void enterVariable(mainParser::VariableContext * /*ctx*/) override { }
   virtual void exitVariable(mainParser::VariableContext * /*ctx*/) override { }
 
   virtual void enterExpr(mainParser::ExprContext * /*ctx*/) override { }
   virtual void exitExpr(mainParser::ExprContext * /*ctx*/) override { }
+
+  virtual void enterType(mainParser::TypeContext * /*ctx*/) override { }
+  virtual void exitType(mainParser::TypeContext * /*ctx*/) override { }
 
   virtual void enterNumber(mainParser::NumberContext * /*ctx*/) override { }
   virtual void exitNumber(mainParser::NumberContext * /*ctx*/) override { }

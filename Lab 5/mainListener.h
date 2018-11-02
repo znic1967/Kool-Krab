@@ -23,27 +23,6 @@ public:
   virtual void enterBlock(mainParser::BlockContext *ctx) = 0;
   virtual void exitBlock(mainParser::BlockContext *ctx) = 0;
 
-  virtual void enterDeclarations(mainParser::DeclarationsContext *ctx) = 0;
-  virtual void exitDeclarations(mainParser::DeclarationsContext *ctx) = 0;
-
-  virtual void enterDecl_list(mainParser::Decl_listContext *ctx) = 0;
-  virtual void exitDecl_list(mainParser::Decl_listContext *ctx) = 0;
-
-  virtual void enterDecl(mainParser::DeclContext *ctx) = 0;
-  virtual void exitDecl(mainParser::DeclContext *ctx) = 0;
-
-  virtual void enterVar_list(mainParser::Var_listContext *ctx) = 0;
-  virtual void exitVar_list(mainParser::Var_listContext *ctx) = 0;
-
-  virtual void enterVar_id(mainParser::Var_idContext *ctx) = 0;
-  virtual void exitVar_id(mainParser::Var_idContext *ctx) = 0;
-
-  virtual void enterType_id(mainParser::Type_idContext *ctx) = 0;
-  virtual void exitType_id(mainParser::Type_idContext *ctx) = 0;
-
-  virtual void enterCompound_stmt(mainParser::Compound_stmtContext *ctx) = 0;
-  virtual void exitCompound_stmt(mainParser::Compound_stmtContext *ctx) = 0;
-
   virtual void enterStmt(mainParser::StmtContext *ctx) = 0;
   virtual void exitStmt(mainParser::StmtContext *ctx) = 0;
 
@@ -59,14 +38,23 @@ public:
   virtual void enterIf_stmt(mainParser::If_stmtContext *ctx) = 0;
   virtual void exitIf_stmt(mainParser::If_stmtContext *ctx) = 0;
 
-  virtual void enterFunction(mainParser::FunctionContext *ctx) = 0;
-  virtual void exitFunction(mainParser::FunctionContext *ctx) = 0;
+  virtual void enterDo_while(mainParser::Do_whileContext *ctx) = 0;
+  virtual void exitDo_while(mainParser::Do_whileContext *ctx) = 0;
+
+  virtual void enterFunction_decl(mainParser::Function_declContext *ctx) = 0;
+  virtual void exitFunction_decl(mainParser::Function_declContext *ctx) = 0;
+
+  virtual void enterFunction_call(mainParser::Function_callContext *ctx) = 0;
+  virtual void exitFunction_call(mainParser::Function_callContext *ctx) = 0;
 
   virtual void enterVariable(mainParser::VariableContext *ctx) = 0;
   virtual void exitVariable(mainParser::VariableContext *ctx) = 0;
 
   virtual void enterExpr(mainParser::ExprContext *ctx) = 0;
   virtual void exitExpr(mainParser::ExprContext *ctx) = 0;
+
+  virtual void enterType(mainParser::TypeContext *ctx) = 0;
+  virtual void exitType(mainParser::TypeContext *ctx) = 0;
 
   virtual void enterNumber(mainParser::NumberContext *ctx) = 0;
   virtual void exitNumber(mainParser::NumberContext *ctx) = 0;

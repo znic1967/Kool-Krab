@@ -21,10 +21,11 @@ stmt : compound_stmt
      ;
 
 stmt_list       : stmt ( ';' stmt )* ;
-assignment_stmt : variable ':=' expr ;
+assignment_stmt : variable '=' expr ;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
-if_stmt         : IF expr THEN stmt ( ELSE stmt )? ;
-function_decl		: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
+if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
+do_while : DO '(' stmt ')' WHILE expr ;
+function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
 function_call	: IDENTIFIER '('((variable IDENTIFIER) ','+)* ')'; 
 
 variable : IDENTIFIER ;
@@ -53,10 +54,12 @@ UNTIL   : 'UNTIL' ;
 IF      : 'IF' ;
 THEN    : 'THEN' ;
 ELSE    : 'ELSE';
+DO		:	'DO';
+WHILE	:	'WHILE';
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9]+ ;
-CHARACTER : '\''[a-zA-Z0-9]'\'';
+CHARACTER : '\''[a-zA-Z0-9!@#$%^&*()_+{}:"<>?~`*\/|,."]'\'';
 
 MUL_OP :   '*' ;
 DIV_OP :   '/' ;

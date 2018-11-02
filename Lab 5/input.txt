@@ -1,0 +1,17 @@
+int krabbie (int a);
+
+int Krab()
+{
+	int a=2
+	int b=0
+	b=krabbie(a)
+}
+
+int krabbie (int a)
+{
+	do
+	{
+		a=a*7
+	}
+	while (a<30)
+}

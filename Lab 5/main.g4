@@ -1,19 +1,11 @@
 grammar main;  // Kool Krab Grammar File
 
-program : header block 'Pattie.' ;
-header  : type KRABBIE '('((variable IDENTIFIER) ','+)* ')' NEWLINE;
+program : header block END func_list?;
+header  : type KRABBIE '('((type IDENTIFIER) ','?)* ')' NEWLINE;
 block   : stmt_list
 		| func_list 
 		|
 		;
-
-//declarations : VAR decl_list ';' ;
-//decl_list    : decl ( ';' decl )* ;
-//decl         : var_list ':' type_id ;
-//var_list     : var_id ( ',' var_id )* ;
-//var_id       : IDENTIFIER ;
-//type_id      : IDENTIFIER ;
-
 
 stmt : assignment_stmt
      | repeat_stmt
@@ -23,6 +15,7 @@ stmt : assignment_stmt
 
 func : function_call
      | function_decl
+     | function_body
      |
      ;
 
@@ -31,9 +24,10 @@ func_list       : (func NEWLINE)* ;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
-do_while : DO '(' stmt_list ')' WHILE expr ;
-function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
-function_call	: IDENTIFIER '('((variable? IDENTIFIER?) ','+)* ')'; 
+do_while : DO '(' block ')' WHILE expr ;
+function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
+function_call	: IDENTIFIER '('((variable? IDENTIFIER?) ','+)* ')';
+function_body	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt_list END;
 
 variable : IDENTIFIER ;
 
@@ -57,8 +51,8 @@ add_sub_op : ADD_OP | SUB_OP ;
 rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
 KRABBIE 	: 'Krabie' ;
+END		: 'Pattie';
 BEGIN   : 'BEGIN' ;
-END     : 'END' ;
 VAR     : 'VAR' ;
 REPEAT  : 'REPEAT' ;
 UNTIL   : 'UNTIL' ;

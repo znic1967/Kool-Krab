@@ -28,7 +28,7 @@ func : function_call
 
 stmt_list       : (stmt NEWLINE)* ;
 func_list       : (func NEWLINE)* ;
-assignment_stmt : type? variable '=' expr;
+assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
 do_while : DO '(' stmt_list ')' WHILE expr ;
@@ -45,7 +45,10 @@ expr : expr mul_div_op expr
      | '(' expr ')'
      ;
 
-type	: IDENTIFIER;
+type	: IDENTIFIER
+		| INTEGER_TYPE
+		| CHARACTER_TYPE
+		;
 number : sign? INTEGER ;
 sign   : '+' | '-' ;
 
@@ -65,6 +68,10 @@ ELSE    : 'ELSE';
 DO		:	'DO';
 WHILE	:	'WHILE';
 RETURN  : 'Spitout';
+INTEGER_TYPE : 'int';
+CHARACTER_TYPE: 'char';
+
+
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9]+ ;

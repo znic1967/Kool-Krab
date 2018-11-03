@@ -6,10 +6,10 @@ Pattie.
 
 int mrkrabs (int a)
 {
-	do
+	bringit 
 	{
 		a=a*7
 	}
-	while (a<30)
+	aroundtown (a<30)
 	Spitout a
 }

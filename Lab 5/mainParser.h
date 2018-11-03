@@ -14,17 +14,18 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
     BEGIN = 8, END = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
-    ELSE = 15, DO = 16, WHILE = 17, IDENTIFIER = 18, INTEGER = 19, CHARACTER = 20, 
-    MUL_OP = 21, DIV_OP = 22, ADD_OP = 23, SUB_OP = 24, EQ_OP = 25, NE_OP = 26, 
-    LT_OP = 27, LE_OP = 28, GT_OP = 29, GE_OP = 30, NEWLINE = 31, WS = 32
+    ELSE = 15, DO = 16, WHILE = 17, RETURN = 18, IDENTIFIER = 19, INTEGER = 20, 
+    CHARACTER = 21, MUL_OP = 22, DIV_OP = 23, ADD_OP = 24, SUB_OP = 25, 
+    EQ_OP = 26, NE_OP = 27, LT_OP = 28, LE_OP = 29, GT_OP = 30, GE_OP = 31, 
+    NEWLINE = 32, WS = 33
   };
 
   enum {
-    RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleStmt_list = 4, 
-    RuleAssignment_stmt = 5, RuleRepeat_stmt = 6, RuleIf_stmt = 7, RuleDo_while = 8, 
-    RuleFunction_decl = 9, RuleFunction_call = 10, RuleVariable = 11, RuleExpr = 12, 
-    RuleType = 13, RuleNumber = 14, RuleSign = 15, RuleMul_div_op = 16, 
-    RuleAdd_sub_op = 17, RuleRel_op = 18
+    RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
+    RuleStmt_list = 5, RuleFunc_list = 6, RuleAssignment_stmt = 7, RuleRepeat_stmt = 8, 
+    RuleIf_stmt = 9, RuleDo_while = 10, RuleFunction_decl = 11, RuleFunction_call = 12, 
+    RuleVariable = 13, RuleExpr = 14, RuleType = 15, RuleNumber = 16, RuleSign = 17, 
+    RuleMul_div_op = 18, RuleAdd_sub_op = 19, RuleRel_op = 20
   };
 
   mainParser(antlr4::TokenStream *input);
@@ -41,7 +42,9 @@ public:
   class HeaderContext;
   class BlockContext;
   class StmtContext;
+  class FuncContext;
   class Stmt_listContext;
+  class Func_listContext;
   class Assignment_stmtContext;
   class Repeat_stmtContext;
   class If_stmtContext;
@@ -94,6 +97,7 @@ public:
     BlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Stmt_listContext *stmt_list();
+    Func_listContext *func_list();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -117,6 +121,20 @@ public:
 
   StmtContext* stmt();
 
+  class  FuncContext : public antlr4::ParserRuleContext {
+  public:
+    FuncContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    Function_callContext *function_call();
+    Function_declContext *function_decl();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  FuncContext* func();
+
   class  Stmt_listContext : public antlr4::ParserRuleContext {
   public:
     Stmt_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -133,13 +151,29 @@ public:
 
   Stmt_listContext* stmt_list();
 
+  class  Func_listContext : public antlr4::ParserRuleContext {
+  public:
+    Func_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<FuncContext *> func();
+    FuncContext* func(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> NEWLINE();
+    antlr4::tree::TerminalNode* NEWLINE(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  Func_listContext* func_list();
+
   class  Assignment_stmtContext : public antlr4::ParserRuleContext {
   public:
     Assignment_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    TypeContext *type();
     VariableContext *variable();
     ExprContext *expr();
+    TypeContext *type();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -186,7 +220,7 @@ public:
     Do_whileContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DO();
-    StmtContext *stmt();
+    Stmt_listContext *stmt_list();
     antlr4::tree::TerminalNode *WHILE();
     ExprContext *expr();
 

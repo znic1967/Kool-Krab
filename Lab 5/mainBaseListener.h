@@ -28,8 +28,14 @@ public:
   virtual void enterStmt(mainParser::StmtContext * /*ctx*/) override { }
   virtual void exitStmt(mainParser::StmtContext * /*ctx*/) override { }
 
+  virtual void enterFunc(mainParser::FuncContext * /*ctx*/) override { }
+  virtual void exitFunc(mainParser::FuncContext * /*ctx*/) override { }
+
   virtual void enterStmt_list(mainParser::Stmt_listContext * /*ctx*/) override { }
   virtual void exitStmt_list(mainParser::Stmt_listContext * /*ctx*/) override { }
+
+  virtual void enterFunc_list(mainParser::Func_listContext * /*ctx*/) override { }
+  virtual void exitFunc_list(mainParser::Func_listContext * /*ctx*/) override { }
 
   virtual void enterAssignment_stmt(mainParser::Assignment_stmtContext * /*ctx*/) override { }
   virtual void exitAssignment_stmt(mainParser::Assignment_stmtContext * /*ctx*/) override { }

@@ -2,7 +2,10 @@ grammar main;  // Kool Krab Grammar File
 
 program : header block 'Pattie.' ;
 header  :  IDENTIFIER KRABBIE '('((variable IDENTIFIER) ','+)* ')' NEWLINE;
-block   :  stmt_list ;
+block   : stmt_list
+		| func_list 
+		|
+		;
 
 //declarations : VAR decl_list ';' ;
 //decl_list    : decl ( ';' decl )* ;
@@ -18,13 +21,19 @@ stmt : assignment_stmt
      |
      ;
 
+func : function_call
+     | function_decl
+     |
+     ;
+
 stmt_list       : (stmt NEWLINE)* ;
-assignment_stmt : type variable '=' expr;
+func_list       : (func NEWLINE)* ;
+assignment_stmt : type? variable '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
-do_while : DO '(' stmt ')' WHILE expr ;
+do_while : DO '(' stmt_list ')' WHILE expr ;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' '{' stmt '}';
-function_call	: IDENTIFIER '('((variable IDENTIFIER) ','+)* ')'; 
+function_call	: IDENTIFIER '('((variable? IDENTIFIER?) ','+)* ')'; 
 
 variable : IDENTIFIER ;
 
@@ -55,6 +64,7 @@ THEN    : 'THEN' ;
 ELSE    : 'ELSE';
 DO		:	'DO';
 WHILE	:	'WHILE';
+RETURN  : 'Spitout';
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9]+ ;

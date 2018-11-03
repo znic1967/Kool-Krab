@@ -26,8 +26,14 @@ public:
   virtual void enterStmt(mainParser::StmtContext *ctx) = 0;
   virtual void exitStmt(mainParser::StmtContext *ctx) = 0;
 
+  virtual void enterFunc(mainParser::FuncContext *ctx) = 0;
+  virtual void exitFunc(mainParser::FuncContext *ctx) = 0;
+
   virtual void enterStmt_list(mainParser::Stmt_listContext *ctx) = 0;
   virtual void exitStmt_list(mainParser::Stmt_listContext *ctx) = 0;
+
+  virtual void enterFunc_list(mainParser::Func_listContext *ctx) = 0;
+  virtual void exitFunc_list(mainParser::Func_listContext *ctx) = 0;
 
   virtual void enterAssignment_stmt(mainParser::Assignment_stmtContext *ctx) = 0;
   virtual void exitAssignment_stmt(mainParser::Assignment_stmtContext *ctx) = 0;

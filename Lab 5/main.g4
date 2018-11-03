@@ -1,7 +1,7 @@
 grammar main;  // Kool Krab Grammar File
 
 program : header block 'Pattie.' ;
-header  :  IDENTIFIER KRABBIE '('((variable IDENTIFIER) ','+)* ')' NEWLINE;
+header  : type KRABBIE '('((variable IDENTIFIER) ','+)* ')' NEWLINE;
 block   : stmt_list
 		| func_list 
 		|

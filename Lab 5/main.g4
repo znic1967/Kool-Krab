@@ -10,6 +10,7 @@ block   : stmt_list
 stmt : assignment_stmt
      | repeat_stmt
      | if_stmt
+     | do_while
      |
      ;
 
@@ -24,10 +25,10 @@ func_list       : (func NEWLINE)* ;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
-do_while : DO '(' block ')' WHILE expr ;
+do_while : DO NEWLINE stmt_list WHILE expr NEWLINE;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable? IDENTIFIER?) ','+)* ')';
-function_body	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt_list END;
+function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list END;
 
 variable : IDENTIFIER ;
 
@@ -50,7 +51,7 @@ mul_div_op : MUL_OP | DIV_OP ;
 add_sub_op : ADD_OP | SUB_OP ;
 rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
-KRABBIE 	: 'Krabie' ;
+KRABBIE : 'Krabie' ;
 END		: 'Pattie';
 BEGIN   : 'BEGIN' ;
 VAR     : 'VAR' ;
@@ -59,8 +60,8 @@ UNTIL   : 'UNTIL' ;
 IF      : 'IF' ;
 THEN    : 'THEN' ;
 ELSE    : 'ELSE';
-DO		:	'DO';
-WHILE	:	'WHILE';
+DO		:	'Bringit';
+WHILE	:	'Aroundtown';
 RETURN  : 'Spitout';
 INTEGER_TYPE : 'int';
 CHARACTER_TYPE: 'char';

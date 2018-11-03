@@ -12,12 +12,11 @@
 class  mainLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    KRABBIE = 8, BEGIN = 9, END = 10, VAR = 11, REPEAT = 12, UNTIL = 13, 
-    IF = 14, THEN = 15, ELSE = 16, DO = 17, WHILE = 18, IDENTIFIER = 19, 
-    INTEGER = 20, CHARACTER = 21, MUL_OP = 22, DIV_OP = 23, ADD_OP = 24, 
-    SUB_OP = 25, EQ_OP = 26, NE_OP = 27, LT_OP = 28, LE_OP = 29, GT_OP = 30, 
-    GE_OP = 31, NEWLINE = 32, WS = 33
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
+    BEGIN = 8, END = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
+    ELSE = 15, DO = 16, WHILE = 17, IDENTIFIER = 18, INTEGER = 19, CHARACTER = 20, 
+    MUL_OP = 21, DIV_OP = 22, ADD_OP = 23, SUB_OP = 24, EQ_OP = 25, NE_OP = 26, 
+    LT_OP = 27, LE_OP = 28, GT_OP = 29, GE_OP = 30, NEWLINE = 31, WS = 32
   };
 
   mainLexer(antlr4::CharStream *input);

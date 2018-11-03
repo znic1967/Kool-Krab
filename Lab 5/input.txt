@@ -1,10 +1,10 @@
 int Krabie()
 	int a=2
 	int b=0
-	b=krabbie(a)
+	b=mrkrabs(a)
 Pattie.
 
-int krabbie (int a)
+int mrkrabs (int a)
 {
 	do
 	{

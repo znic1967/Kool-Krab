@@ -1,7 +1,7 @@
 grammar main;  // Kool Krab Grammar File
 
 program : header block 'Pattie.' ;
-header  :  IDENTIFIER KRABBIE '('((variable IDENTIFIER) ','+)* ')' ;
+header  :  IDENTIFIER KRABBIE '('((variable IDENTIFIER) ','+)* ')' NEWLINE;
 block   :  stmt_list ;
 
 //declarations : VAR decl_list ';' ;
@@ -18,8 +18,8 @@ stmt : assignment_stmt
      |
      ;
 
-stmt_list       : stmt ( ';' stmt )* ;
-assignment_stmt : type variable '=' expr ;
+stmt_list       : (stmt NEWLINE)* ;
+assignment_stmt : type variable '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
 do_while : DO '(' stmt ')' WHILE expr ;
@@ -36,7 +36,7 @@ expr : expr mul_div_op expr
      | '(' expr ')'
      ;
 
-type	: INTEGER;
+type	: IDENTIFIER;
 number : sign? INTEGER ;
 sign   : '+' | '-' ;
 
@@ -72,5 +72,5 @@ LE_OP : '<=' ;
 GT_OP : '>' ;
 GE_OP : '>=' ;
 
-NEWLINE : '\r'? '\n' -> skip  ;
+NEWLINE : '\r'? '\n' ;
 WS      : [ \t]+ -> skip ;

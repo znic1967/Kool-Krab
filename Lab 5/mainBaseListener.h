@@ -55,6 +55,9 @@ public:
   virtual void enterFunction_call(mainParser::Function_callContext * /*ctx*/) override { }
   virtual void exitFunction_call(mainParser::Function_callContext * /*ctx*/) override { }
 
+  virtual void enterFunction_body(mainParser::Function_bodyContext * /*ctx*/) override { }
+  virtual void exitFunction_body(mainParser::Function_bodyContext * /*ctx*/) override { }
+
   virtual void enterVariable(mainParser::VariableContext * /*ctx*/) override { }
   virtual void exitVariable(mainParser::VariableContext * /*ctx*/) override { }
 

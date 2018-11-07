@@ -20,14 +20,14 @@ func : function_call
      |
      ;
 
-stmt_list       : (stmt NEWLINE)* ;
+stmt_list       : ((stmt | func) NEWLINE)* ;
 func_list       : (func NEWLINE)* ;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
 do_while : DO NEWLINE stmt_list WHILE expr NEWLINE;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
-function_call	: IDENTIFIER '('((variable? IDENTIFIER?) ','+)* ')';
+function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';
 function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list END;
 
 variable : IDENTIFIER ;

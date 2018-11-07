@@ -53,6 +53,9 @@ public:
   virtual void enterFunction_call(mainParser::Function_callContext *ctx) = 0;
   virtual void exitFunction_call(mainParser::Function_callContext *ctx) = 0;
 
+  virtual void enterFunction_body(mainParser::Function_bodyContext *ctx) = 0;
+  virtual void exitFunction_body(mainParser::Function_bodyContext *ctx) = 0;
+
   virtual void enterVariable(mainParser::VariableContext *ctx) = 0;
   virtual void exitVariable(mainParser::VariableContext *ctx) = 0;
 

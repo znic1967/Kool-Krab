@@ -1,6 +1,6 @@
 grammar main;  // Kool Krab Grammar File
 
-program : header block END func_list?;
+program : header block END NEWLINE func_list?;
 header  : type KRABBIE '('((type IDENTIFIER) ','?)* ')' NEWLINE;
 block   : stmt_list
 		| func_list 
@@ -28,7 +28,7 @@ if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
 do_while : DO NEWLINE stmt_list WHILE expr NEWLINE;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';
-function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list END;
+function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list (RETURN variable)? END;
 
 variable : IDENTIFIER ;
 

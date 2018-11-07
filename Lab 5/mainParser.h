@@ -69,6 +69,7 @@ public:
     HeaderContext *header();
     BlockContext *block();
     antlr4::tree::TerminalNode *END();
+    antlr4::tree::TerminalNode *NEWLINE();
     Func_listContext *func_list();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -145,10 +146,12 @@ public:
   public:
     Stmt_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<StmtContext *> stmt();
-    StmtContext* stmt(size_t i);
     std::vector<antlr4::tree::TerminalNode *> NEWLINE();
     antlr4::tree::TerminalNode* NEWLINE(size_t i);
+    std::vector<StmtContext *> stmt();
+    StmtContext* stmt(size_t i);
+    std::vector<FuncContext *> func();
+    FuncContext* func(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -161,10 +164,7 @@ public:
   public:
     Func_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<FuncContext *> func();
-    FuncContext* func(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> NEWLINE();
-    antlr4::tree::TerminalNode* NEWLINE(size_t i);
+    FuncContext *func();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -227,8 +227,7 @@ public:
     Do_whileContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DO();
-    std::vector<antlr4::tree::TerminalNode *> NEWLINE();
-    antlr4::tree::TerminalNode* NEWLINE(size_t i);
+    antlr4::tree::TerminalNode *NEWLINE();
     Stmt_listContext *stmt_list();
     antlr4::tree::TerminalNode *WHILE();
     ExprContext *expr();
@@ -282,9 +281,12 @@ public:
     TypeContext* type(size_t i);
     std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
     antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
-    antlr4::tree::TerminalNode *NEWLINE();
+    std::vector<antlr4::tree::TerminalNode *> NEWLINE();
+    antlr4::tree::TerminalNode* NEWLINE(size_t i);
     Stmt_listContext *stmt_list();
     antlr4::tree::TerminalNode *END();
+    antlr4::tree::TerminalNode *RETURN();
+    VariableContext *variable();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

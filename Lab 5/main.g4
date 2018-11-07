@@ -11,6 +11,7 @@ stmt : assignment_stmt
      | repeat_stmt
      | if_stmt
      | do_while
+     | return_stmt
      |
      ;
 
@@ -24,11 +25,12 @@ stmt_list       : ((stmt | func) NEWLINE)* ;
 func_list       : func ;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
+return_stmt		: RETURN expr;
 if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
 do_while : DO NEWLINE stmt_list WHILE expr;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';
-function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list (RETURN variable NEWLINE)? END NEWLINE?;
+function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' NEWLINE stmt_list END NEWLINE?;
 
 variable : IDENTIFIER ;
 

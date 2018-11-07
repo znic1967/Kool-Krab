@@ -10,4 +10,3 @@ int mrkrabs (int a)
 	Aroundtown (a<30)
 	Spitout a
 Pattie
-donezo

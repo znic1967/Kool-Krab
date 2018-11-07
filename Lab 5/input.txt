@@ -3,10 +3,17 @@ int Krabie()
 	int b=0
 	mrkrabs(a)
 Pattie
-
 int mrkrabs (int a)
 	Bringit
 		a=a*7
 	Aroundtown (a<30)
 	Spitout a
 Pattie
+
+int chumbucket ()
+	int a=4
+	int b=2
+	IsMayo (a>b) 
+		Spitout b
+Pattie
+Donezo

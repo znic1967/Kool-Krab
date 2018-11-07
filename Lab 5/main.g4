@@ -26,7 +26,7 @@ func_list       : func ;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
-if_stmt         : IF '(' expr ')' (('{' stmt '}')? ( ELSE  '{'? stmt '}'? )?) ;
+if_stmt         : IF '(' expr ')' NEWLINE (( stmt_list )?  ( ELSE   stmt_list  )?) ;
 do_while : DO NEWLINE stmt_list WHILE expr;
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';

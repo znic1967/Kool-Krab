@@ -22,7 +22,7 @@ func : function_call
      ;
 
 stmt_list       : ((stmt | func) NEWLINE)* ;
-func_list       : func ;
+func_list       : (func (NEWLINE|DONE))*;
 assignment_stmt : type? variable '=' (expr | function_call);
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
@@ -59,14 +59,16 @@ BEGIN   : 'BEGIN' ;
 VAR     : 'VAR' ;
 REPEAT  : 'REPEAT' ;
 UNTIL   : 'UNTIL' ;
-IF      : 'IF' ;
+IF      : 'IsMayo' ;
 THEN    : 'THEN' ;
 ELSE    : 'ELSE';
 DO		:	'Bringit';
 WHILE	:	'Aroundtown';
 RETURN  : 'Spitout';
+DONE	: 'Donezo';
 INTEGER_TYPE : 'int';
 CHARACTER_TYPE: 'char';
+
 
 
 

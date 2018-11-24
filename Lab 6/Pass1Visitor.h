@@ -51,6 +51,10 @@ public:
     antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *ctx) override;
     antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *ctx) override;
     antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89efe2e959ceab3a8b1b2affb3d367f0fbbf1ab4
 };
 
 #endif /* PASS1VISITOR_H_ */

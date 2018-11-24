@@ -63,6 +63,26 @@ public:
   class Add_sub_opContext;
   class Rel_opContext; 
 
+  /*
+   * Leo:
+   * Not 100% sure if these are needed, was redeclaring pass1visitor.h stuff.
+   * Related to the commented out code
+   *
+  class DeclarationsContext;
+  class DeclContext;
+  class VarListContext;
+  class TypeIdContext;
+  class AddSubExprContext;
+  class MulDivExprContext;
+  class VariableExprContext;
+  class SignedNumberExprContext;
+  class SignedNumberContext;
+  class UnsignedNumberExprContext;
+  class IntegerConstContext;
+  class FloatConstContext;
+  class ParenExprContext;
+  */
+
   class  ProgramContext : public antlr4::ParserRuleContext {
   public:
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);

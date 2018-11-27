@@ -1,4 +1,8 @@
 
+#include "wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+
+
 // Generated from Main.g4 by ANTLR 4.7.1
 
 #pragma once
@@ -34,6 +38,8 @@ public:
     virtual antlrcpp::Any visitFunc_list(MainParser::Func_listContext *context) = 0;
 
     virtual antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *context) = 0;
+
+    virtual antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *context) = 0;
 
     virtual antlrcpp::Any visitRepeat_stmt(MainParser::Repeat_stmtContext *context) = 0;
 

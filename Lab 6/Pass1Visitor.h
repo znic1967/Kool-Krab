@@ -31,30 +31,27 @@ public:
     antlrcpp::Any visitProgram(MainParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(MainParser::HeaderContext *ctx) override;
     antlrcpp::Any visitBlock(MainParser::BlockContext *ctx) override;
-    antlrcpp::Any visitStmt(MainParser::StmtContext *ctx) override;
-    antlrcpp::Any visitFunc(MainParser::FuncContext *ctx) override;
-    antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *ctx) override;
-    antlrcpp::Any visitFunc_list(MainParser::Func_listContext *ctx) override;
-    antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx) override;
-    antlrcpp::Any visitRepeat_stmt(MainParser::Repeat_stmtContext *ctx) override;
-    antlrcpp::Any visitReturn_stmt(MainParser::Return_stmtContext *ctx) override;
-    antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
-    antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
-    antlrcpp::Any visitFunction_decl(MainParser::Function_declContext *ctx) override;
-    antlrcpp::Any visitFunction_call(MainParser::Function_callContext *ctx) override;
-    antlrcpp::Any visitFunction_body(MainParser::Function_bodyContext *ctx) override;
-    antlrcpp::Any visitVariable(MainParser::VariableContext *ctx) override;
-    antlrcpp::Any visitExpr(MainParser::ExprContext *ctx) override;
-    antlrcpp::Any visitType(MainParser::TypeContext *ctx) override;
-    antlrcpp::Any visitNumber(MainParser::NumberContext *ctx) override;
-    antlrcpp::Any visitSign(MainParser::SignContext *ctx) override;
-    antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *ctx) override;
-    antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *ctx) override;
-    antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
-<<<<<<< HEAD
-=======
-
->>>>>>> 89efe2e959ceab3a8b1b2affb3d367f0fbbf1ab4
+    antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx) override;
+//    antlrcpp::Any visitStmt(MainParser::StmtContext *ctx) override;
+//    antlrcpp::Any visitFunc(MainParser::FuncContext *ctx) override;
+//    antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *ctx) override;
+//    antlrcpp::Any visitFunc_list(MainParser::Func_listContext *ctx) override;
+ //   antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx) override;
+//    antlrcpp::Any visitRepeat_stmt(MainParser::Repeat_stmtContext *ctx) override;
+//    antlrcpp::Any visitReturn_stmt(MainParser::Return_stmtContext *ctx) override;
+//    antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
+//    antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
+//    antlrcpp::Any visitFunction_decl(MainParser::Function_declContext *ctx) override;
+//    antlrcpp::Any visitFunction_call(MainParser::Function_callContext *ctx) override;
+//    antlrcpp::Any visitFunction_body(MainParser::Function_bodyContext *ctx) override;
+//    antlrcpp::Any visitVariable(MainParser::VariableContext *ctx) override;
+//    //antlrcpp::Any visitExpr(MainParser::ExprContext *ctx) override;
+//    antlrcpp::Any visitTypeID(MainParser::TypeIDContext *ctx) override;
+//    //antlrcpp::Any visitNumber(MainParser::NumberContext *ctx) override;
+//    antlrcpp::Any visitSign(MainParser::SignContext *ctx) override;
+//    antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *ctx) override;
+//    antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *ctx) override;
+//    antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
 };
 
 #endif /* PASS1VISITOR_H_ */

@@ -1,4 +1,8 @@
 
+#include "wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+
+
 // Generated from Main.g4 by ANTLR 4.7.1
 
 #pragma once
@@ -22,12 +26,12 @@ public:
 
   enum {
     RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
-    RuleStmt_list = 5, RuleFunc_list = 6, RuleAssignment_stmt = 7, RuleRepeat_stmt = 8, 
-    RuleReturn_stmt = 9, RuleIf_stmt = 10, RuleDo_while = 11, RuleFunction_decl = 12, 
-    RuleFunction_call = 13, RuleFunction_body = 14, RuleVariable = 15, RuleExpr = 16, 
-    RuleMulDivOp = 17, RuleAddSubOp = 18, RuleSignedNumber = 19, RuleSign = 20, 
-    RuleNumber = 21, RuleTypeID = 22, RuleMul_div_op = 23, RuleAdd_sub_op = 24, 
-    RuleRel_op = 25
+    RuleStmt_list = 5, RuleFunc_list = 6, RuleAssignment_stmt = 7, RuleDeclaration_stmt = 8, 
+    RuleRepeat_stmt = 9, RuleReturn_stmt = 10, RuleIf_stmt = 11, RuleDo_while = 12, 
+    RuleFunction_decl = 13, RuleFunction_call = 14, RuleFunction_body = 15, 
+    RuleVariable = 16, RuleExpr = 17, RuleMulDivOp = 18, RuleAddSubOp = 19, 
+    RuleSignedNumber = 20, RuleSign = 21, RuleNumber = 22, RuleTypeID = 23, 
+    RuleMul_div_op = 24, RuleAdd_sub_op = 25, RuleRel_op = 26
   };
 
   MainParser(antlr4::TokenStream *input);
@@ -48,6 +52,7 @@ public:
   class Stmt_listContext;
   class Func_listContext;
   class Assignment_stmtContext;
+  class Declaration_stmtContext;
   class Repeat_stmtContext;
   class Return_stmtContext;
   class If_stmtContext;
@@ -116,6 +121,7 @@ public:
     StmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Assignment_stmtContext *assignment_stmt();
+    Declaration_stmtContext *declaration_stmt();
     Repeat_stmtContext *repeat_stmt();
     If_stmtContext *if_stmt();
     Do_whileContext *do_while();
@@ -176,13 +182,26 @@ public:
     VariableContext *variable();
     ExprContext *expr();
     Function_callContext *function_call();
-    TypeIDContext *typeID();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   Assignment_stmtContext* assignment_stmt();
+
+  class  Declaration_stmtContext : public antlr4::ParserRuleContext {
+  public:
+    Declaration_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    TypeIDContext *typeID();
+    VariableContext *variable();
+    ExprContext *expr();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Declaration_stmtContext* declaration_stmt();
 
   class  Repeat_stmtContext : public antlr4::ParserRuleContext {
   public:

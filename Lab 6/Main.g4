@@ -1,5 +1,10 @@
 grammar Main;  // Kool Krab Grammar File
 
+@header {
+#include "wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+}
+
 program : header block END func_list?;
 header  : typeID KRABBIE '('((typeID IDENTIFIER) ','?)* ')';
 block   : stmt_list
@@ -7,6 +12,7 @@ block   : stmt_list
 		;
 
 stmt : (assignment_stmt ';')
+	 | (declaration_stmt ';')
      | repeat_stmt
      | if_stmt
      | do_while
@@ -20,7 +26,8 @@ func : function_call
 
 stmt_list       : (stmt | func)+ ;
 func_list       : (func';')*;
-assignment_stmt : typeID? variable '=' (expr | function_call);
+assignment_stmt : variable '=' (expr | function_call);
+declaration_stmt: typeID variable '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h

@@ -1,4 +1,8 @@
 
+#include "wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+
+
 // Generated from Main.g4 by ANTLR 4.7.1
 
 #pragma once
@@ -44,6 +48,10 @@ public:
   }
 
   virtual antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx) override {
     return visitChildren(ctx);
   }
 

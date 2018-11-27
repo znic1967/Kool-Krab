@@ -72,6 +72,7 @@ antlrcpp::Any Pass1Visitor::visitHeader(MainParser::HeaderContext *ctx)
     return visitChildren(ctx);
 }
 
+//*********************//
 antlrcpp::Any Pass1Visitor::visitDeclarations(MainParser::DeclarationsContext *ctx)
 {
 //    cout << "=== visitDeclarations: " << ctx->getText() << endl;
@@ -109,6 +110,7 @@ antlrcpp::Any Pass1Visitor::visitVarList(MainParser::VarListContext *ctx)
     return visitChildren(ctx);
 }
 
+//****************
 antlrcpp::Any Pass1Visitor::visitVarId(MainParser::VarIdContext *ctx)
 {
 //    cout << "=== visitVarId: " + ctx->getText() << endl;
@@ -129,7 +131,7 @@ antlrcpp::Any Pass1Visitor::visitTypeId(MainParser::TypeIdContext *ctx)
     string type_indicator;
 
     string type_name = ctx->IDENTIFIER()->toString();
-    if (type_name == "integer")
+    if (type_name == "INTEGER_TYPE")
     {
         type = Predefined::integer_type;
         type_indicator = "I";
@@ -189,6 +191,8 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
     bool integer_mode =    (type1 == Predefined::integer_type)
                         && (type2 == Predefined::integer_type);
+
+                        //DELETE REAL types//
     bool real_mode    =    (type1 == Predefined::real_type)
                         && (type2 == Predefined::real_type);
 
@@ -211,15 +215,17 @@ antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *c
     return visitChildren(ctx);
 }
 
+//Possibly omit
 antlrcpp::Any Pass1Visitor::visitSignedNumberExpr(MainParser::SignedNumberExprContext *ctx)
 {
 //    cout << "=== visitSignedNumberExpr: " + ctx->getText() << endl;
 
-    auto value = visitChildren(ctx);
+    auto value = visit(ctx->number());
     ctx->type = ctx->signedNumber()->type;
     return value;
 }
 
+//Keep function
 antlrcpp::Any Pass1Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
 {
 //    cout << "=== visitSignedNumber: " + ctx->getText() << endl;
@@ -246,6 +252,7 @@ antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
     return visitChildren(ctx);
 }
 
+//LEO: We have not accounted for the Float type yet. 
 antlrcpp::Any Pass1Visitor::visitFloatConst(MainParser::FloatConstContext *ctx)
 {
 //    cout << "=== visitFloatConst: " + ctx->getText() << endl;

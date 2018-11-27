@@ -1,8 +1,4 @@
 
-#include "wci/intermediate/TypeSpec.h"
-using namespace wci::intermediate;
-
-
 // Generated from Main.g4 by ANTLR 4.7.1
 
 #pragma once
@@ -16,12 +12,12 @@ using namespace wci::intermediate;
 class  MainLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, KRABBIE = 6, END = 7, 
-    BEGIN = 8, VAR = 9, REPEAT = 10, UNTIL = 11, IF = 12, THEN = 13, ELSE = 14, 
-    DO = 15, WHILE = 16, RETURN = 17, DONE = 18, INTEGER_TYPE = 19, CHARACTER_TYPE = 20, 
-    IDENTIFIER = 21, INTEGER = 22, CHARACTER = 23, MUL_OP = 24, DIV_OP = 25, 
-    ADD_OP = 26, SUB_OP = 27, EQ_OP = 28, NE_OP = 29, LT_OP = 30, LE_OP = 31, 
-    GT_OP = 32, GE_OP = 33, NEWLINE = 34, WS = 35
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
+    END = 8, BEGIN = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
+    ELSE = 15, DO = 16, WHILE = 17, RETURN = 18, DONE = 19, INTEGER_TYPE = 20, 
+    CHARACTER_TYPE = 21, IDENTIFIER = 22, INTEGER = 23, CHARACTER = 24, 
+    MUL_OP = 25, DIV_OP = 26, ADD_OP = 27, SUB_OP = 28, EQ_OP = 29, NE_OP = 30, 
+    LT_OP = 31, LE_OP = 32, GT_OP = 33, GE_OP = 34, NEWLINE = 35, WS = 36
   };
 
   MainLexer(antlr4::CharStream *input);

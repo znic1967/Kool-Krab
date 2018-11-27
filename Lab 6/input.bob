@@ -1,20 +1,13 @@
 int Krabie()
-	int a=2
-	int b=0
-	mrkrabs(a)
+	int a=2;
+	int b=4;
+	char c='K';
+	
+	Bringit {
+		IsMayo (a<b){
+			a=a*2;
+		}
+		NotMayo {a=a*b;}
+	}
+	Aroundtown (a<30)
 Pattie
-
-int mrkrabs (int a){
-	Bringit{
-		a=a*7
-}Aroundtown (a<30)
-	Spitout a
-}Pattie
-int chumbucket (){
-	int a=4
-	int b=2
-	IsMayo (a>b){
-		Spitout b 
-}
-}Pattie
-Donezo

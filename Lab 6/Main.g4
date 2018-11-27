@@ -34,12 +34,12 @@ function_body	: type IDENTIFIER '('((type IDENTIFIER) ','?)* ')' '{' stmt_list '
 
 variable : IDENTIFIER ;
 
-expr : expr mul_div_op expr
-     | expr add_sub_op expr
+expr : expr mul_div_op expr #mulDivExpr
+     | expr add_sub_op expr #addSubExpr
      | expr rel_op expr
-     | number
+     | number				#unsignedNumberExpr
      | IDENTIFIER
-     | '(' expr ')'
+     | '(' expr ')'			#parenExpr
      ;
 
 type	: IDENTIFIER

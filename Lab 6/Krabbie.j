@@ -3,9 +3,18 @@
 
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
-.field private static [118 83 97 76 55] I
-.field private static [118 83 97 76 55] C
-.field private static [118 83 97 76 55] C
+
+; inta=2
+
+.field private static [122 85 101 78 57] I
+
+; intb=4
+
+.field private static [122 85 101 78 57] I
+
+; charc='K'
+
+.field private static [122 85 101 78 57] C
 
 .method public <init>()V
 

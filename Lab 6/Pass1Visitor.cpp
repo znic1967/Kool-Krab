@@ -150,21 +150,6 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
     return value;
 }
 
-
-
-
- antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
-{
-    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
-
-    string variable_name = ctx->variable()->IDENTIFIER()->toString();
-    SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
-
-    ctx->type = variable_id->get_typespec();
-    return visitChildren(ctx);
-}
-
-
  antlrcpp::Any Pass1Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
 {
 //    cout << "=== visitSignedNumber: " + ctx->getText() << endl;
@@ -258,3 +243,41 @@ antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
     return visitChildren(ctx);
 }
 
+ antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
+{
+//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    string variable_name = ctx->variable()->IDENTIFIER()->toString();
+    SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
+
+    ctx->type = variable_id->get_typespec();
+    return visitChildren(ctx);
+}
+
+
+//antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx){
+//	auto value = visitChildren(ctx);
+//	return value;
+//}
+
+antlrcpp::Any Pass1Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
+{
+//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    auto value = visitChildren(ctx);
+
+    TypeSpec *type1 = ctx->expr(0)->type;
+    TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+
+
+    TypeSpec *type = integer_mode ? Predefined::integer_type
+                   :                nullptr;
+    ctx->type = type;
+
+    return value;
+
+
+}

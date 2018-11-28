@@ -183,6 +183,7 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberEx
     return value;
 }
 
+
 antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
 {
     cout << "=== visitIntegerConst: " + ctx->getText() << endl;
@@ -194,7 +195,6 @@ antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
 antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
 {
 	    cout << "=== visitVarId: " + ctx->getText() << endl;
-
 	    variable_id_list.resize(0);
 	    string variable_name = ctx->IDENTIFIER()->toString();
 	    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
@@ -203,6 +203,44 @@ antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
 
 	    return visitChildren(ctx);
 }
+
+antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
+{
+//    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
+
+    ctx->type = Predefined::char_type;
+    return visitChildren(ctx);
+}
+
+antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx){
+	auto value = visitChildren(ctx);
+	return value;
+}
+
+
+antlrcpp::Any Pass1Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
+{
+//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    auto value = visitChildren(ctx);
+
+    TypeSpec *type1 = ctx->expr(0)->type;
+    TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+
+
+    TypeSpec *type = integer_mode ? Predefined::integer_type
+                   :                nullptr;
+    ctx->type = type;
+
+    return value;
+
+
+}
+
+
 antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
 {
     cout << "=== visitDeclaration_stmt: " + ctx->getText() << endl;

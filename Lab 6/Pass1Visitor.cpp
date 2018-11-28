@@ -180,9 +180,8 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
 
 
-/*
- *
- antlrcpp::Any Pass1Visitor::visitVariableExpr(Pcl2Parser::VariableExprContext *ctx)
+
+ antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
 {
 //    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
 
@@ -194,7 +193,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 }
 
 
- antlrcpp::Any Pass1Visitor::visitSignedNumber(Pcl2Parser::SignedNumberContext *ctx)
+ antlrcpp::Any Pass1Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
 {
 //    cout << "=== visitSignedNumber: " + ctx->getText() << endl;
 
@@ -203,7 +202,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
     return value;
 }
 
-antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(Pcl2Parser::UnsignedNumberExprContext *ctx)
+antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberExprContext *ctx)
 {
 //    cout << "=== visitUnsignedNumberExpr: " + ctx->getText() << endl;
 
@@ -212,7 +211,7 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(Pcl2Parser::UnsignedNumberEx
     return value;
 }
 
-antlrcpp::Any Pass1Visitor::visitIntegerConst(Pcl2Parser::IntegerConstContext *ctx)
+antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
 {
 //    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
 
@@ -220,7 +219,7 @@ antlrcpp::Any Pass1Visitor::visitIntegerConst(Pcl2Parser::IntegerConstContext *c
     return visitChildren(ctx);
 }
 
-antlrcpp::Any Pass1Visitor::visitFloatConst(Pcl2Parser::FloatConstContext *ctx)
+antlrcpp::Any Pass1Visitor::visitFloatConst(MainParser::FloatConstContext *ctx)
 {
 //    cout << "=== visitFloatConst: " + ctx->getText() << endl;
 
@@ -230,8 +229,6 @@ antlrcpp::Any Pass1Visitor::visitFloatConst(Pcl2Parser::FloatConstContext *ctx)
 
 
 
-
- * */
 
 
 

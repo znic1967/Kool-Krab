@@ -55,6 +55,14 @@ public:
 //    antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *ctx) override;
 //    antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *ctx) override;
 //    antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
+
+    //Leo's Lab Adds
+        //Paren
+        antlrcpp::Any visitVariableExpr(MainParser::VariableExprContext *ctx) override;
+        antlrcpp::Any visitSignedNumber(MainParser::SignedNumberContext *ctx) override;
+        antlrcpp::Any visitUnsignedNumberExpr(MainParser::UnsignedNumberExprContext *ctx) override;
+
+
 };
 
 #endif /* PASS1VISITOR_H_ */

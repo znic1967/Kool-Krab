@@ -101,34 +101,6 @@ antlrcpp::Any Pass1Visitor::visitTypeID(MainParser::TypeIDContext *ctx)
 {
     cout << "=== visitTypeId: " + ctx->getText() << endl;
 
-    TypeSpec *type;
-    string type_indicator;
-
-    string type_name = ctx->IDENTIFIER()->toString();
-    if (type_name == "integer")
-    {
-        type = Predefined::integer_type;
-        type_indicator = "I";
-    }
-    else if (type_name == "char")
-    {
-        type = Predefined::char_type;
-        type_indicator = "C";
-    }
-    else
-    {
-        type = nullptr;
-        type_indicator = "?";
-    }
-
-    for (SymTabEntry *id : variable_id_list) {
-        id->set_typespec(type);
-
-        // Emit a field declaration.
-        j_file << ".field private static "
-               << id->get_name() << " " << type_indicator << endl;
-    }
-
     return visitChildren(ctx);
 }
 
@@ -157,7 +129,7 @@ antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 //Another situation where we need to account for Float type
 antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 {
-//    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
+    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
 
     auto value = visitChildren(ctx);
 
@@ -183,7 +155,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
  antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
 {
-//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
 
     string variable_name = ctx->variable()->IDENTIFIER()->toString();
     SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
@@ -213,40 +185,38 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberEx
 
 antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
 {
-//    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
+    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
 
     ctx->type = Predefined::integer_type;
     return visitChildren(ctx);
 }
 
-antlrcpp::Any Pass1Visitor::visitFloatConst(MainParser::FloatConstContext *ctx)
+antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
 {
-//    cout << "=== visitFloatConst: " + ctx->getText() << endl;
+	    cout << "=== visitVarId: " + ctx->getText() << endl;
 
-    ctx->type = Predefined::real_type;
-    return visitChildren(ctx);
+	    variable_id_list.resize(0);
+	    string variable_name = ctx->IDENTIFIER()->toString();
+	    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
+	    variable_id->set_definition((Definition) DF_VARIABLE);
+	    variable_id_list.push_back(variable_id);
+
+	    return visitChildren(ctx);
 }
-
-
-
-
-
-
-
 antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
 {
     cout << "=== visitDeclaration_stmt: " + ctx->getText() << endl;
 
+    j_file << "\n; " << ctx->getText() << "\n" << endl;
     TypeSpec *type;
     string type_indicator;
-
     string type_name = ctx->typeID()->getText();
-    if (type_name == "int")
+    if (type_name=="int")
     {
         type = Predefined::integer_type;
         type_indicator = "I";
     }
-    else if (type_name == "char")
+    else if (type_name=="char")
     {
         type = Predefined::char_type;
         type_indicator = "C";
@@ -256,17 +226,35 @@ antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtCo
         type = nullptr;
         type_indicator = "?";
     }
-    // Emit a field declaration.
+
+    variable_id_list.resize(0);
+    string variable_name = ctx->varID()->toString();
+	SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
+	variable_id->set_definition((Definition) DF_VARIABLE);
+	variable_id_list.push_back(variable_id);
+
     for (SymTabEntry *id : variable_id_list) {
         id->set_typespec(type);
-        j_file << ".field private static "<< id->get_name() << " " << type_indicator << endl;
+        cout<<"here"<<endl;
+        // Emit a field declaration.
+        j_file << ".field private static " << id->get_name() << " " << type_indicator << endl;
     }
 
-    string variable_name = ctx->variable()->toString();
-    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
-    variable_id->set_definition((Definition) DF_VARIABLE);
-    variable_id_list.push_back(variable_id);
+    return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitParenExpr(MainParser::ParenExprContext *ctx)
+{
+    cout << "=== visitParenExpr: " + ctx->getText() << endl;
 
+    auto value = visitChildren(ctx);
+    ctx->type = ctx->expr()->type;
+    return value;
+}
+antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
+{
+    cout << "=== visitCharConst: " + ctx->getText() << endl;
+
+    ctx->type = Predefined::char_type;
     return visitChildren(ctx);
 }
 

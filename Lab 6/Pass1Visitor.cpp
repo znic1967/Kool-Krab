@@ -97,7 +97,7 @@ antlrcpp::Any Pass1Visitor::visitBlock(MainParser::BlockContext *ctx)
 
 //Leo: Wondering how we'll figure out how to access such 'ctx' functions correctly
 //Replaced Float with Char type condition
-antlrcpp::Any Pass1Visitor::visitTypeId(MainParser::TypeIdContext *ctx)
+antlrcpp::Any Pass1Visitor::visitTypeID(MainParser::TypeIDContext *ctx)
 {
     cout << "=== visitTypeId: " + ctx->getText() << endl;
 
@@ -134,7 +134,7 @@ antlrcpp::Any Pass1Visitor::visitTypeId(MainParser::TypeIdContext *ctx)
 
 
 //Leo: How are we to implement the real_mode stuff using char?
-antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
+antlrcpp::Any Pass1Visitor::visitAdd_sub_op(MainParser::Add_sub_opContext *ctx)
 {
     cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
 
@@ -145,12 +145,8 @@ antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 
     bool integer_mode =    (type1 == Predefined::integer_type)
                         && (type2 == Predefined::integer_type);
-    //Need to figure this stuff out
-    bool real_mode    =    (type1 == Predefined::real_type)
-                        && (type2 == Predefined::real_type);
 
     TypeSpec *type = integer_mode ? Predefined::integer_type
-                   : real_mode    ? Predefined::real_type
                    :                nullptr;
     ctx->type = type;
 
@@ -159,7 +155,7 @@ antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 
 
 //Another situation where we need to account for Float type
-antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
+antlrcpp::Any Pass1Visitor::visitMul_div_op(MainParser::Mul_div_opContext *ctx)
 {
 //    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
 

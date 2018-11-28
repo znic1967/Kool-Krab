@@ -33,6 +33,8 @@ public:
 
     virtual antlrcpp::Any visitFunc(MainParser::FuncContext *context) = 0;
 
+    virtual antlrcpp::Any visitVarID(MainParser::VarIDContext *context) = 0;
+
     virtual antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *context) = 0;
 
     virtual antlrcpp::Any visitFunc_list(MainParser::Func_listContext *context) = 0;

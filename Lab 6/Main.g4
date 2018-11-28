@@ -24,10 +24,12 @@ func : function_call
      | function_body
      ;
 
+varID        : IDENTIFIER ;
+
 stmt_list       : (stmt | func)+ ;
 func_list       : (func';')*;
 assignment_stmt : variable '=' (expr | function_call);
-declaration_stmt: typeID variable '=' expr;
+declaration_stmt: typeID varID '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h

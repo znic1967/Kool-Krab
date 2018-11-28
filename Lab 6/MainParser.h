@@ -26,12 +26,12 @@ public:
 
   enum {
     RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
-    RuleStmt_list = 5, RuleFunc_list = 6, RuleAssignment_stmt = 7, RuleDeclaration_stmt = 8, 
-    RuleRepeat_stmt = 9, RuleReturn_stmt = 10, RuleIf_stmt = 11, RuleDo_while = 12, 
-    RuleFunction_decl = 13, RuleFunction_call = 14, RuleFunction_body = 15, 
-    RuleVariable = 16, RuleExpr = 17, RuleMulDivOp = 18, RuleAddSubOp = 19, 
-    RuleSignedNumber = 20, RuleSign = 21, RuleNumber = 22, RuleTypeID = 23, 
-    RuleMul_div_op = 24, RuleAdd_sub_op = 25, RuleRel_op = 26
+    RuleVarID = 5, RuleStmt_list = 6, RuleFunc_list = 7, RuleAssignment_stmt = 8, 
+    RuleDeclaration_stmt = 9, RuleRepeat_stmt = 10, RuleReturn_stmt = 11, 
+    RuleIf_stmt = 12, RuleDo_while = 13, RuleFunction_decl = 14, RuleFunction_call = 15, 
+    RuleFunction_body = 16, RuleVariable = 17, RuleExpr = 18, RuleMulDivOp = 19, 
+    RuleAddSubOp = 20, RuleSignedNumber = 21, RuleSign = 22, RuleNumber = 23, 
+    RuleTypeID = 24, RuleMul_div_op = 25, RuleAdd_sub_op = 26, RuleRel_op = 27
   };
 
   MainParser(antlr4::TokenStream *input);
@@ -49,6 +49,7 @@ public:
   class BlockContext;
   class StmtContext;
   class FuncContext;
+  class VarIDContext;
   class Stmt_listContext;
   class Func_listContext;
   class Assignment_stmtContext;
@@ -147,6 +148,18 @@ public:
 
   FuncContext* func();
 
+  class  VarIDContext : public antlr4::ParserRuleContext {
+  public:
+    VarIDContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IDENTIFIER();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VarIDContext* varID();
+
   class  Stmt_listContext : public antlr4::ParserRuleContext {
   public:
     Stmt_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -194,7 +207,7 @@ public:
     Declaration_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     TypeIDContext *typeID();
-    VariableContext *variable();
+    VarIDContext *varID();
     ExprContext *expr();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

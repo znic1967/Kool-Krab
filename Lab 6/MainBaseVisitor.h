@@ -39,6 +39,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVarID(MainParser::VarIDContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *ctx) override {
     return visitChildren(ctx);
   }

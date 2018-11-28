@@ -35,6 +35,8 @@ public:
     antlrcpp::Any visitTypeID(MainParser::TypeIDContext *ctx) override;
     antlrcpp::Any visitAddSubExpr(MainParser::AddSubExprContext *ctx) override;
     antlrcpp::Any visitMulDivExpr(MainParser::MulDivExprContext *ctx) override;
+    antlrcpp::Any visitVarID(MainParser::VarIDContext *ctx) override;
+    antlrcpp::Any visitParenExpr(MainParser::ParenExprContext *ctx) override;
 //    antlrcpp::Any visitStmt(MainParser::StmtContext *ctx) override;
 //    antlrcpp::Any visitFunc(MainParser::FuncContext *ctx) override;
 //    antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *ctx) override;
@@ -62,9 +64,8 @@ public:
         antlrcpp::Any visitUnsignedNumberExpr(MainParser::UnsignedNumberExprContext *ctx) override;
         antlrcpp::Any visitIntegerConst(MainParser::IntegerConstContext *ctx) override;
         antlrcpp::Any visitCharConst(MainParser::CharConstContext *ctx) override;
-        antlrcpp::Any visitTypeID(MainParser::TypeIDContext *ctx) override;
-        antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
-        antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
+        //antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx) override;
+        //antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
 
 };
 

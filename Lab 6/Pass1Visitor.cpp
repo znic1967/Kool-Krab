@@ -211,6 +211,7 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberEx
     return value;
 }
 
+
 antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
 {
 //    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
@@ -219,14 +220,42 @@ antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
     return visitChildren(ctx);
 }
 
-antlrcpp::Any Pass1Visitor::visitFloatConst(MainParser::FloatConstContext *ctx)
-{
-//    cout << "=== visitFloatConst: " + ctx->getText() << endl;
 
-    ctx->type = Predefined::real_type;
+antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
+{
+//    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
+
+    ctx->type = Predefined::char_type;
     return visitChildren(ctx);
 }
 
+antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx){
+	auto value = visitChildren(ctx);
+	return value;
+}
+
+
+antlrcpp::Any Pass1Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
+{
+//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    auto value = visitChildren(ctx);
+
+    TypeSpec *type1 = ctx->expr(0)->type;
+    TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+
+
+    TypeSpec *type = integer_mode ? Predefined::integer_type
+                   :                nullptr;
+    ctx->type = type;
+
+    return value;
+
+
+}
 
 
 

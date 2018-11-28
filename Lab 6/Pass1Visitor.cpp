@@ -134,7 +134,7 @@ antlrcpp::Any Pass1Visitor::visitTypeID(MainParser::TypeIDContext *ctx)
 
 
 //Leo: How are we to implement the real_mode stuff using char?
-antlrcpp::Any Pass1Visitor::visitAdd_sub_op(MainParser::Add_sub_opContext *ctx)
+antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 {
     cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
 
@@ -155,7 +155,7 @@ antlrcpp::Any Pass1Visitor::visitAdd_sub_op(MainParser::Add_sub_opContext *ctx)
 
 
 //Another situation where we need to account for Float type
-antlrcpp::Any Pass1Visitor::visitMul_div_op(MainParser::Mul_div_opContext *ctx)
+antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 {
 //    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
 

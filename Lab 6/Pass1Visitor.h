@@ -32,9 +32,9 @@ public:
     antlrcpp::Any visitHeader(MainParser::HeaderContext *ctx) override;
     antlrcpp::Any visitBlock(MainParser::BlockContext *ctx) override;
     antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx) override;
-    antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *ctx) override;
     antlrcpp::Any visitTypeID(MainParser::TypeIDContext *ctx) override;
-    antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *ctx) override;
+    antlrcpp::Any visitAddSubExpr(MainParser::AddSubExprContext *ctx) override;
+    antlrcpp::Any visitMulDivExpr(MainParser::MulDivExprContext *ctx) override;
 //    antlrcpp::Any visitStmt(MainParser::StmtContext *ctx) override;
 //    antlrcpp::Any visitFunc(MainParser::FuncContext *ctx) override;
 //    antlrcpp::Any visitStmt_list(MainParser::Stmt_listContext *ctx) override;

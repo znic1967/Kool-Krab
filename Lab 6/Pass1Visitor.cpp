@@ -71,8 +71,6 @@ antlrcpp::Any Pass1Visitor::visitHeader(MainParser::HeaderContext *ctx)
 
     return visitChildren(ctx);
 }
-
-//*********************//
 antlrcpp::Any Pass1Visitor::visitBlock(MainParser::BlockContext *ctx)
  {
      cout << "=== visitBlock: " << ctx->getText() << endl;
@@ -93,19 +91,64 @@ antlrcpp::Any Pass1Visitor::visitBlock(MainParser::BlockContext *ctx)
 
      return value;
  }
-
-
-//Leo: Wondering how we'll figure out how to access such 'ctx' functions correctly
-//Replaced Float with Char type condition
 antlrcpp::Any Pass1Visitor::visitTypeID(MainParser::TypeIDContext *ctx)
 {
     cout << "=== visitTypeId: " + ctx->getText() << endl;
 
     return visitChildren(ctx);
 }
+antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
+{
+        cout << "=== visitVarId: " + ctx->getText() << endl;
 
+        // variable_id_list.resize(0);
+        // string variable_name = ctx->IDENTIFIER()->toString();
+        // SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
+        // variable_id->set_definition((Definition) DF_VARIABLE);
+        // variable_id_list.push_back(variable_id);
 
-//Leo: How are we to implement the real_mode stuff using char?
+        return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
+{
+    cout << "=== visitDeclaration_stmt: " + ctx->getText() << endl;
+
+    j_file << "\n; " << ctx->getText() << "\n" << endl;
+    TypeSpec *type;
+    string type_indicator;
+    string type_name = ctx->typeID()->getText();
+    if (type_name=="int")
+    {
+        type = Predefined::integer_type;
+        type_indicator = "I";
+    }
+    else if (type_name=="char")
+    {
+        type = Predefined::char_type;
+        type_indicator = "C";
+    }
+    else
+    {
+        type = nullptr;
+        type_indicator = "?";
+    }
+
+    variable_id_list.resize(0);
+    string variable_name = ctx->varID()->getText();
+    cout<<"Var Name: "<<variable_name<<endl;
+    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
+    variable_id->set_definition((Definition) DF_VARIABLE);
+    variable_id_list.push_back(variable_id);
+
+    for (SymTabEntry *id : variable_id_list) {
+        id->set_typespec(type);
+        cout<<"here"<<endl;
+        // Emit a field declaration.
+        j_file << ".field private static " << id->get_name() << " " << type_indicator << endl;
+    }
+
+    return visitChildren(ctx);
+}
 antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 {
     cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
@@ -149,8 +192,60 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
     return value;
 }
+antlrcpp::Any Pass1Visitor::visitParenExpr(MainParser::ParenExprContext *ctx)
+{
+    cout << "=== visitParenExpr: " + ctx->getText() << endl;
 
- antlrcpp::Any Pass1Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
+    auto value = visitChildren(ctx);
+    ctx->type = ctx->expr()->type;
+    return value;
+}
+ antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
+{
+    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    string variable_name = ctx->variable()->IDENTIFIER()->toString();
+    SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
+
+    ctx->type = variable_id->get_typespec();
+    return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
+{    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
+
+    auto value = visitChildren(ctx);
+
+    TypeSpec *type1 = ctx->expr(0)->type;
+    TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+
+    TypeSpec *type = integer_mode ? Predefined::integer_type
+                   :                nullptr;
+    ctx->type = type;
+
+    return value;
+}
+//antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx){
+//	auto value = visitChildren(ctx);
+//	return value;
+//}
+antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
+{
+    cout << "=== visitCharConst: " + ctx->getText() << endl;
+
+    ctx->type = Predefined::char_type;
+    return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
+{
+    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
+
+    ctx->type = Predefined::integer_type;
+    return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
 {
 //    cout << "=== visitSignedNumber: " + ctx->getText() << endl;
 
@@ -166,118 +261,4 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberEx
     auto value = visit(ctx->number());
     ctx->type = ctx->number()->type;
     return value;
-}
-
-antlrcpp::Any Pass1Visitor::visitIntegerConst(MainParser::IntegerConstContext *ctx)
-{
-    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
-
-    ctx->type = Predefined::integer_type;
-    return visitChildren(ctx);
-}
-
-antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
-{
-	    cout << "=== visitVarId: " + ctx->getText() << endl;
-
-	    variable_id_list.resize(0);
-	    string variable_name = ctx->IDENTIFIER()->toString();
-	    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
-	    variable_id->set_definition((Definition) DF_VARIABLE);
-	    variable_id_list.push_back(variable_id);
-
-	    return visitChildren(ctx);
-}
-antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
-{
-    cout << "=== visitDeclaration_stmt: " + ctx->getText() << endl;
-
-    j_file << "\n; " << ctx->getText() << "\n" << endl;
-    TypeSpec *type;
-    string type_indicator;
-    string type_name = ctx->typeID()->getText();
-    if (type_name=="int")
-    {
-        type = Predefined::integer_type;
-        type_indicator = "I";
-    }
-    else if (type_name=="char")
-    {
-        type = Predefined::char_type;
-        type_indicator = "C";
-    }
-    else
-    {
-        type = nullptr;
-        type_indicator = "?";
-    }
-
-    variable_id_list.resize(0);
-    string variable_name = ctx->varID()->toString();
-	SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
-	variable_id->set_definition((Definition) DF_VARIABLE);
-	variable_id_list.push_back(variable_id);
-
-    for (SymTabEntry *id : variable_id_list) {
-        id->set_typespec(type);
-        cout<<"here"<<endl;
-        // Emit a field declaration.
-        j_file << ".field private static " << id->get_name() << " " << type_indicator << endl;
-    }
-
-    return visitChildren(ctx);
-}
-antlrcpp::Any Pass1Visitor::visitParenExpr(MainParser::ParenExprContext *ctx)
-{
-    cout << "=== visitParenExpr: " + ctx->getText() << endl;
-
-    auto value = visitChildren(ctx);
-    ctx->type = ctx->expr()->type;
-    return value;
-}
-antlrcpp::Any Pass1Visitor::visitCharConst(MainParser::CharConstContext *ctx)
-{
-    cout << "=== visitCharConst: " + ctx->getText() << endl;
-
-    ctx->type = Predefined::char_type;
-    return visitChildren(ctx);
-}
-
- antlrcpp::Any Pass1Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
-{
-//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
-
-    string variable_name = ctx->variable()->IDENTIFIER()->toString();
-    SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
-
-    ctx->type = variable_id->get_typespec();
-    return visitChildren(ctx);
-}
-
-
-//antlrcpp::Any visitRel_op(MainParser::Rel_opContext *ctx){
-//	auto value = visitChildren(ctx);
-//	return value;
-//}
-
-antlrcpp::Any Pass1Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
-{
-//    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
-
-    auto value = visitChildren(ctx);
-
-    TypeSpec *type1 = ctx->expr(0)->type;
-    TypeSpec *type2 = ctx->expr(1)->type;
-
-    bool integer_mode =    (type1 == Predefined::integer_type)
-                        && (type2 == Predefined::integer_type);
-
-
-    TypeSpec *type = integer_mode ? Predefined::integer_type
-                   :                nullptr;
-    ctx->type = type;
-
-    return value;
-
-
 }

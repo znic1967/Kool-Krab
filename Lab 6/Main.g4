@@ -32,7 +32,7 @@ assignment_stmt : variable '=' (expr | function_call);
 declaration_stmt: typeID varID '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
-if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
+if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; 
 do_while : DO '{' stmt_list '}' WHILE  expr ; //Leo was here
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';

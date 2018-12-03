@@ -11,6 +11,9 @@ using namespace wci;
 using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 
+int labelNum = 0;
+char label[4];
+
 Pass2Visitor::Pass2Visitor(ostream& j_file)
     : program_name(""), j_file(j_file)
 {
@@ -200,43 +203,44 @@ antlrcpp::Any Pass2Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
 }
 antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 {
-	cout << "\tvisitDo_WhileStatement " << ctx->getText() << endl;
+	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
+
+	return visitChildren(ctx);
 }
 antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 {
 	cout << "\tvisitIfStatement " << ctx->getText() << endl;
 
-//	//int expression_size = ctx->expr().size();
-//    //int original_label = label_num;
-//    int statement_size = ctx->stmt_list().size();
-//
-//    char current_label[4];
-//
-//    bool has_else = (expression_size < statement_size) ? true : false;
-//
-//    char last_label[4];
-//    //sprintf(last_label, "%d", label_num+expression_size);
-//
-//    for(int i = 0; i < expression_size; i++)
-//    {
-//    	visit(ctx->expr(i));
-//    }
-//
-//    if(has_else)
-//    {
-//    	visitChildren(ctx->stmt_list(statement_size - 1));
-//    }
-//
-//    j_file << "\tgoto " << "Label_" << last_label << endl;
-//
-//    for(int i = 0; i < expression_size; i++)
-//	{
-//    	//sprintf(current_label, "%d", original_label++);
-//    	j_file << "Label_" << current_label << ":" << endl;
-//    	visitChildren(ctx->stmt_list(i));
-//		j_file << "\tgoto " << "Label_" << last_label << endl;
-//	}
-//    j_file << "Label_" << last_label << ":" << endl;
-//    //label_num++;
-//    return NULL;
+   int original_label = labelNum;
+   int statement_size = ctx->stmt_list().size();
+   cout<<"Stmt size:"<<statement_size<<endl;
+   string current_label;
+
+  bool has_else = (statement_size > 1) ? true : false;
+
+  string last_label;
+  //sprintf(last_label, "%d", label_num+expression_size);
+
+  for(int i = 0; i < statement_size; i++)
+  {
+  	visit(ctx->stmt_list(i));
+  }
+
+  if(has_else)
+  {
+  	visitChildren(ctx->stmt_list(statement_size - 1));
+  }
+
+  j_file << "\tgoto " << "Label_" << last_label << endl;
+
+  for(int i = 0; i < statement_size; i++)
+  {
+	  //sprintf(current_label, "%d", original_label++);
+	  j_file << "Label_" << current_label << ":" << endl;
+	  visitChildren(ctx->stmt_list(i));
+	  j_file << "\tgoto " << "Label_" << last_label << endl;
+  }
+  j_file << "Label_" << last_label << ":" << endl;
+  labelNum++;
+  return NULL;
 }

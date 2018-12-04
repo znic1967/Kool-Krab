@@ -5,7 +5,7 @@ int Krabie()
 	
 	Bringit {
 		IsMayo (a<b){
-			a=a*2;
+			a=a+2;
 		}
 		NotMayo {a=a*b;}
 	}

@@ -28,6 +28,9 @@ int main(int argc, const char *args[])
 
     ostream& j_file = pass1->get_assembly_file();
 
+    cout<<"||==================================================||"<<endl;
+    cout<<"||=====================Pass 2=======================||"<<endl<<endl;
+
     Pass2Visitor *pass2 = new Pass2Visitor(j_file);
     pass2->visit(tree);
 

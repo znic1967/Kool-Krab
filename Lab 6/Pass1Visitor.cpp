@@ -135,14 +135,14 @@ antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtCo
 
     variable_id_list.resize(0);
     string variable_name = ctx->varID()->getText();
-    cout<<"Var Name: "<<variable_name<<endl;
+    //cout<<"Var Name: "<<variable_name<<endl;
     SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
     variable_id->set_definition((Definition) DF_VARIABLE);
     variable_id_list.push_back(variable_id);
 
     for (SymTabEntry *id : variable_id_list) {
         id->set_typespec(type);
-        cout<<"here"<<endl;
+        //cout<<"here"<<endl;
         // Emit a field declaration.
         j_file << ".field private static " << id->get_name() << " " << type_indicator << endl;
     }

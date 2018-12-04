@@ -41,15 +41,13 @@ function_body	: typeID IDENTIFIER '('((typeID IDENTIFIER) ','?)* ')' '{' stmt_li
 variable : IDENTIFIER ;
 
 expr locals [ TypeSpec *type = nullptr ]
-	: expr mul_div_op expr #mulDivExpr
-     | expr add_sub_op expr #addSubExpr
-     | expr rel_op expr	#relOpExpr
+	: expr MUL_DIV_OP expr #mulDivExpr
+     | expr ADD_SUB_OP expr #addSubExpr
+     | expr REL_OP expr	#relOpExpr
      | number			#unsignedNumberExpr
      | variable			#variableExpr
      | '(' expr ')'		#parenExpr
      ;
-mulDivOp : MUL_OP | DIV_OP ;
-addSubOp : ADD_OP | SUB_OP ;
      
 signedNumber locals [ TypeSpec *type = nullptr ] 
     : sign number 
@@ -66,9 +64,9 @@ typeID	: IDENTIFIER
 		| CHARACTER_TYPE
 		;
 
-mul_div_op : MUL_OP | DIV_OP ;
-add_sub_op : ADD_OP | SUB_OP ;
-rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
+MUL_DIV_OP : MUL_OP | DIV_OP ;
+ADD_SUB_OP : ADD_OP | SUB_OP ;
+REL_OP     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
 KRABBIE : 'Krabie' ;
 END		: 'Pattie';

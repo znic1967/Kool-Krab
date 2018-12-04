@@ -71,10 +71,6 @@ public:
 
     virtual antlrcpp::Any visitParenExpr(MainParser::ParenExprContext *context) = 0;
 
-    virtual antlrcpp::Any visitMulDivOp(MainParser::MulDivOpContext *context) = 0;
-
-    virtual antlrcpp::Any visitAddSubOp(MainParser::AddSubOpContext *context) = 0;
-
     virtual antlrcpp::Any visitSignedNumber(MainParser::SignedNumberContext *context) = 0;
 
     virtual antlrcpp::Any visitSign(MainParser::SignContext *context) = 0;
@@ -84,12 +80,6 @@ public:
     virtual antlrcpp::Any visitCharConst(MainParser::CharConstContext *context) = 0;
 
     virtual antlrcpp::Any visitTypeID(MainParser::TypeIDContext *context) = 0;
-
-    virtual antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *context) = 0;
-
-    virtual antlrcpp::Any visitAdd_sub_op(MainParser::Add_sub_opContext *context) = 0;
-
-    virtual antlrcpp::Any visitRel_op(MainParser::Rel_opContext *context) = 0;
 
 
 };

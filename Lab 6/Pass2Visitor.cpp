@@ -104,7 +104,7 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
    bool real_mode    =    (type1 == Predefined::real_type)
                        && (type2 == Predefined::real_type);
 
-   string op = ctx->add_sub_op()->getText();
+   string op = ctx->ADD_SUB_OP()->getText();
    string opcode;
 
    if (op == "+")
@@ -138,7 +138,7 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
    bool real_mode    =    (type1 == Predefined::real_type)
                        && (type2 == Predefined::real_type);
 
-   string op = ctx->mul_div_op()->getText();
+   string op = ctx->MUL_DIV_OP()->getText();
    string opcode;
 
    if (op == "*")
@@ -204,12 +204,13 @@ antlrcpp::Any Pass2Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
 antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 {
 	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
+	visitChildren(ctx);
+	ctx->expr();
 
-	return visitChildren(ctx);
 }
 antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 {
-	cout << "\tvisitIfStatement " << ctx->getText() << endl;
+	cout << "=== visitIfStatement " << ctx->getText() << endl;
 
    int original_label = labelNum;
    int statement_size = ctx->stmt_list().size();
@@ -243,4 +244,53 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
   j_file << "Label_" << last_label << ":" << endl;
   labelNum++;
   return NULL;
+}
+antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
+{
+	cout << "=== visitRelOpExpr " << ctx->getText() << endl;
+    cout << "\tvisitMathExpr      " << ctx->getText() << endl;
+    auto value = visitChildren(ctx);
+
+    TypeSpec *type1 = ctx->expr(0)->type;
+    TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+    bool boolean_mode =    (type1 == Predefined::boolean_type)
+                        && (type2 == Predefined::boolean_type);
+
+    string op = ctx->REL_OP()->getText();
+    string jas_op;
+
+    if (op == "==")
+    {
+        jas_op = integer_mode ? "if_icmpeq" : boolean_mode ? "if_icmpeq"
+               :                "????";
+    }
+    else if (op == "!=")
+    {
+        jas_op = integer_mode ? "if_icmpne":"????";
+    }
+    else if (op == "<")
+    {
+        jas_op = integer_mode ? "if_icmplt":"????";
+    }
+    else if (op == "<=")
+    {
+        jas_op = integer_mode ? "if_icmple":"????";
+    }
+    else if (op == ">")
+    {
+        jas_op = integer_mode ? "if_icmpgt":"????";
+    }
+    else // >=
+    {
+        jas_op = integer_mode ? "if_icmpge":"????";
+    }
+
+    //sprintf(label, "%d", label_num++);
+    // Emit an add or subtract instruction.
+    j_file << "\t" << jas_op << " Label_" << label << endl;
+
+    return value;
 }

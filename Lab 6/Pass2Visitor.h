@@ -38,6 +38,8 @@ public:
 
     antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
     antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
+    antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
+
 
 };
 #endif /* PASS2VISITOR_H_ */

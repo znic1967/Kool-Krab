@@ -74,7 +74,25 @@ antlrcpp::Any Pass2Visitor::visitStmt(MainParser::StmtContext *ctx)
 
    return visitChildren(ctx);
 }
+antlrcpp::Any Pass2Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
+{
+	    cout << "\tvisitDefinition      " << ctx->getText() << endl;
+	    auto value = visit(ctx->expr());
 
+	    string type_indicator =
+	                  (ctx->expr()->type == Predefined::integer_type) ? "I"
+	                : (ctx->expr()->type == Predefined::boolean_type) ? "Z"
+					: (ctx->expr()->type == Predefined::char_type)    ? "C"
+	                :                                                   "?";
+
+	    // Emit a field put instruction.
+	    j_file << "\tputstatic\t" << program_name
+	           << "/" << ctx->varID()->IDENTIFIER()->toString()
+	           << " " << type_indicator << endl;
+
+	    return value;
+}
+//Assign and print
 antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx)
 {
    auto value = visit(ctx->expr());
@@ -88,6 +106,23 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
    j_file << "\tputstatic\t" << program_name
           << "/" << ctx->variable()->IDENTIFIER()->toString()
           << " " << type_indicator << endl;
+
+   j_file << "\t; Assignment" << endl;
+   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+   j_file << "\t\tldc" << "\t\"Variable " << ctx->variable()->IDENTIFIER()->toString() << " = %d\\n\"" << endl;
+
+   j_file << "\t\ticonst_1\t" << endl;
+   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
+   j_file << "\t\tdup" << endl;
+
+   j_file << "\t\ticonst_0" << endl;
+   j_file << "\t\tgetstatic\t" << program_name << "/" << ctx->variable()->IDENTIFIER()->toString()<< " " << type_indicator << endl;
+   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
+   j_file << "\t\taastore" << endl;
+
+
+   j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
+   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
 
    return value;
 }
@@ -156,6 +191,7 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
 {
+	//cout<<"=== visiVariableExpr"<<endl;
    string variable_name = ctx->variable()->IDENTIFIER()->toString();
    TypeSpec *type = ctx->type;
 
@@ -204,14 +240,12 @@ antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 	cout<<"Loop Start: "<<loop_start<<endl;
 	cout<<"Loop End"<<loop_end<<endl;
 	j_file << "Label_" << loop_start << ":" << endl;
-
+	visit(ctx->stmt_list());
+	visit(ctx->expr());
 	//cout<<"here"<<endl;
 	j_file <<"\tgoto " << "Label_" << loop_start << endl;
+	//label=loop_start;
 
-	visit(ctx->stmt_list());
-
-	label=loop_start;
-	visit(ctx->expr());
 //	label=loop_end;
 //	j_file <<"\tgoto " << "Label_" << loop_end << endl;
 //	labelNum=loop_end+1;
@@ -234,7 +268,6 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
   cout<<"Last label: "<<last_label<<endl;
 
   visit(ctx->expr());
-
   if(has_else)
   {
   	visitChildren(ctx->stmt_list(statement_size -1));

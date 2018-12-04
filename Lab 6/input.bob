@@ -7,7 +7,7 @@ int Krabie()
 		IsMayo (a<b){
 			a=a+2;
 		}
-		NotMayo {a=a*b;}
+		NotMayo {a=4*b;}
 	}
 	Aroundtown (a<30)
 Pattie

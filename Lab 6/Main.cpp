@@ -34,6 +34,6 @@ int main(int argc, const char *args[])
     Pass2Visitor *pass2 = new Pass2Visitor(j_file);
     pass2->visit(tree);
 
-    delete tree;
+    //delete tree;
     return 0;
 }

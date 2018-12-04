@@ -12,7 +12,7 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 
 int labelNum = 0;
-string label;
+int label=0;
 
 Pass2Visitor::Pass2Visitor(ostream& j_file)
     : program_name(""), j_file(j_file)
@@ -101,23 +101,17 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 
    bool integer_mode =    (type1 == Predefined::integer_type)
                        && (type2 == Predefined::integer_type);
-   bool real_mode    =    (type1 == Predefined::real_type)
-                       && (type2 == Predefined::real_type);
 
    string op = ctx->add_sub_op()->getText();
    string opcode;
 
    if (op == "+")
    {
-       opcode = integer_mode ? "iadd"
-              : real_mode    ? "fadd"
-              :                "????";
+       opcode = integer_mode ? "iadd":"????";
    }
    else
    {
-       opcode = integer_mode ? "isub"
-              : real_mode    ? "fsub"
-              :                "????";
+       opcode = integer_mode ? "isub":"????";
    }
 
    // Emit an add or subtract instruction.
@@ -208,12 +202,14 @@ antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 	int loop_start=labelNum++;
 	int loop_end=labelNum;
 	label=loop_start;
+	cout<<"Loop Start: "<<label<<endl;
 	j_file << "Label_" << label << ":" << endl;
 
 	label=loop_end;
+	cout<<"Loop End: "<<label<<endl;
 	j_file << "Label_" << label << ":" << endl;
 	visit(ctx->stmt_list());
-
+	cout<<"here"<<endl;
 	visit(ctx->expr());
 	label=loop_start;
 	j_file <<"\tgoto" << "Label_" << label << ":" << endl;
@@ -230,7 +226,7 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 
    int original_label = labelNum;
    int statement_size = ctx->stmt_list().size();
-   cout<<"Stmt size:"<<statement_size<<endl;
+   //cout<<"Stmt size:"<<statement_size<<endl;
    string current_label;
 
   bool has_else = (statement_size > 1) ? true : false;
@@ -264,7 +260,6 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
 {
 	cout << "=== visitRelOpExpr " << ctx->getText() << endl;
-    cout << "\tvisitMathExpr      " << ctx->getText() << endl;
     auto value = visitChildren(ctx);
 
     TypeSpec *type1 = ctx->expr(0)->type;
@@ -305,7 +300,9 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     }
 
     label=labelNum++;
+    cout<<"Label: "<<label<<endl;
     j_file << "\t" << jas_op << " Label_" << label << endl;
+    cout<<"Jas op: "<<jas_op<<endl;
 
     return value;
 }

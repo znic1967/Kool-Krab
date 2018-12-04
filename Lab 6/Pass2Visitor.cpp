@@ -12,7 +12,7 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 
 int labelNum = 0;
-char label[4];
+string label;
 
 Pass2Visitor::Pass2Visitor(ostream& j_file)
     : program_name(""), j_file(j_file)
@@ -104,7 +104,7 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
    bool real_mode    =    (type1 == Predefined::real_type)
                        && (type2 == Predefined::real_type);
 
-   string op = ctx->ADD_SUB_OP()->getText();
+   string op = ctx->add_sub_op()->getText();
    string opcode;
 
    if (op == "+")
@@ -138,7 +138,7 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
    bool real_mode    =    (type1 == Predefined::real_type)
                        && (type2 == Predefined::real_type);
 
-   string op = ctx->MUL_DIV_OP()->getText();
+   string op = ctx->mul_div_op()->getText();
    string opcode;
 
    if (op == "*")
@@ -204,9 +204,25 @@ antlrcpp::Any Pass2Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
 antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 {
 	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
-	visitChildren(ctx);
-	ctx->expr();
 
+	int loop_start=labelNum++;
+	int loop_end=labelNum;
+	label=loop_start;
+	j_file << "Label_" << label << ":" << endl;
+
+	label=loop_end;
+	j_file << "Label_" << label << ":" << endl;
+	visit(ctx->stmt_list());
+
+	visit(ctx->expr());
+	label=loop_start;
+	j_file <<"\tgoto" << "Label_" << label << ":" << endl;
+
+	label=loop_end;
+	j_file <<"\tgoto" << "Label_" << label << ":" << endl;
+	labelNum=loop_end+1;
+
+	return NULL;
 }
 antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 {
@@ -220,7 +236,7 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
   bool has_else = (statement_size > 1) ? true : false;
 
   string last_label;
-  //sprintf(last_label, "%d", label_num+expression_size);
+  last_label=labelNum+statement_size;
 
   for(int i = 0; i < statement_size; i++)
   {
@@ -236,7 +252,7 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 
   for(int i = 0; i < statement_size; i++)
   {
-	  //sprintf(current_label, "%d", original_label++);
+	 current_label=original_label++;
 	  j_file << "Label_" << current_label << ":" << endl;
 	  visitChildren(ctx->stmt_list(i));
 	  j_file << "\tgoto " << "Label_" << last_label << endl;
@@ -259,7 +275,7 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     bool boolean_mode =    (type1 == Predefined::boolean_type)
                         && (type2 == Predefined::boolean_type);
 
-    string op = ctx->REL_OP()->getText();
+    string op = ctx->rel_op()->getText();
     string jas_op;
 
     if (op == "==")
@@ -288,8 +304,7 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
         jas_op = integer_mode ? "if_icmpge":"????";
     }
 
-    //sprintf(label, "%d", label_num++);
-    // Emit an add or subtract instruction.
+    label=labelNum++;
     j_file << "\t" << jas_op << " Label_" << label << endl;
 
     return value;

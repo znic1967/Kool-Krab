@@ -32,7 +32,7 @@ assignment_stmt : variable '=' (expr | function_call);
 declaration_stmt: typeID varID '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr;
-if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; 
+if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
 do_while : DO '{' stmt_list '}' WHILE  expr ; //Leo was here
 function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';
@@ -41,13 +41,15 @@ function_body	: typeID IDENTIFIER '('((typeID IDENTIFIER) ','?)* ')' '{' stmt_li
 variable : IDENTIFIER ;
 
 expr locals [ TypeSpec *type = nullptr ]
-	: expr MUL_DIV_OP expr #mulDivExpr
-     | expr ADD_SUB_OP expr #addSubExpr
-     | expr REL_OP expr	#relOpExpr
+	: expr mul_div_op expr #mulDivExpr
+     | expr add_sub_op expr #addSubExpr
+     | expr rel_op expr	#relOpExpr
      | number			#unsignedNumberExpr
      | variable			#variableExpr
      | '(' expr ')'		#parenExpr
      ;
+mulDivOp : MUL_OP | DIV_OP ;
+addSubOp : ADD_OP | SUB_OP ;
      
 signedNumber locals [ TypeSpec *type = nullptr ] 
     : sign number 
@@ -64,9 +66,9 @@ typeID	: IDENTIFIER
 		| CHARACTER_TYPE
 		;
 
-MUL_DIV_OP : MUL_OP | DIV_OP ;
-ADD_SUB_OP : ADD_OP | SUB_OP ;
-REL_OP     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
+mul_div_op : MUL_OP | DIV_OP ;
+add_sub_op : ADD_OP | SUB_OP ;
+rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
 KRABBIE : 'Krabie' ;
 END		: 'Pattie';

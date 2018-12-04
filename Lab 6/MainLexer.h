@@ -16,13 +16,12 @@ using namespace wci::intermediate;
 class  MainLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, MUL_DIV_OP = 7, 
-    ADD_SUB_OP = 8, REL_OP = 9, KRABBIE = 10, END = 11, BEGIN = 12, VAR = 13, 
-    REPEAT = 14, UNTIL = 15, IF = 16, THEN = 17, ELSE = 18, DO = 19, WHILE = 20, 
-    RETURN = 21, DONE = 22, INTEGER_TYPE = 23, CHARACTER_TYPE = 24, IDENTIFIER = 25, 
-    INTEGER = 26, CHARACTER = 27, MUL_OP = 28, DIV_OP = 29, ADD_OP = 30, 
-    SUB_OP = 31, EQ_OP = 32, NE_OP = 33, LT_OP = 34, LE_OP = 35, GT_OP = 36, 
-    GE_OP = 37, NEWLINE = 38, WS = 39
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
+    END = 8, BEGIN = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
+    ELSE = 15, DO = 16, WHILE = 17, RETURN = 18, DONE = 19, INTEGER_TYPE = 20, 
+    CHARACTER_TYPE = 21, IDENTIFIER = 22, INTEGER = 23, CHARACTER = 24, 
+    MUL_OP = 25, DIV_OP = 26, ADD_OP = 27, SUB_OP = 28, EQ_OP = 29, NE_OP = 30, 
+    LT_OP = 31, LE_OP = 32, GT_OP = 33, GE_OP = 34, NEWLINE = 35, WS = 36
   };
 
   MainLexer(antlr4::CharStream *input);

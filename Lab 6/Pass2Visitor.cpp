@@ -200,23 +200,21 @@ antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
 
 	int loop_start=labelNum++;
-	int loop_end=labelNum;
-	label=loop_start;
-	cout<<"Loop Start: "<<label<<endl;
-	j_file << "Label_" << label << ":" << endl;
+	int loop_end=labelNum++;
+	cout<<"Loop Start: "<<loop_start<<endl;
+	cout<<"Loop End"<<loop_end<<endl;
+	j_file << "Label_" << loop_start << ":" << endl;
 
-	label=loop_end;
-	cout<<"Loop End: "<<label<<endl;
-	j_file << "Label_" << label << ":" << endl;
+	//cout<<"here"<<endl;
+	j_file <<"\tgoto " << "Label_" << loop_start << endl;
+
 	visit(ctx->stmt_list());
-	cout<<"here"<<endl;
-	visit(ctx->expr());
-	label=loop_start;
-	j_file <<"\tgoto" << "Label_" << label << ":" << endl;
 
-	label=loop_end;
-	j_file <<"\tgoto" << "Label_" << label << ":" << endl;
-	labelNum=loop_end+1;
+	label=loop_start;
+	visit(ctx->expr());
+//	label=loop_end;
+//	j_file <<"\tgoto " << "Label_" << loop_end << endl;
+//	labelNum=loop_end+1;
 
 	return NULL;
 }
@@ -226,22 +224,20 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 
    int original_label = labelNum;
    int statement_size = ctx->stmt_list().size();
-   //cout<<"Stmt size:"<<statement_size<<endl;
-   string current_label;
+   cout<<"Stmt size:"<<statement_size<<endl;
+   int current_label;
 
   bool has_else = (statement_size > 1) ? true : false;
 
-  string last_label;
+  int last_label;
   last_label=labelNum+statement_size;
+  cout<<"Last label: "<<last_label<<endl;
 
-  for(int i = 0; i < statement_size; i++)
-  {
-  	visit(ctx->stmt_list(i));
-  }
+  visit(ctx->expr());
 
   if(has_else)
   {
-  	visitChildren(ctx->stmt_list(statement_size - 1));
+  	visitChildren(ctx->stmt_list(statement_size -1));
   }
 
   j_file << "\tgoto " << "Label_" << last_label << endl;
@@ -300,7 +296,7 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     }
 
     label=labelNum++;
-    cout<<"Label: "<<label<<endl;
+    cout<<"Label_rel: "<<label<<endl;
     j_file << "\t" << jas_op << " Label_" << label << endl;
     cout<<"Jas op: "<<jas_op<<endl;
 

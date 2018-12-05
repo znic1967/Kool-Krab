@@ -107,22 +107,22 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
           << "/" << ctx->variable()->IDENTIFIER()->toString()
           << " " << type_indicator << endl;
 
-   j_file << "\t; Assignment" << endl;
-   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
-   j_file << "\t\tldc" << "\t\"Variable " << ctx->variable()->IDENTIFIER()->toString() << " = %d\\n\"" << endl;
-
-   j_file << "\t\ticonst_1\t" << endl;
-   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
-   j_file << "\t\tdup" << endl;
-
-   j_file << "\t\ticonst_0" << endl;
-   j_file << "\t\tgetstatic\t" << program_name << "/" << ctx->variable()->IDENTIFIER()->toString()<< " " << type_indicator << endl;
-   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
-   j_file << "\t\taastore" << endl;
-
-
-   j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
-   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
+//   j_file << "\t; Assignment" << endl;
+//   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+//   j_file << "\t\tldc" << "\t\"Variable " << ctx->variable()->IDENTIFIER()->toString() << " = %d\\n\"" << endl;
+//
+//   j_file << "\t\ticonst_1\t" << endl;
+//   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
+//   j_file << "\t\tdup" << endl;
+//
+//   j_file << "\t\ticonst_0" << endl;
+//   j_file << "\t\tgetstatic\t" << program_name << "/" << ctx->variable()->IDENTIFIER()->toString()<< " " << type_indicator << endl;
+//   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
+//   j_file << "\t\taastore" << endl;
+//
+//
+//   j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
+//   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
 
    return value;
 }
@@ -236,59 +236,50 @@ antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
 
 	int loop_start=labelNum++;
-	int loop_end=labelNum++;
-	cout<<"Loop Start: "<<loop_start<<endl;
-	cout<<"Loop End"<<loop_end<<endl;
+
+	//cout<<"Loop Start: "<<loop_start<<endl;
 	j_file << "Label_" << loop_start << ":" << endl;
 	visit(ctx->stmt_list());
-	visit(ctx->expr());
-	//cout<<"here"<<endl;
-	j_file <<"\tgoto " << "Label_" << loop_start << endl;
-	//label=loop_start;
-
-//	label=loop_end;
-//	j_file <<"\tgoto " << "Label_" << loop_end << endl;
-//	labelNum=loop_end+1;
-
+	//int loop_end=labelNum++;
+	label=loop_start;
+	visit(ctx->expr()); //if the condition is still true go to loop start, else fall through
 	return NULL;
 }
 antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 {
 	cout << "=== visitIfStatement " << ctx->getText() << endl;
 
-   int original_label = labelNum;
+   int original_label = labelNum++;
+   int true_label=labelNum++;
+   int last_label=labelNum++;
    int statement_size = ctx->stmt_list().size();
    cout<<"Stmt size:"<<statement_size<<endl;
-   int current_label;
 
   bool has_else = (statement_size > 1) ? true : false;
 
-  int last_label;
-  last_label=labelNum+statement_size;
   cout<<"Last label: "<<last_label<<endl;
 
-  visit(ctx->expr());
+  j_file << "Label_" << original_label << ":" << endl;
+  label=true_label;
+  visit(ctx->expr()); //If the expression is true jump to true statements
+
   if(has_else)
   {
   	visitChildren(ctx->stmt_list(statement_size -1));
+  	j_file << "\tgoto " << "Label_" << last_label << endl;
   }
 
-  j_file << "\tgoto " << "Label_" << last_label << endl;
-
-  for(int i = 0; i < statement_size; i++)
-  {
-	 current_label=original_label++;
-	  j_file << "Label_" << current_label << ":" << endl;
-	  visitChildren(ctx->stmt_list(i));
-	  j_file << "\tgoto " << "Label_" << last_label << endl;
-  }
+  j_file << "Label_" << true_label << ":" << endl;
+  visitChildren(ctx->stmt_list(statement_size-2));
   j_file << "Label_" << last_label << ":" << endl;
-  labelNum++;
   return NULL;
 }
 antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
 {
 	cout << "=== visitRelOpExpr " << ctx->getText() << endl;
+
+	//j_file << "\tlcmp" << endl; //Pushes integer to stack to be checked in other visitor
+
     auto value = visitChildren(ctx);
 
     TypeSpec *type1 = ctx->expr(0)->type;
@@ -328,10 +319,10 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
         jas_op = integer_mode ? "if_icmpge":"????";
     }
 
-    label=labelNum++;
+    //label=labelNum++;
     cout<<"Label_rel: "<<label<<endl;
     j_file << "\t" << jas_op << " Label_" << label << endl;
     cout<<"Jas op: "<<jas_op<<endl;
 
-    return value;
+    return NULL;
 }

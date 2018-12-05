@@ -1,13 +1,12 @@
+int chumbucket()
+{
+	int a=40;
+	Spitout a;
+}
+
 int Krabie()
 	int a=2;
 	int b=4;
-	char c='K';
-	
-	Bringit {
-		IsMayo (a<b){
-			a=a+2;
-		}
-		NotMayo {a=4*b;}
-	}
-	Aroundtown (a<30)
+	char c = 'K';
+	chumbucket();
 Pattie

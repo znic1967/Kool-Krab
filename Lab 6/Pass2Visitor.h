@@ -36,10 +36,12 @@ public:
     antlrcpp::Any visitVariableExpr(MainParser::VariableExprContext *ctx) override;
     antlrcpp::Any visitSignedNumber(MainParser::SignedNumberContext *ctx) override;
     antlrcpp::Any visitIntegerConst(MainParser::IntegerConstContext *ctx) override;
+    antlrcpp::Any visitCharConst(MainParser::CharConstContext *ctx) override;
 
     antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
     antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
     antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
+    antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
 
 
 };

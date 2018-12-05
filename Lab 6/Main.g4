@@ -5,7 +5,7 @@ grammar Main;  // Kool Krab Grammar File
 using namespace wci::intermediate;
 }
 
-program : header block END func_list?;
+program : func_list? header block END ;
 header  : typeID KRABBIE '('((typeID IDENTIFIER) ','?)* ')';
 block   : stmt_list
 		| func_list 
@@ -19,24 +19,21 @@ stmt : (assignment_stmt ';')
      | return_stmt
      ;
 
-func : function_call
-     | function_decl
-     | function_body
-     ;
+func : function_call | function_defn ;
 
 varID        : IDENTIFIER ;
 
 stmt_list       : (stmt | func)+ ;
-func_list       : (func';')*;
+func_list       : (func)*;
 assignment_stmt : variable '=' (expr | function_call);
 declaration_stmt: typeID varID '=' expr;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
-return_stmt		: RETURN expr;
+return_stmt		: RETURN expr ';';
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
 do_while : DO '{' stmt_list '}' WHILE  expr ; //Leo was here
-function_decl	: variable IDENTIFIER '('((variable IDENTIFIER) ','+)* ')' stmt END;
-function_call	: IDENTIFIER '('((variable | IDENTIFIER) ','?)* ')';
-function_body	: typeID IDENTIFIER '('((typeID IDENTIFIER) ','?)* ')' '{' stmt_list '}' END ; //Leo w/h
+//function_decl	: variable funcID '('((variable IDENTIFIER) ','+)* ')' stmt END;
+function_call	: funcID '('((variable | IDENTIFIER) ','?)* ')' ';';
+function_defn	: typeID funcID '('((typeID variable) ','?)* ')' '{' stmt_list '}'; //Leo w/h
 
 variable : IDENTIFIER ;
 
@@ -48,8 +45,6 @@ expr locals [ TypeSpec *type = nullptr ]
      | variable			#variableExpr
      | '(' expr ')'		#parenExpr
      ;
-mulDivOp : MUL_OP | DIV_OP ;
-addSubOp : ADD_OP | SUB_OP ;
      
 signedNumber locals [ TypeSpec *type = nullptr ] 
     : sign number 
@@ -58,16 +53,19 @@ sign : ADD_OP | SUB_OP ;
 
 number locals [ TypeSpec *type = nullptr ]
     : INTEGER    # integerConst
-    | CHARACTER #charConst
+    | CHARACTER  #charConst
     ;
 
 typeID	: IDENTIFIER
 		| INTEGER_TYPE
 		| CHARACTER_TYPE
 		;
+funcID : IDENTIFIER;
 
+//In order of precedence
 mul_div_op : MUL_OP | DIV_OP ;
 add_sub_op : ADD_OP | SUB_OP ;
+
 rel_op     : EQ_OP | NE_OP | LT_OP | LE_OP | GT_OP | GE_OP ;
 
 KRABBIE : 'Krabie' ;

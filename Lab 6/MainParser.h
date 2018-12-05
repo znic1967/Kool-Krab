@@ -28,10 +28,10 @@ public:
     RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
     RuleVarID = 5, RuleStmt_list = 6, RuleFunc_list = 7, RuleAssignment_stmt = 8, 
     RuleDeclaration_stmt = 9, RuleRepeat_stmt = 10, RuleReturn_stmt = 11, 
-    RuleIf_stmt = 12, RuleDo_while = 13, RuleFunction_decl = 14, RuleFunction_call = 15, 
-    RuleFunction_body = 16, RuleVariable = 17, RuleExpr = 18, RuleMulDivOp = 19, 
-    RuleAddSubOp = 20, RuleSignedNumber = 21, RuleSign = 22, RuleNumber = 23, 
-    RuleTypeID = 24, RuleMul_div_op = 25, RuleAdd_sub_op = 26, RuleRel_op = 27
+    RuleIf_stmt = 12, RuleDo_while = 13, RuleFunction_call = 14, RuleFunction_defn = 15, 
+    RuleVariable = 16, RuleExpr = 17, RuleSignedNumber = 18, RuleSign = 19, 
+    RuleNumber = 20, RuleTypeID = 21, RuleFuncID = 22, RuleMul_div_op = 23, 
+    RuleAdd_sub_op = 24, RuleRel_op = 25
   };
 
   MainParser(antlr4::TokenStream *input);
@@ -58,17 +58,15 @@ public:
   class Return_stmtContext;
   class If_stmtContext;
   class Do_whileContext;
-  class Function_declContext;
   class Function_callContext;
-  class Function_bodyContext;
+  class Function_defnContext;
   class VariableContext;
   class ExprContext;
-  class MulDivOpContext;
-  class AddSubOpContext;
   class SignedNumberContext;
   class SignContext;
   class NumberContext;
   class TypeIDContext;
+  class FuncIDContext;
   class Mul_div_opContext;
   class Add_sub_opContext;
   class Rel_opContext; 
@@ -139,8 +137,7 @@ public:
     FuncContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Function_callContext *function_call();
-    Function_declContext *function_decl();
-    Function_bodyContext *function_body();
+    Function_defnContext *function_defn();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -275,31 +272,15 @@ public:
 
   Do_whileContext* do_while();
 
-  class  Function_declContext : public antlr4::ParserRuleContext {
-  public:
-    Function_declContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
-    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
-    StmtContext *stmt();
-    antlr4::tree::TerminalNode *END();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  Function_declContext* function_decl();
-
   class  Function_callContext : public antlr4::ParserRuleContext {
   public:
     Function_callContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
-    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
+    FuncIDContext *funcID();
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
+    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -307,22 +288,22 @@ public:
 
   Function_callContext* function_call();
 
-  class  Function_bodyContext : public antlr4::ParserRuleContext {
+  class  Function_defnContext : public antlr4::ParserRuleContext {
   public:
-    Function_bodyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Function_defnContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<TypeIDContext *> typeID();
     TypeIDContext* typeID(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
-    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
+    FuncIDContext *funcID();
     Stmt_listContext *stmt_list();
-    antlr4::tree::TerminalNode *END();
+    std::vector<VariableContext *> variable();
+    VariableContext* variable(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  Function_bodyContext* function_body();
+  Function_defnContext* function_defn();
 
   class  VariableContext : public antlr4::ParserRuleContext {
   public:
@@ -406,32 +387,6 @@ public:
 
   ExprContext* expr();
   ExprContext* expr(int precedence);
-  class  MulDivOpContext : public antlr4::ParserRuleContext {
-  public:
-    MulDivOpContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *MUL_OP();
-    antlr4::tree::TerminalNode *DIV_OP();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  MulDivOpContext* mulDivOp();
-
-  class  AddSubOpContext : public antlr4::ParserRuleContext {
-  public:
-    AddSubOpContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *ADD_OP();
-    antlr4::tree::TerminalNode *SUB_OP();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  AddSubOpContext* addSubOp();
-
   class  SignedNumberContext : public antlr4::ParserRuleContext {
   public:
     TypeSpec * type = nullptr;
@@ -504,6 +459,18 @@ public:
   };
 
   TypeIDContext* typeID();
+
+  class  FuncIDContext : public antlr4::ParserRuleContext {
+  public:
+    FuncIDContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IDENTIFIER();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FuncIDContext* funcID();
 
   class  Mul_div_opContext : public antlr4::ParserRuleContext {
   public:

@@ -51,11 +51,9 @@ public:
 
     virtual antlrcpp::Any visitDo_while(MainParser::Do_whileContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunction_decl(MainParser::Function_declContext *context) = 0;
-
     virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunction_body(MainParser::Function_bodyContext *context) = 0;
+    virtual antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *context) = 0;
 
     virtual antlrcpp::Any visitVariable(MainParser::VariableContext *context) = 0;
 
@@ -71,10 +69,6 @@ public:
 
     virtual antlrcpp::Any visitParenExpr(MainParser::ParenExprContext *context) = 0;
 
-    virtual antlrcpp::Any visitMulDivOp(MainParser::MulDivOpContext *context) = 0;
-
-    virtual antlrcpp::Any visitAddSubOp(MainParser::AddSubOpContext *context) = 0;
-
     virtual antlrcpp::Any visitSignedNumber(MainParser::SignedNumberContext *context) = 0;
 
     virtual antlrcpp::Any visitSign(MainParser::SignContext *context) = 0;
@@ -84,6 +78,8 @@ public:
     virtual antlrcpp::Any visitCharConst(MainParser::CharConstContext *context) = 0;
 
     virtual antlrcpp::Any visitTypeID(MainParser::TypeIDContext *context) = 0;
+
+    virtual antlrcpp::Any visitFuncID(MainParser::FuncIDContext *context) = 0;
 
     virtual antlrcpp::Any visitMul_div_op(MainParser::Mul_div_opContext *context) = 0;
 

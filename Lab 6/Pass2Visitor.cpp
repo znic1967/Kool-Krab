@@ -76,7 +76,7 @@ antlrcpp::Any Pass2Visitor::visitStmt(MainParser::StmtContext *ctx)
 }
 antlrcpp::Any Pass2Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
 {
-	    cout << "\tvisitDefinition      " << ctx->getText() << endl;
+	    cout << "=== visitDefinition      " << ctx->getText() << endl;
 	    auto value = visit(ctx->expr());
 
 	    string type_indicator =
@@ -231,6 +231,18 @@ antlrcpp::Any Pass2Visitor::visitIntegerConst(MainParser::IntegerConstContext *c
 
     return visitChildren(ctx);
 }
+antlrcpp::Any Pass2Visitor::visitCharConst(MainParser::CharConstContext *ctx)
+{
+    // Emit a load constant instruction.
+	string str=ctx->getText();
+	//string output=str.substr(1,1);
+	char ch=str[1];
+	int ch_int=(int)ch;
+	//str="\""+ output +"\"";
+    j_file << "\tldc\t" << ch_int << endl;
+
+    return visitChildren(ctx);
+}
 antlrcpp::Any Pass2Visitor::visitDo_while(MainParser::Do_whileContext *ctx)
 {
 	cout << "=== visitDo_WhileStatement: "<< ctx->getText() << endl;
@@ -253,11 +265,11 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
    int true_label=labelNum++;
    int last_label=labelNum++;
    int statement_size = ctx->stmt_list().size();
-   cout<<"Stmt size:"<<statement_size<<endl;
+   //cout<<"Stmt size:"<<statement_size<<endl;
 
   bool has_else = (statement_size > 1) ? true : false;
 
-  cout<<"Last label: "<<last_label<<endl;
+  //cout<<"Last label: "<<last_label<<endl;
 
   j_file << "Label_" << original_label << ":" << endl;
   label=true_label;
@@ -273,6 +285,15 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
   visitChildren(ctx->stmt_list(statement_size-2));
   j_file << "Label_" << last_label << ":" << endl;
   return NULL;
+}
+antlrcpp::Any Pass2Visitor::visitFunction_defn(MainParser::Function_defnContext *ctx)
+{
+	int variable_size=ctx->variable().size();
+	string return_type=ctx->typeID(0)->getText();
+	//cout<<"Variables: "<<variable_size<<endl;
+
+
+	return NULL;
 }
 antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
 {
@@ -320,9 +341,9 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     }
 
     //label=labelNum++;
-    cout<<"Label_rel: "<<label<<endl;
+    //cout<<"Label_rel: "<<label<<endl;
     j_file << "\t" << jas_op << " Label_" << label << endl;
-    cout<<"Jas op: "<<jas_op<<endl;
+    //cout<<"Jas op: "<<jas_op<<endl;
 
     return NULL;
 }

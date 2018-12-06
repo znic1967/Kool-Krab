@@ -4,9 +4,17 @@
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
 
-; inta=40
+; inta
 
 .field private static a I
+
+; intb
+
+.field private static b I
+
+; charc
+
+.field private static c C
 
 .method public <init>()V
 
@@ -29,18 +37,67 @@
 	invokenonvirtual PascalTextIn/<init>()V
 	putstatic        Krabbie/_standardIn LPascalTextIn;
 
-; inta=40;
+; inta=2;
 
-	ldc	40
+	ldc	2
 	putstatic	Krabbie/a I
 
-; Printingpress("Bitttch");
+; intb=4;
 
-	; Assignment
+	ldc	4
+	putstatic	Krabbie/b I
+
+; charc='K';
+
+	ldc	75
+	putstatic	Krabbie/c C
+
+; Bringit{IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}Printingpress(a);}Aroundtown(a<30)
+
+Label_0:
+
+; IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}
+
+Label_1:
+	getstatic	Krabbie/a I
+	getstatic	Krabbie/b I
+	if_icmplt Label_2
+
+; a=a*b;
+
+	getstatic	Krabbie/a I
+	getstatic	Krabbie/b I
+	imul
+	putstatic	Krabbie/a I
+	goto Label_3
+Label_2:
+
+; a=a+2;
+
+	getstatic	Krabbie/a I
+	ldc	2
+	iadd
+	putstatic	Krabbie/a I
+Label_3:
+
+; Printingpress(a);
+
+	getstatic	Krabbie/a I
+		putstatic	Krabbie/a I
 		getstatic	java/lang/System/out Ljava/io/PrintStream;
-		ldc "Bitttch"
-
+		ldc "a = %d\n"
+		iconst_1	
+		anewarray	java/lang/Object
+		dup
+		iconst_0
+		getstatic	Krabbie/a I
+		invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
+		aastore
+		invokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
+	getstatic	Krabbie/a I
+	ldc	30
+	if_icmplt Label_0
 
 	getstatic     Krabbie/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

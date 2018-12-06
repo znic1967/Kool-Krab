@@ -27,7 +27,8 @@ varID locals [ TypeSpec *type = nullptr ] : IDENTIFIER ;
 stmt_list       : (stmt | func)+ ;
 func_list       : (func)*;
 assignment_stmt : variable '=' (expr | function_call);
-declaration_stmt: typeID varID '=' expr;
+declaration_stmt: declaration '=' expr;
+declaration		: typeID varID;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr ';';
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
@@ -36,7 +37,7 @@ print_stmt : PRINT '(' (expr|str) ')' ';';
 //function_decl	: variable funcID '('((variable IDENTIFIER) ','+)* ')' stmt END;
 function_call	: funcID '(' identifiers? ')' ';';
 identifiers		: expr  (',' expr)+  ;
-function_defn	: typeID funcID '('((typeID variable) ','?)* ')' '{' stmt_list '}'; //Leo w/h
+function_defn	: typeID funcID '('((declaration) ','?)* ')' '{' stmt_list '}'; //Leo w/h
 
 variable : IDENTIFIER ;
 

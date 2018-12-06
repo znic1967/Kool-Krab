@@ -13,6 +13,8 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 using namespace wci::util;
 
+static string function_name = "";
+
 Pass1Visitor::Pass1Visitor()
     : program_id(nullptr), j_file(nullptr)
 {
@@ -109,9 +111,9 @@ antlrcpp::Any Pass1Visitor::visitVarID(MainParser::VarIDContext *ctx)
 
         return visitChildren(ctx);
 }
-antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
+antlrcpp::Any Pass1Visitor::visitDeclaration(MainParser::DeclarationContext *ctx)
 {
-    cout << "=== visitDeclaration_stmt: " + ctx->getText() << endl;
+    cout << "=== visitDeclaration: " + ctx->getText() << endl;
 
     j_file << "\n; " << ctx->getText() << "\n" << endl;
     TypeSpec *type;
@@ -148,6 +150,10 @@ antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtCo
     }
 
     return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx)
+{
+	return visitChildren(ctx);
 }
 antlrcpp::Any Pass1Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 {
@@ -262,3 +268,63 @@ antlrcpp::Any Pass1Visitor::visitUnsignedNumberExpr(MainParser::UnsignedNumberEx
     ctx->type = ctx->number()->type;
     return value;
 }
+antlrcpp::Any Pass1Visitor::visitFuncID(MainParser::FuncIDContext *ctx)
+{
+    cout << "=== visitFunctionID: " + ctx->getText() << endl;
+
+    string func_name = ctx->IDENTIFIER()->toString();
+    SymTabEntry *function_id = symtab_stack->enter_local(func_name);
+    function_id->set_definition((Definition) DF_FUNCTION);
+    variable_id_list.push_back(function_id);
+
+    return visitChildren(ctx);
+}
+antlrcpp::Any Pass1Visitor::visitFunction_defn(MainParser::Function_defnContext *ctx)
+{
+    cout << "=== visitFunctionDefinition: " + ctx->getText() << endl;
+    function_name = ctx->funcID()->getText() + "_";
+
+    variable_id_list.resize(0);
+
+    auto value = visit(ctx->funcID());
+    visit(ctx->typeID());
+
+    TypeSpec *type;
+    string type_indicator;
+    string type_name = ctx->typeID()->IDENTIFIER()->toString();
+    if (type_name == "int")
+    {
+        type = Predefined::integer_type;
+        type_indicator = "I";
+    }
+    else if (type_name == "bool")
+    {
+        type = Predefined::boolean_type;
+        type_indicator = "Z";
+    }
+    else if (type_name == "string")
+    {
+        type = Predefined::char_type;
+        type_indicator = "C";
+    }
+    else if (type_name == "void")
+    {
+        type = Predefined::char_type;
+        type_indicator = "V";
+    }
+    else
+    {
+        type = nullptr;
+        type_indicator = "?";
+    }
+
+    for (SymTabEntry *id : variable_id_list) {
+        id->set_typespec(type);
+    }
+
+    //visit(ctx->parameters());
+    visit(ctx->stmt_list());
+    function_name = "";
+    return value;
+}
+

@@ -43,6 +43,8 @@ public:
 
     virtual antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *context) = 0;
 
+    virtual antlrcpp::Any visitDeclaration(MainParser::DeclarationContext *context) = 0;
+
     virtual antlrcpp::Any visitRepeat_stmt(MainParser::Repeat_stmtContext *context) = 0;
 
     virtual antlrcpp::Any visitReturn_stmt(MainParser::Return_stmtContext *context) = 0;

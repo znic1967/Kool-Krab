@@ -1,5 +1,14 @@
 int Krabie()
-	int a=40;
-	Printingpress("Bitttch");
-
+	int a=2;
+	int b=4;
+	char c='K';
+	
+	Bringit {
+		IsMayo (a<b){
+			a=a+2;
+		}
+		NotMayo {a=a*b;}
+		Printingpress(a);
+	}
+	Aroundtown (a<30)
 Pattie

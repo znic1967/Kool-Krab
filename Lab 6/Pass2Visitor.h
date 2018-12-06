@@ -30,6 +30,7 @@ public:
     antlrcpp::Any visitBlock(MainParser::BlockContext *ctx) override;
     antlrcpp::Any visitStmt(MainParser::StmtContext *ctx) override;
     antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx) override;
+   // antlrcpp::Any visitDeclaration(MainParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx) override;
     antlrcpp::Any visitAddSubExpr(MainParser::AddSubExprContext *ctx) override;
     antlrcpp::Any visitMulDivExpr(MainParser::MulDivExprContext *ctx) override;
@@ -43,7 +44,7 @@ public:
     antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
     antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
     antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
-    antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
+   // antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
 
 
 };

@@ -51,7 +51,11 @@ public:
 
     virtual antlrcpp::Any visitDo_while(MainParser::Do_whileContext *context) = 0;
 
+    virtual antlrcpp::Any visitPrint_stmt(MainParser::Print_stmtContext *context) = 0;
+
     virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentifiers(MainParser::IdentifiersContext *context) = 0;
 
     virtual antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *context) = 0;
 
@@ -76,6 +80,8 @@ public:
     virtual antlrcpp::Any visitIntegerConst(MainParser::IntegerConstContext *context) = 0;
 
     virtual antlrcpp::Any visitCharConst(MainParser::CharConstContext *context) = 0;
+
+    virtual antlrcpp::Any visitStr(MainParser::StrContext *context) = 0;
 
     virtual antlrcpp::Any visitTypeID(MainParser::TypeIDContext *context) = 0;
 

@@ -37,6 +37,8 @@ public:
     antlrcpp::Any visitSignedNumber(MainParser::SignedNumberContext *ctx) override;
     antlrcpp::Any visitIntegerConst(MainParser::IntegerConstContext *ctx) override;
     antlrcpp::Any visitCharConst(MainParser::CharConstContext *ctx) override;
+    antlrcpp::Any visitPrint_stmt(MainParser::Print_stmtContext *ctx) override;
+    antlrcpp::Any visitStr(MainParser::StrContext *ctx) override;
 
     antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
     antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;

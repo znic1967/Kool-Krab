@@ -103,10 +103,8 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
                :                                                   "?";
 
    // Emit a field put instruction.
-   j_file << "\tputstatic\t" << program_name
-          << "/" << ctx->variable()->IDENTIFIER()->toString()
-          << " " << type_indicator << endl;
-
+//   j_file << "\tputstatic\t" << program_name << "/" << ctx->variable()->IDENTIFIER()->toString() << " " << type_indicator << endl;
+//
 //   j_file << "\t; Assignment" << endl;
 //   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
 //   j_file << "\t\tldc" << "\t\"Variable " << ctx->variable()->IDENTIFIER()->toString() << " = %d\\n\"" << endl;
@@ -126,7 +124,57 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
 
    return value;
 }
+antlrcpp::Any Pass2Visitor::visitStr(MainParser::StrContext *ctx)
+{
+	cout << "=== visitStr" << ctx->getText() << endl;
+	string value = ctx->STRING()->getText();
+	value=value.substr(1,value.length()-1);
+	j_file << "\tldc\t" << value << endl;
+	return visitChildren(ctx);
+}
+antlrcpp::Any Pass2Visitor::visitPrint_stmt(MainParser::Print_stmtContext *ctx)
+{
+	cout << "=== visitPrint_stmt" << endl;
+	//auto value = visit(ctx->expr());
 
+	if (ctx->expr()!=NULL)
+	{
+		auto value = visit(ctx->expr());
+		string type_indicator =
+			                 (ctx->expr()->type == Predefined::integer_type) ? "I"
+			               : (ctx->expr()->type == Predefined::real_type)    ? "F"
+			               :                                                   "?";
+		   j_file << "\t\tputstatic\t" << program_name << "/" << ctx->expr()->children[0]->getText() << " " << type_indicator << endl;
+		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+		   j_file << "\t\tldc \"" << ctx->expr()->children[0]->getText() << " = %d\\n\"" << endl;
+
+		   j_file << "\t\ticonst_1\t" << endl;
+		   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
+		   j_file << "\t\tdup" << endl;
+
+		   j_file << "\t\ticonst_0" << endl;
+		   j_file << "\t\tgetstatic\t" << program_name << "/" << ctx->expr()->children[0]->getText()<< " " << type_indicator << endl;
+		   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
+		   j_file << "\t\taastore" << endl;
+
+
+		   j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
+		   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
+	}
+	else{
+		   j_file << "\t; Assignment" << endl;
+		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+		   j_file << "\t\tldc " << ctx->str()->getText() << "\n" << endl;
+		   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
+	}
+
+
+
+
+
+
+	   return NULL;
+}
 antlrcpp::Any Pass2Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
 {
    auto value = visitChildren(ctx);

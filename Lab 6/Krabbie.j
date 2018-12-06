@@ -4,17 +4,9 @@
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
 
-; inta=2
+; inta=40
 
 .field private static a I
-
-; intb=4
-
-.field private static b I
-
-; charc='K'
-
-.field private static c C
 
 .method public <init>()V
 
@@ -37,20 +29,18 @@
 	invokenonvirtual PascalTextIn/<init>()V
 	putstatic        Krabbie/_standardIn LPascalTextIn;
 
-; inta=2;
+; inta=40;
 
-	ldc	2
+	ldc	40
 	putstatic	Krabbie/a I
 
-; intb=4;
+; Printingpress("Bitttch");
 
-	ldc	4
-	putstatic	Krabbie/b I
+	; Assignment
+		getstatic	java/lang/System/out Ljava/io/PrintStream;
+		ldc "Bitttch"
 
-; charc='K';
-
-	ldc	75
-	putstatic	Krabbie/c C
+		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
 
 	getstatic     Krabbie/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

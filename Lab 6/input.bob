@@ -1,12 +1,5 @@
-int chumbucket()
-{
-	int a=40;
-	Spitout a;
-}
-
 int Krabie()
-	int a=2;
-	int b=4;
-	char c = 'K';
-	chumbucket();
+	int a=40;
+	Printingpress("Bitttch");
+
 Pattie

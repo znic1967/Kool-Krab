@@ -19,19 +19,21 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
     END = 8, BEGIN = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
     ELSE = 15, DO = 16, WHILE = 17, RETURN = 18, DONE = 19, INTEGER_TYPE = 20, 
-    CHARACTER_TYPE = 21, IDENTIFIER = 22, INTEGER = 23, CHARACTER = 24, 
-    MUL_OP = 25, DIV_OP = 26, ADD_OP = 27, SUB_OP = 28, EQ_OP = 29, NE_OP = 30, 
-    LT_OP = 31, LE_OP = 32, GT_OP = 33, GE_OP = 34, NEWLINE = 35, WS = 36
+    CHARACTER_TYPE = 21, PRINT = 22, IDENTIFIER = 23, INTEGER = 24, CHARACTER = 25, 
+    STRING = 26, MUL_OP = 27, DIV_OP = 28, ADD_OP = 29, SUB_OP = 30, EQ_OP = 31, 
+    NE_OP = 32, LT_OP = 33, LE_OP = 34, GT_OP = 35, GE_OP = 36, NEWLINE = 37, 
+    WS = 38
   };
 
   enum {
     RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
     RuleVarID = 5, RuleStmt_list = 6, RuleFunc_list = 7, RuleAssignment_stmt = 8, 
     RuleDeclaration_stmt = 9, RuleRepeat_stmt = 10, RuleReturn_stmt = 11, 
-    RuleIf_stmt = 12, RuleDo_while = 13, RuleFunction_call = 14, RuleFunction_defn = 15, 
-    RuleVariable = 16, RuleExpr = 17, RuleSignedNumber = 18, RuleSign = 19, 
-    RuleNumber = 20, RuleTypeID = 21, RuleFuncID = 22, RuleMul_div_op = 23, 
-    RuleAdd_sub_op = 24, RuleRel_op = 25
+    RuleIf_stmt = 12, RuleDo_while = 13, RulePrint_stmt = 14, RuleFunction_call = 15, 
+    RuleIdentifiers = 16, RuleFunction_defn = 17, RuleVariable = 18, RuleExpr = 19, 
+    RuleSignedNumber = 20, RuleSign = 21, RuleNumber = 22, RuleStr = 23, 
+    RuleTypeID = 24, RuleFuncID = 25, RuleMul_div_op = 26, RuleAdd_sub_op = 27, 
+    RuleRel_op = 28
   };
 
   MainParser(antlr4::TokenStream *input);
@@ -58,13 +60,16 @@ public:
   class Return_stmtContext;
   class If_stmtContext;
   class Do_whileContext;
+  class Print_stmtContext;
   class Function_callContext;
+  class IdentifiersContext;
   class Function_defnContext;
   class VariableContext;
   class ExprContext;
   class SignedNumberContext;
   class SignContext;
   class NumberContext;
+  class StrContext;
   class TypeIDContext;
   class FuncIDContext;
   class Mul_div_opContext;
@@ -125,6 +130,7 @@ public:
     If_stmtContext *if_stmt();
     Do_whileContext *do_while();
     Return_stmtContext *return_stmt();
+    Print_stmtContext *print_stmt();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -147,6 +153,7 @@ public:
 
   class  VarIDContext : public antlr4::ParserRuleContext {
   public:
+    TypeSpec * type = nullptr;
     VarIDContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *IDENTIFIER();
@@ -272,21 +279,45 @@ public:
 
   Do_whileContext* do_while();
 
+  class  Print_stmtContext : public antlr4::ParserRuleContext {
+  public:
+    Print_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *PRINT();
+    ExprContext *expr();
+    StrContext *str();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Print_stmtContext* print_stmt();
+
   class  Function_callContext : public antlr4::ParserRuleContext {
   public:
     Function_callContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     FuncIDContext *funcID();
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
-    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
+    IdentifiersContext *identifiers();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   Function_callContext* function_call();
+
+  class  IdentifiersContext : public antlr4::ParserRuleContext {
+  public:
+    IdentifiersContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentifiersContext* identifiers();
 
   class  Function_defnContext : public antlr4::ParserRuleContext {
   public:
@@ -445,6 +476,19 @@ public:
   };
 
   NumberContext* number();
+
+  class  StrContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec* type = nullptr;
+    StrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *STRING();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  StrContext* str();
 
   class  TypeIDContext : public antlr4::ParserRuleContext {
   public:

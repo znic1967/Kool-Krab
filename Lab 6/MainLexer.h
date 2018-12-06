@@ -19,9 +19,10 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, KRABBIE = 7, 
     END = 8, BEGIN = 9, VAR = 10, REPEAT = 11, UNTIL = 12, IF = 13, THEN = 14, 
     ELSE = 15, DO = 16, WHILE = 17, RETURN = 18, DONE = 19, INTEGER_TYPE = 20, 
-    CHARACTER_TYPE = 21, IDENTIFIER = 22, INTEGER = 23, CHARACTER = 24, 
-    MUL_OP = 25, DIV_OP = 26, ADD_OP = 27, SUB_OP = 28, EQ_OP = 29, NE_OP = 30, 
-    LT_OP = 31, LE_OP = 32, GT_OP = 33, GE_OP = 34, NEWLINE = 35, WS = 36
+    CHARACTER_TYPE = 21, PRINT = 22, IDENTIFIER = 23, INTEGER = 24, CHARACTER = 25, 
+    STRING = 26, MUL_OP = 27, DIV_OP = 28, ADD_OP = 29, SUB_OP = 30, EQ_OP = 31, 
+    NE_OP = 32, LT_OP = 33, LE_OP = 34, GT_OP = 35, GE_OP = 36, NEWLINE = 37, 
+    WS = 38
   };
 
   MainLexer(antlr4::CharStream *input);

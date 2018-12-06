@@ -17,11 +17,12 @@ stmt : (assignment_stmt ';')
      | if_stmt
      | do_while
      | return_stmt
+     | print_stmt
      ;
 
 func : function_call | function_defn ;
 
-varID        : IDENTIFIER ;
+varID locals [ TypeSpec *type = nullptr ] : IDENTIFIER ;
 
 stmt_list       : (stmt | func)+ ;
 func_list       : (func)*;
@@ -31,8 +32,10 @@ repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr ';';
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
 do_while : DO '{' stmt_list '}' WHILE  expr ; //Leo was here
+print_stmt : PRINT '(' (expr|str) ')' ';';
 //function_decl	: variable funcID '('((variable IDENTIFIER) ','+)* ')' stmt END;
-function_call	: funcID '('((variable | IDENTIFIER) ','?)* ')' ';';
+function_call	: funcID '(' identifiers? ')' ';';
+identifiers		: expr  (',' expr)+  ;
 function_defn	: typeID funcID '('((typeID variable) ','?)* ')' '{' stmt_list '}'; //Leo w/h
 
 variable : IDENTIFIER ;
@@ -46,16 +49,14 @@ expr locals [ TypeSpec *type = nullptr ]
      | '(' expr ')'		#parenExpr
      ;
      
-signedNumber locals [ TypeSpec *type = nullptr ] 
-    : sign number 
-    ;
+signedNumber locals [ TypeSpec *type = nullptr ] : sign number ;
 sign : ADD_OP | SUB_OP ;
 
 number locals [ TypeSpec *type = nullptr ]
     : INTEGER    # integerConst
     | CHARACTER  #charConst
     ;
-
+str          locals [ TypeSpec* type = nullptr ] : STRING ;
 typeID	: IDENTIFIER
 		| INTEGER_TYPE
 		| CHARACTER_TYPE
@@ -83,13 +84,15 @@ RETURN  : 'Spitout';
 DONE	: 'Donezo';
 INTEGER_TYPE : 'int';
 CHARACTER_TYPE: 'char';
+PRINT	: 'Printingpress';
 
 
 
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9]+ ;
-CHARACTER : '\''[a-zA-Z0-9]'\'';
+CHARACTER  : '\''[a-zA-Z0-9]'\'';
+STRING	   : '"' IDENTIFIER*? '"' ;
 
 MUL_OP :   '*' ;
 DIV_OP :   '/' ;

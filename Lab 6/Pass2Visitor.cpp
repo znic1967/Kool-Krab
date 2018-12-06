@@ -289,8 +289,36 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 antlrcpp::Any Pass2Visitor::visitFunction_defn(MainParser::Function_defnContext *ctx)
 {
 	int variable_size=ctx->variable().size();
-	string return_type=ctx->typeID(0)->getText();
 	//cout<<"Variables: "<<variable_size<<endl;
+	string return_type=ctx->typeID(0)->getText();
+	string funcID=ctx->funcID()->getText();
+	string variable_returns="";
+	string return_out="?";
+
+	if (return_type=="int"){
+		return_out="I";
+	}
+	else
+	{
+		return_out="C";
+	}
+	for(int i=0; i<variable_size; i++)
+	{
+		if (ctx->typeID(i)->getText()=="int")
+		{
+				variable_returns+="I";
+		}
+		else
+		{
+			variable_returns+="C";
+		}
+	}
+	j_file << ".method static" << funcID <<"(" << variable_returns << ")" << return_out << endl;
+	visitChildren(ctx);
+
+	j_file << ".limit locals 16" << endl;
+	j_file << ".limit stack 16" << endl;
+	j_file << ".end method" << endl;
 
 
 	return NULL;

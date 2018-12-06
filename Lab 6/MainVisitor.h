@@ -25,7 +25,7 @@ public:
    */
     virtual antlrcpp::Any visitProgram(MainParser::ProgramContext *context) = 0;
 
-    virtual antlrcpp::Any visitHeader(MainParser::HeaderContext *context) = 0;
+    virtual antlrcpp::Any visitMain(MainParser::MainContext *context) = 0;
 
     virtual antlrcpp::Any visitBlock(MainParser::BlockContext *context) = 0;
 

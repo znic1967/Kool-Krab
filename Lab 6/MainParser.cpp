@@ -41,8 +41,8 @@ MainParser::ProgramContext::ProgramContext(ParserRuleContext *parent, size_t inv
   : ParserRuleContext(parent, invokingState) {
 }
 
-MainParser::HeaderContext* MainParser::ProgramContext::header() {
-  return getRuleContext<MainParser::HeaderContext>(0);
+MainParser::MainContext* MainParser::ProgramContext::main() {
+  return getRuleContext<MainParser::MainContext>(0);
 }
 
 MainParser::BlockContext* MainParser::ProgramContext::block() {
@@ -90,7 +90,7 @@ MainParser::ProgramContext* MainParser::program() {
 
     }
     setState(63);
-    header();
+    main();
     setState(64);
     block();
     setState(65);
@@ -106,47 +106,47 @@ MainParser::ProgramContext* MainParser::program() {
   return _localctx;
 }
 
-//----------------- HeaderContext ------------------------------------------------------------------
+//----------------- MainContext ------------------------------------------------------------------
 
-MainParser::HeaderContext::HeaderContext(ParserRuleContext *parent, size_t invokingState)
+MainParser::MainContext::MainContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<MainParser::TypeIDContext *> MainParser::HeaderContext::typeID() {
+std::vector<MainParser::TypeIDContext *> MainParser::MainContext::typeID() {
   return getRuleContexts<MainParser::TypeIDContext>();
 }
 
-MainParser::TypeIDContext* MainParser::HeaderContext::typeID(size_t i) {
+MainParser::TypeIDContext* MainParser::MainContext::typeID(size_t i) {
   return getRuleContext<MainParser::TypeIDContext>(i);
 }
 
-tree::TerminalNode* MainParser::HeaderContext::KRABBIE() {
+tree::TerminalNode* MainParser::MainContext::KRABBIE() {
   return getToken(MainParser::KRABBIE, 0);
 }
 
-std::vector<tree::TerminalNode *> MainParser::HeaderContext::IDENTIFIER() {
+std::vector<tree::TerminalNode *> MainParser::MainContext::IDENTIFIER() {
   return getTokens(MainParser::IDENTIFIER);
 }
 
-tree::TerminalNode* MainParser::HeaderContext::IDENTIFIER(size_t i) {
+tree::TerminalNode* MainParser::MainContext::IDENTIFIER(size_t i) {
   return getToken(MainParser::IDENTIFIER, i);
 }
 
 
-size_t MainParser::HeaderContext::getRuleIndex() const {
-  return MainParser::RuleHeader;
+size_t MainParser::MainContext::getRuleIndex() const {
+  return MainParser::RuleMain;
 }
 
-antlrcpp::Any MainParser::HeaderContext::accept(tree::ParseTreeVisitor *visitor) {
+antlrcpp::Any MainParser::MainContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<MainVisitor*>(visitor))
-    return parserVisitor->visitHeader(this);
+    return parserVisitor->visitMain(this);
   else
     return visitor->visitChildren(this);
 }
 
-MainParser::HeaderContext* MainParser::header() {
-  HeaderContext *_localctx = _tracker.createInstance<HeaderContext>(_ctx, getState());
-  enterRule(_localctx, 2, MainParser::RuleHeader);
+MainParser::MainContext* MainParser::main() {
+  MainContext *_localctx = _tracker.createInstance<MainContext>(_ctx, getState());
+  enterRule(_localctx, 2, MainParser::RuleMain);
   size_t _la = 0;
 
   auto onExit = finally([=] {
@@ -2241,7 +2241,7 @@ atn::ATN MainParser::_atn;
 std::vector<uint16_t> MainParser::_serializedATN;
 
 std::vector<std::string> MainParser::_ruleNames = {
-  "program", "header", "block", "stmt", "func", "varID", "stmt_list", "func_list", 
+  "program", "main", "block", "stmt", "func", "varID", "stmt_list", "func_list", 
   "assignment_stmt", "declaration_stmt", "declaration", "repeat_stmt", "return_stmt", 
   "if_stmt", "do_while", "print_stmt", "function_call", "identifiers", "function_defn", 
   "variable", "expr", "signedNumber", "sign", "number", "str", "typeID", 

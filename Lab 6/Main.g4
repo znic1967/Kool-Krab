@@ -5,8 +5,8 @@ grammar Main;  // Kool Krab Grammar File
 using namespace wci::intermediate;
 }
 
-program : func_list? header block END ;
-header  : typeID KRABBIE '('((typeID IDENTIFIER) ','?)* ')';
+program : func_list?  main block END ;
+main  : typeID KRABBIE '('((typeID IDENTIFIER) ','?)* ')';
 block   : stmt_list
 		| func_list 
 		;

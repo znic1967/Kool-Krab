@@ -23,7 +23,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitHeader(MainParser::HeaderContext *ctx) override {
+  virtual antlrcpp::Any visitMain(MainParser::MainContext *ctx) override {
     return visitChildren(ctx);
   }
 

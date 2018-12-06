@@ -29,7 +29,7 @@ public:
     ostream& get_assembly_file();
 
     antlrcpp::Any visitProgram(MainParser::ProgramContext *ctx) override;
-    antlrcpp::Any visitHeader(MainParser::HeaderContext *ctx) override;
+    //antlrcpp::Any visitHeader(MainParser::HeaderContext *ctx) override;
     antlrcpp::Any visitBlock(MainParser::BlockContext *ctx) override;
     antlrcpp::Any visitDeclaration(MainParser::DeclarationContext *ctx) override;
     antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *ctx) override;

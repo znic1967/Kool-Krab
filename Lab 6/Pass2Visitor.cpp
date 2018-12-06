@@ -23,16 +23,17 @@ Pass2Visitor::~Pass2Visitor() {}
 
 antlrcpp::Any Pass2Visitor::visitProgram(MainParser::ProgramContext *ctx)
 {
+	program_name = "Krabbie";
     auto value = visitChildren(ctx);
     //j_file.close();
     return value;
 }
 
-antlrcpp::Any Pass2Visitor::visitHeader(MainParser::HeaderContext *ctx)
-{
-    program_name = "Krabbie";
-    return visitChildren(ctx);
-}
+//antlrcpp::Any Pass2Visitor::visitHeader(MainParser::HeaderContext *ctx)
+//{
+//
+//    return visitChildren(ctx);
+//}
 
 antlrcpp::Any Pass2Visitor::visitBlock(MainParser::BlockContext *ctx)
 {

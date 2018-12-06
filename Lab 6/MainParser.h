@@ -26,7 +26,7 @@ public:
   };
 
   enum {
-    RuleProgram = 0, RuleHeader = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
+    RuleProgram = 0, RuleMain = 1, RuleBlock = 2, RuleStmt = 3, RuleFunc = 4, 
     RuleVarID = 5, RuleStmt_list = 6, RuleFunc_list = 7, RuleAssignment_stmt = 8, 
     RuleDeclaration_stmt = 9, RuleDeclaration = 10, RuleRepeat_stmt = 11, 
     RuleReturn_stmt = 12, RuleIf_stmt = 13, RuleDo_while = 14, RulePrint_stmt = 15, 
@@ -47,7 +47,7 @@ public:
 
 
   class ProgramContext;
-  class HeaderContext;
+  class MainContext;
   class BlockContext;
   class StmtContext;
   class FuncContext;
@@ -81,7 +81,7 @@ public:
   public:
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    HeaderContext *header();
+    MainContext *main();
     BlockContext *block();
     antlr4::tree::TerminalNode *END();
     Func_listContext *func_list();
@@ -92,9 +92,9 @@ public:
 
   ProgramContext* program();
 
-  class  HeaderContext : public antlr4::ParserRuleContext {
+  class  MainContext : public antlr4::ParserRuleContext {
   public:
-    HeaderContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    MainContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<TypeIDContext *> typeID();
     TypeIDContext* typeID(size_t i);
@@ -106,7 +106,7 @@ public:
    
   };
 
-  HeaderContext* header();
+  MainContext* main();
 
   class  BlockContext : public antlr4::ParserRuleContext {
   public:

@@ -82,7 +82,7 @@ WS
 
 rule names:
 program
-header
+main
 block
 stmt
 func

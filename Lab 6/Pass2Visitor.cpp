@@ -13,8 +13,8 @@ using namespace wci::intermediate::symtabimpl;
 
 int labelNum = 0;
 int label=0;
-static string function_name = "";
-static unordered_map<string, vector<vector<string>>> function_param_map;
+static string fxn_name = "";
+static unordered_map<string, vector<vector<string>>> fxn_variables_vec;
 
 Pass2Visitor::Pass2Visitor(ostream& j_file)
     : program_name(""), j_file(j_file)
@@ -67,14 +67,14 @@ antlrcpp::Any Pass2Visitor::visitDeclaration_stmt(MainParser::Declaration_stmtCo
 {
 	cout << "=== visit Declaration: " << ctx->getText() << endl;
 	auto value = visit(ctx->expr());
-	string variable_name = function_name + ctx->declaration()->varID()->getText();
+	string var_name = fxn_name + ctx->declaration()->varID()->getText();
 	string type_indicator =
 				  (ctx->expr()->type == Predefined::integer_type) ? "I"
 				: (ctx->expr()->type == Predefined::char_type)    ? "C"
 				:                                                   "?";
 
 	// Emit a field put instruction.
-	j_file << "\tputstatic\t" << program_name << "/" << variable_name << " " << type_indicator << endl;
+	j_file << "\tputstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
 
 	return value;
 }
@@ -82,7 +82,7 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
 {
 	cout << "=== Visit Assignment Statement"<<endl;
 	auto value = visit(ctx->expr());
-	string variable_name = function_name +ctx->variable()->IDENTIFIER()->toString();
+	string var_name = fxn_name +ctx->variable()->IDENTIFIER()->toString();
 
 	string type_indicator =
 	   (ctx->expr()->type == Predefined::integer_type) ? "I"
@@ -90,7 +90,7 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(MainParser::Assignment_stmtCont
 	 :                                                   "?";
 
 	// Emit a field put instruction.
-	j_file << "\tputstatic\t" << program_name << "/" << variable_name << " " << type_indicator << endl;
+	j_file << "\tputstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
 
 	return value;
 }
@@ -117,21 +117,21 @@ antlrcpp::Any Pass2Visitor::visitPrint_stmt(MainParser::Print_stmtContext *ctx)
 //	if (ctx->expr()!=NULL)
 //	{
 //        auto value = visit(ctx->expr());
-//		string variable_name = function_name + ctx->expr()->children[0]->getText();
+//		string var_name = fxn_name + ctx->expr()->children[0]->getText();
 //		string type_indicator =
 //			                 (ctx->expr()->type == Predefined::integer_type) ? "I"
 //			               : (ctx->expr()->type == Predefined::real_type)    ? "F"
 //			               :                                                   "?";
-//		   j_file << "\t\tputstatic\t" << program_name << "/" << variable_name << " " << type_indicator << endl;
+//		   j_file << "\t\tputstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
 //		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
-//		   j_file << "\t\tldc \"" <<variable_name << " = %d\\n\"" << endl;
+//		   j_file << "\t\tldc \"" <<var_name << " = %d\\n\"" << endl;
 //
 //		   j_file << "\t\ticonst_1\t" << endl;
 //		   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
 //		   j_file << "\t\tdup" << endl;
 //
 //		   j_file << "\t\ticonst_0" << endl;
-//		   j_file << "\t\tgetstatic\t" << program_name << "/" << variable_name << " " << type_indicator << endl;
+//		   j_file << "\t\tgetstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
 //		   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
 //		   j_file << "\t\taastore" << endl;
 //
@@ -212,13 +212,13 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 antlrcpp::Any Pass2Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
 {
 	cout<<"=== visiVariableExpr"<<endl;
-	string variable_name = function_name + ctx->variable()->getText();
+	string var_name = fxn_name + ctx->variable()->getText();
 	TypeSpec *type = ctx->type;
 
 	string type_indicator = (type == Predefined::integer_type) ? "I" : "?";
 
 	// Emit a field get instruction.
-	j_file << "\tgetstatic\t" << program_name << "/" << variable_name << " " << type_indicator << endl;
+	j_file << "\tgetstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
 	return visitChildren(ctx);
 }
 antlrcpp::Any Pass2Visitor::visitSignedNumber(MainParser::SignedNumberContext *ctx)
@@ -267,8 +267,11 @@ antlrcpp::Any Pass2Visitor::visitIf_stmt(MainParser::If_stmtContext *ctx)
 	int true_label=labelNum++;
 	int last_label=labelNum++;
 	int statement_size = ctx->stmt_list().size();
-	bool has_else = (statement_size > 1) ? true : false;
-
+	bool has_else = false;
+	if (statement_size > 1)
+	{
+		has_else=true;
+	}
 	j_file << "Label_" << original_label << ":" << endl;
 	label=true_label;
 	visit(ctx->expr()); //If the expression is true jump to true statements
@@ -297,30 +300,33 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     bool integer_mode =    (type1 == Predefined::integer_type)
                         && (type2 == Predefined::integer_type);
 
-    if (op == "==")
-    {
-        jas_op = integer_mode ? "if_icmpeq" : "????";
-    }
+    if (op == ">")
+	{
+	   jas_op = integer_mode ? "if_icmpgt":"????";
+	}
+	else if (op == ">=")
+	{
+	   jas_op = integer_mode ? "if_icmpge":"????";
+	}
+	else if (op == "<")
+	{
+		jas_op = integer_mode ? "if_icmplt":"????";
+	}
+	else if (op == "<=")
+	{
+		jas_op = integer_mode ? "if_icmple":"????";
+	}
     else if (op == "!=")
     {
         jas_op = integer_mode ? "if_icmpne":"????";
     }
-    else if (op == "<")
-    {
-        jas_op = integer_mode ? "if_icmplt":"????";
-    }
-    else if (op == "<=")
-    {
-        jas_op = integer_mode ? "if_icmple":"????";
-    }
-    else if (op == ">")
-    {
-        jas_op = integer_mode ? "if_icmpgt":"????";
-    }
-    else // >=
-    {
-        jas_op = integer_mode ? "if_icmpge":"????";
-    }
+    else
+	{
+		jas_op = integer_mode ? "if_icmpeq" : "????";
+	}
+
+
+
 
     j_file << "\t" << jas_op << " Label_" << label << endl;
     return NULL;
@@ -328,10 +334,10 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
 antlrcpp::Any Pass2Visitor::visitFunction_defn(MainParser::Function_defnContext *ctx)
 {
 	 cout << "=== visit Function Definition: " << ctx->funcID()->getText() << endl;
-	 function_name = ctx->funcID()->getText() + "_";
+	 fxn_name = ctx->funcID()->getText() + "_";
 	 vector<vector<string>> fxn_inputs;
 
-	 j_file << "\tgoto " << function_name << "end" << endl;
+	 j_file << "\tgoto " << fxn_name << "end" << endl;
 	 j_file << ctx->funcID()->getText() << ":" << endl;
 	 j_file << "\tastore_1" << endl;
 
@@ -340,16 +346,16 @@ antlrcpp::Any Pass2Visitor::visitFunction_defn(MainParser::Function_defnContext 
 		 for(unsigned int i = 0; i < ctx->declaration().size(); i++)
 		 {
 			 string type_name     = ctx->declaration(i)->children[0]->getText();
-			 string variable_name = ctx->declaration(i)->children[1]->getText();
-			 fxn_inputs.push_back({function_name + variable_name, type_name});
+			 string var_name = ctx->declaration(i)->children[1]->getText();
+			 fxn_inputs.push_back({fxn_name + var_name, type_name});
 		 }
 	 }
-	 function_param_map.emplace(ctx->funcID()->IDENTIFIER()->getText(), fxn_inputs);
+	 fxn_variables_vec.emplace(ctx->funcID()->IDENTIFIER()->getText(), fxn_inputs);
 
 	 auto value = visitChildren(ctx->stmt_list());
 	 j_file << "\tret 1" << endl;
-	 j_file << function_name << "end:" << endl;
-	 function_name = "";
+	 j_file << fxn_name << "end:" << endl;
+	 fxn_name = "";
 	 return value;
  }
 antlrcpp::Any Pass2Visitor::visitFunction_call(MainParser::Function_callContext *ctx)
@@ -358,23 +364,31 @@ antlrcpp::Any Pass2Visitor::visitFunction_call(MainParser::Function_callContext 
 	if(ctx->identifiers() != NULL)
 	{
 		int input_count = ctx->identifiers()->expr().size();
-		vector<vector<string>> fxn_inputs = function_param_map.find(ctx->funcID()->getText())->second;
-		int fxn_inputs_count = fxn_inputs.size();
-		int max = (fxn_inputs_count > input_count) ? input_count: fxn_inputs_count;
+		vector<vector<string>> fxn_inputs = fxn_variables_vec.find(ctx->funcID()->getText())->second;
+		int input_num = fxn_inputs.size();
 
-		for(int i = 0; i < max; i++)
+		int total = 0;
+		if (input_num > input_count)
 		{
-		 string variable_name = fxn_inputs[i][0];
-		 string type_name     = fxn_inputs[i][1];
+			total = input_count;
+		}
+		else
+		{
+			total = input_num;
+		}
+		for(int i = 0; i < total; i++)
+		{
+			string var_name  = fxn_inputs[i][0];
+			string type_name = fxn_inputs[i][1];
 
-		 visit(ctx->identifiers()->expr(i));
+			visit(ctx->identifiers()->expr(i));
 
-		 string type_indicator =
-			  (type_name == "int")     ? "I"
-			: (type_name == "string")  ? "C"
-			:                            "?";
-		// Emit a field put instruction.
-		j_file << "\tputstatic\t" << program_name << "/" << function_name <<  variable_name << " " << type_indicator << endl;
+			string type_indicator =
+				  (type_name == "int")     ? "I"
+				: (type_name == "string")  ? "C"
+				:                            "?";
+			// Emit a field put instruction.
+			j_file << "\tputstatic\t" << program_name << "/" << fxn_name <<  var_name << " " << type_indicator << endl;
 		}
 	}
 	j_file << "\tjsr " << ctx->funcID()->getText() << endl;

@@ -26,23 +26,26 @@ varID locals [ TypeSpec *type = nullptr ] : IDENTIFIER ;
 
 stmt_list       : (stmt | func)+ ;
 func_list       : (func)*;
-assignment_stmt : variable '=' (expr | function_call);
+function_decl	: variable funcID '('((variable IDENTIFIER) ','+)* ')' stmt END;
+function_call	: funcID '(' identifiers? ')' ';'?;
+assignment_stmt : variable '=' expr;
 declaration_stmt: declaration '=' expr;
 declaration		: typeID varID;
 repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr ';';
-if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ; //Leo w/h
-do_while : DO '{' stmt_list '}' WHILE  expr ; //Leo was here
-print_stmt : PRINT '(' (expr|str) ')' ';';
-//function_decl	: variable funcID '('((variable IDENTIFIER) ','+)* ')' stmt END;
-function_call	: funcID '(' identifiers? ')' ';';
-identifiers		: expr  (',' expr)+  ;
-function_defn	: typeID funcID '('((declaration) ','?)* ')' '{' stmt_list '}'; //Leo w/h
+if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ;
+do_while : DO '{' stmt_list '}' WHILE  expr ; 
+print_stmt : PRINT '(' printer (',' printer)* ')' ';';
+printer : expr | str;
+
+identifiers		: expr  (',' expr)*  ;
+function_defn	: typeID funcID '('((declaration) ','?)* ')' '{' stmt_list '}';
 
 variable : IDENTIFIER ;
 
 expr locals [ TypeSpec *type = nullptr ]
-	: expr mul_div_op expr #mulDivExpr
+	 : function_call       # funcCallExpr
+	 | expr mul_div_op expr #mulDivExpr
      | expr add_sub_op expr #addSubExpr
      | expr rel_op expr	#relOpExpr
      | number			#unsignedNumberExpr

@@ -46,6 +46,7 @@ public:
     antlrcpp::Any visitIntegerConst(MainParser::IntegerConstContext *ctx) override;
     antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
     antlrcpp::Any visitFuncID(MainParser::FuncIDContext *ctx) override;
+    antlrcpp::Any visitFuncCallExpr(MainParser::FuncCallExprContext *ctx) override;
 
 };
 

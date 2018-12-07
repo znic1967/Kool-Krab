@@ -28,6 +28,7 @@ int main(int argc, const char *args[])
 
     ostream& j_file = pass1->get_assembly_file();
 
+    cout<<endl<<endl;
     cout<<"||==================================================||"<<endl;
     cout<<"||=====================Pass 2=======================||"<<endl<<endl;
 

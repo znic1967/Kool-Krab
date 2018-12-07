@@ -44,7 +44,10 @@ public:
     antlrcpp::Any visitDo_while(MainParser::Do_whileContext *ctx) override;
     antlrcpp::Any visitIf_stmt(MainParser::If_stmtContext *ctx) override;
     antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override;
-   // antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
+    antlrcpp::Any visitFunction_defn(MainParser::Function_defnContext *ctx) override;
+    antlrcpp::Any visitFunction_call(MainParser::Function_callContext *ctx) override;
+    antlrcpp::Any visitReturn_stmt(MainParser::Return_stmtContext *ctx) override;
+
 
 
 };

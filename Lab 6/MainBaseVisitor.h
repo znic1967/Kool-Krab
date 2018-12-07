@@ -51,6 +51,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunction_decl(MainParser::Function_declContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -83,7 +91,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *ctx) override {
+  virtual antlrcpp::Any visitPrinter(MainParser::PrinterContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -108,6 +116,10 @@ public:
   }
 
   virtual antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFuncCallExpr(MainParser::FuncCallExprContext *ctx) override {
     return visitChildren(ctx);
   }
 

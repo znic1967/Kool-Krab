@@ -1,14 +1,13 @@
+int krustykrab(int g)
+{
+	int f=40;
+	f=g+f;
+	Spitout f;
+}
+
 int Krabie()
 	int a=2;
-	int b=4;
+	int b=44;
 	char c='K';
-	
-	Bringit {
-		IsMayo (a<b){
-			a=a+2;
-		}
-		NotMayo {a=a*b;}
-		Printingpress(a);
-	}
-	Aroundtown (a<30)
+	b=krustykrab(a);
 Pattie

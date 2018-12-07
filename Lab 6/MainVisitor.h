@@ -39,6 +39,10 @@ public:
 
     virtual antlrcpp::Any visitFunc_list(MainParser::Func_listContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunction_decl(MainParser::Function_declContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *context) = 0;
+
     virtual antlrcpp::Any visitAssignment_stmt(MainParser::Assignment_stmtContext *context) = 0;
 
     virtual antlrcpp::Any visitDeclaration_stmt(MainParser::Declaration_stmtContext *context) = 0;
@@ -55,7 +59,7 @@ public:
 
     virtual antlrcpp::Any visitPrint_stmt(MainParser::Print_stmtContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunction_call(MainParser::Function_callContext *context) = 0;
+    virtual antlrcpp::Any visitPrinter(MainParser::PrinterContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifiers(MainParser::IdentifiersContext *context) = 0;
 
@@ -68,6 +72,8 @@ public:
     virtual antlrcpp::Any visitAddSubExpr(MainParser::AddSubExprContext *context) = 0;
 
     virtual antlrcpp::Any visitRelOpExpr(MainParser::RelOpExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitFuncCallExpr(MainParser::FuncCallExprContext *context) = 0;
 
     virtual antlrcpp::Any visitUnsignedNumberExpr(MainParser::UnsignedNumberExprContext *context) = 0;
 

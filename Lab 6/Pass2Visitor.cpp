@@ -104,53 +104,37 @@ antlrcpp::Any Pass2Visitor::visitStr(MainParser::StrContext *ctx)
 }
 antlrcpp::Any Pass2Visitor::visitPrint_stmt(MainParser::Print_stmtContext *ctx)
 {
-	cout << "=== visit Print Statement: " << endl;
-	//auto value = visit(ctx->expr());
+	cout << "=== visitPrint_stmt" << endl;
 
-	for (int i=0; ctx->printer().size(); i++)
+	if (ctx->printer()->expr()!=NULL)
 	{
-        if (ctx->printer(i)->expr()!=NULL)
-        {
+		auto value = visit(ctx->printer()->expr());
+		string var_name = fxn_name +ctx->printer()->expr()->children[0]->getText();
+		string type_indicator = (ctx->printer()->expr()->type == Predefined::integer_type) ? "I" : "?";
+		j_file << "\t\tputstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
+		j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+		j_file << "\t\tldc \"" << var_name << " = %d\\n\"" << endl;
 
-        }
+		j_file << "\t\ticonst_1\t" << endl;
+		j_file << "\t\tanewarray\tjava/lang/Object" << endl;
+		j_file << "\t\tdup" << endl;
+
+		j_file << "\t\ticonst_0" << endl;
+		j_file << "\t\tgetstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
+		j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
+		j_file << "\t\taastore" << endl;
+
+
+		j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
+		j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
 	}
-//	if (ctx->expr()!=NULL)
-//	{
-//        auto value = visit(ctx->expr());
-//		string var_name = fxn_name + ctx->expr()->children[0]->getText();
-//		string type_indicator =
-//			                 (ctx->expr()->type == Predefined::integer_type) ? "I"
-//			               : (ctx->expr()->type == Predefined::real_type)    ? "F"
-//			               :                                                   "?";
-//		   j_file << "\t\tputstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
-//		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
-//		   j_file << "\t\tldc \"" <<var_name << " = %d\\n\"" << endl;
-//
-//		   j_file << "\t\ticonst_1\t" << endl;
-//		   j_file << "\t\tanewarray\tjava/lang/Object" << endl;
-//		   j_file << "\t\tdup" << endl;
-//
-//		   j_file << "\t\ticonst_0" << endl;
-//		   j_file << "\t\tgetstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
-//		   j_file << "\t\tinvokestatic\tjava/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;
-//		   j_file << "\t\taastore" << endl;
-//
-//
-//		   j_file << "\t\tinvokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" << endl;
-//		   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
-//	}
-//	else{
-//		   j_file << "\t; Assignment" << endl;
-//		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
-//		   j_file << "\t\tldc " << ctx->str()->getText() << "\n" << endl;
-//		   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
-//	}
-
-
-
-
-
-
+	else
+	{
+		   j_file << "\t; Assignment" << endl;
+		   j_file << "\t\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+		   j_file << "\t\tldc " << ctx->printer()->str()->getText() << "\n" << endl;
+		   j_file << "\t\tinvokevirtual java/io/PrintStream.print(Ljava/lang/String;)V" << endl;
+	}
 	   return NULL;
 }
 antlrcpp::Any Pass2Visitor::visitAddSubExpr(MainParser::AddSubExprContext *ctx)
@@ -229,8 +213,6 @@ antlrcpp::Any Pass2Visitor::visitSignedNumber(MainParser::SignedNumberContext *c
     if (ctx->sign()->children[0] == ctx->sign()->SUB_OP())
     {
         string opcode = (type == Predefined::integer_type) ? "ineg" : "?neg";
-
-        // Emit a negate instruction.
         j_file << "\t" << opcode << endl;
     }
     return value;
@@ -324,9 +306,6 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
 	{
 		jas_op = integer_mode ? "if_icmpeq" : "????";
 	}
-
-
-
 
     j_file << "\t" << jas_op << " Label_" << label << endl;
     return NULL;

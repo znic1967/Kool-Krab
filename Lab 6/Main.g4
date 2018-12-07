@@ -35,7 +35,7 @@ repeat_stmt     : REPEAT stmt_list UNTIL expr ;
 return_stmt		: RETURN expr ';';
 if_stmt         : IF '(' expr ')' '{' (( stmt_list ) '}' ( ELSE  '{' stmt_list '}'  )?) ;
 do_while : DO '{' stmt_list '}' WHILE  expr ; 
-print_stmt : PRINT '(' printer (',' printer)* ')' ';';
+print_stmt : PRINT '(' printer ')' ';';
 printer : expr | str;
 
 identifiers		: expr  (',' expr)*  ;

@@ -60,6 +60,13 @@ krustykrab:
 	iadd
 	putstatic	Krabbie/krustykrab_f I
 
+; f=f*3;
+
+	getstatic	Krabbie/krustykrab_f I
+	ldc	3
+	imul
+	putstatic	Krabbie/krustykrab_f I
+
 ; Spitoutf;
 
 	getstatic	Krabbie/krustykrab_f I
@@ -81,12 +88,75 @@ krustykrab_end:
 	ldc	75
 	putstatic	Krabbie/c C
 
+; Bringit{IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}Printingpress(a);}Aroundtown(a<600)
+
+Label_0:
+
+; IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}
+
+Label_1:
+	getstatic	Krabbie/a I
+	getstatic	Krabbie/b I
+	if_icmplt Label_2
+
+; a=a*b;
+
+	getstatic	Krabbie/a I
+	getstatic	Krabbie/b I
+	imul
+	putstatic	Krabbie/a I
+	goto Label_3
+Label_2:
+
+; a=a+2;
+
+	getstatic	Krabbie/a I
+	ldc	2
+	iadd
+	putstatic	Krabbie/a I
+Label_3:
+
+; Printingpress(a);
+
+	getstatic	Krabbie/a I
+		putstatic	Krabbie/a I
+		getstatic	java/lang/System/out Ljava/io/PrintStream;
+		ldc "a = %d\n"
+		iconst_1	
+		anewarray	java/lang/Object
+		dup
+		iconst_0
+		getstatic	Krabbie/a I
+		invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
+		aastore
+		invokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
+	getstatic	Krabbie/a I
+	ldc	600
+	if_icmplt Label_0
+
 ; b=krustykrab(a);
 
 	getstatic	Krabbie/a I
 	putstatic	Krabbie/krustykrab_g I
 	jsr krustykrab
 	putstatic	Krabbie/b I
+
+; Printingpress(b);
+
+	getstatic	Krabbie/b I
+		putstatic	Krabbie/b I
+		getstatic	java/lang/System/out Ljava/io/PrintStream;
+		ldc "b = %d\n"
+		iconst_1	
+		anewarray	java/lang/Object
+		dup
+		iconst_0
+		getstatic	Krabbie/b I
+		invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
+		aastore
+		invokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
 
 	getstatic     Krabbie/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

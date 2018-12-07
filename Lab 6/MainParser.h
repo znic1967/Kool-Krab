@@ -329,8 +329,7 @@ public:
     Print_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *PRINT();
-    std::vector<PrinterContext *> printer();
-    PrinterContext* printer(size_t i);
+    PrinterContext *printer();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

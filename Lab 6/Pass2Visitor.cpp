@@ -195,11 +195,14 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(MainParser::MulDivExprContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitVariableExpr(MainParser::VariableExprContext *ctx)
 {
-	cout<<"=== visiVariableExpr"<<endl;
+	cout<<"=== visiVariableExpr: "<< ctx->getText() << endl;
 	string var_name = fxn_name + ctx->variable()->getText();
 	TypeSpec *type = ctx->type;
 
-	string type_indicator = (type == Predefined::integer_type) ? "I" : "?";
+	string type_indicator = (type == Predefined::integer_type) ? "I"
+						  : (type == Predefined::char_type)    ? "C"
+					      :									     "?";
+
 
 	// Emit a field get instruction.
 	j_file << "\tgetstatic\t" << program_name << "/" << var_name << " " << type_indicator << endl;
@@ -278,10 +281,15 @@ antlrcpp::Any Pass2Visitor::visitRelOpExpr(MainParser::RelOpExprContext *ctx)
     TypeSpec *type1 = ctx->expr(0)->type;
     TypeSpec *type2 = ctx->expr(1)->type;
     string op = ctx->rel_op()->getText();
-    string jas_op;
-    bool integer_mode =    (type1 == Predefined::integer_type)
-                        && (type2 == Predefined::integer_type);
+    cout<<"Rel Op: "<<op<<endl;
 
+    string jas_op;
+
+    //Character are loaded as integers
+    bool integer_mode =    ((type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type)) ||
+                           ((type1 == Predefined::char_type)
+                        && (type2 == Predefined::char_type));
     if (op == ">")
 	{
 	   jas_op = integer_mode ? "if_icmpgt":"????";

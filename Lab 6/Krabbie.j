@@ -4,25 +4,21 @@
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
 
-; intg
+; intbob
 
-.field private static krustykrab_g I
+.field private static bob I
 
-; intf
+; intpat
 
-.field private static krustykrab_f I
+.field private static pat I
 
-; inta
+; charkrabs
 
-.field private static a I
+.field private static krabs C
 
-; intb
+; charplankton
 
-.field private static b I
-
-; charc
-
-.field private static c C
+.field private static plankton C
 
 .method public <init>()V
 
@@ -44,118 +40,69 @@
 	dup
 	invokenonvirtual PascalTextIn/<init>()V
 	putstatic        Krabbie/_standardIn LPascalTextIn;
-	goto krustykrab_end
-krustykrab:
-	astore_1
 
-; intf=40;
+; intbob=0;
 
-	ldc	40
-	putstatic	Krabbie/krustykrab_f I
+	ldc	0
+	putstatic	Krabbie/bob I
 
-; f=g+f;
+; intpat=12;
 
-	getstatic	Krabbie/krustykrab_g I
-	getstatic	Krabbie/krustykrab_f I
-	iadd
-	putstatic	Krabbie/krustykrab_f I
+	ldc	12
+	putstatic	Krabbie/pat I
 
-; f=f*3;
-
-	getstatic	Krabbie/krustykrab_f I
-	ldc	3
-	imul
-	putstatic	Krabbie/krustykrab_f I
-
-; Spitoutf;
-
-	getstatic	Krabbie/krustykrab_f I
-	ret 1
-krustykrab_end:
-
-; inta=2;
-
-	ldc	2
-	putstatic	Krabbie/a I
-
-; intb=44;
-
-	ldc	44
-	putstatic	Krabbie/b I
-
-; charc='K';
+; charkrabs='K';
 
 	ldc	75
-	putstatic	Krabbie/c C
+	putstatic	Krabbie/krabs C
 
-; Bringit{IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}Printingpress(a);}Aroundtown(a<600)
+; charplankton='P';
+
+	ldc	80
+	putstatic	Krabbie/plankton C
+
+; IsMayo(krabs==plankton){pat=bob;}NotMayo{bob=pat;}
 
 Label_0:
+	getstatic	Krabbie/krabs C
+	getstatic	Krabbie/plankton C
+	if_icmpeq Label_1
 
-; IsMayo(a<b){a=a+2;}NotMayo{a=a*b;}
+; bob=pat;
 
+	getstatic	Krabbie/pat I
+	putstatic	Krabbie/bob I
+	goto Label_2
 Label_1:
-	getstatic	Krabbie/a I
-	getstatic	Krabbie/b I
-	if_icmplt Label_2
 
-; a=a*b;
+; pat=bob;
 
-	getstatic	Krabbie/a I
-	getstatic	Krabbie/b I
-	imul
-	putstatic	Krabbie/a I
-	goto Label_3
+	getstatic	Krabbie/bob I
+	putstatic	Krabbie/pat I
 Label_2:
 
-; a=a+2;
+; Printingpress(bob);
 
-	getstatic	Krabbie/a I
-	ldc	2
-	iadd
-	putstatic	Krabbie/a I
-Label_3:
-
-; Printingpress(a);
-
-	getstatic	Krabbie/a I
-		putstatic	Krabbie/a I
+	getstatic	Krabbie/bob I
+		putstatic	Krabbie/bob I
 		getstatic	java/lang/System/out Ljava/io/PrintStream;
-		ldc "a = %d\n"
+		ldc "bob = %d\n"
 		iconst_1	
 		anewarray	java/lang/Object
 		dup
 		iconst_0
-		getstatic	Krabbie/a I
+		getstatic	Krabbie/bob I
 		invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
 		aastore
 		invokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
-	getstatic	Krabbie/a I
-	ldc	600
-	if_icmplt Label_0
 
-; b=krustykrab(a);
+; Printingpress("Thank you for visiting Bikini Bottom");
 
-	getstatic	Krabbie/a I
-	putstatic	Krabbie/krustykrab_g I
-	jsr krustykrab
-	putstatic	Krabbie/b I
-
-; Printingpress(b);
-
-	getstatic	Krabbie/b I
-		putstatic	Krabbie/b I
+	; Assignment
 		getstatic	java/lang/System/out Ljava/io/PrintStream;
-		ldc "b = %d\n"
-		iconst_1	
-		anewarray	java/lang/Object
-		dup
-		iconst_0
-		getstatic	Krabbie/b I
-		invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
-		aastore
-		invokestatic  java/lang/String.format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+		ldc "Thank you for visiting Bikini Bottom"
+
 		invokevirtual java/io/PrintStream.print(Ljava/lang/String;)V
 
 	getstatic     Krabbie/_runTimer LRunTimer;

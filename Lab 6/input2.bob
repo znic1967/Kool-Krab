@@ -1,0 +1,13 @@
+int Krabie(int g)
+	int bob = 0;
+	int pat = 12;
+	char krabs='K';
+	char plankton = 'P';
+	
+	IsMayo(krabs == plankton){
+		pat = bob;
+	}
+	NotMayo{bob = pat;}
+	Printingpress(bob);
+	Printingpress("Thank you for visiting Bikini Bottom");
+Pattie

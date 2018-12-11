@@ -96,14 +96,14 @@ PRINT	: 'Printingpress';
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9]+ ;
 CHARACTER  : '\''[a-zA-Z0-9]'\'';
-STRING	   : '"' IDENTIFIER*? '"' ;
+STRING	   : '"' (IDENTIFIER|' ')*? '"' ;
 
 MUL_OP :   '*' ;
 DIV_OP :   '/' ;
 ADD_OP :   '+' ;
 SUB_OP :   '-' ;
 
-EQ_OP : '=' ;
+EQ_OP : '==' ;
 NE_OP : '<>' ;
 LT_OP : '<' ;
 LE_OP : '<=' ;
